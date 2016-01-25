@@ -11,54 +11,85 @@
             letterpaper,
             bookmarksnumbered=true]{hyperref}
 \usepackage{memhfixc}
+
+\DisemulatePackage{setspace}
+\usepackage{setspace}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\input{pckgmacros}
+
+\doublespacing
+
 \begin{document}
 %author data
-\author{your name}
-\title{THE TITLE}
-\abstract{an abstract}
-\advisor{your advisor}
-\keywords{keywords go here}
-\dgs{DGS name here}
+\author{Xudong Liu}
+\title{PREFERENCE TREES OVER COMBINATORIAL DOMAINS}
+\abstract{\input{abstract}}
+\advisor{Miroslaw Truszczynski}
+\keywords{preferences, decision theory, social choice theory,
+					knowledge representation and reasoning,
+					computational complexity,
+					artificial intelligence}
+\dgs{Miroslaw Truszczynski}
 %the title pages
 \frontmatter
 \maketitle
 \begin{acknowledgments}
-Acknowledge people/things here
+	\input{ack}
 \end{acknowledgments}
 \begin{dedication}
-Dedicated to things (optional)
+	\input{dedication}
 \end{dedication}
 \tableofcontents\clearpage
 \listoffigures\clearpage
 \listoftables\clearpage
 %----------------------------------------------
 \mainmatter
-\chapter{The First Chapter}
-\section{The First Section}
-Math goes here.
-\begin{figure}[h]
-\centering
-Here's a figure
-\caption{A Simple Figure}
-\end{figure}
-\begin{table}[h]
-\centering
-\begin{tabular}{c|c}
-Here & is \\
-\hline
-a & table
-\end{tabular}
-\caption{A Simple Table}
-\end{table}
+
+\chapter{Introduction}
+\input{intro}
+%Note the copyright notice at the end of each chapter.
 \copyrightnotice
-\chapter{The Second Chapter}
-Note the copyright notice at the end of each chapter.
+
+\chapter{Technical Preliminaries}
+\input{preliminary}
+%Note the copyright notice at the end of each chapter.
 \copyrightnotice
+
+\chapter{Related Work}
+\input{relwork}
+%Note the copyright notice at the end of each chapter.
+\copyrightnotice
+
+\chapter{Reasoning with Preference Trees over Combinatorial Domains}
+\input{PTrees}
+%Note the copyright notice at the end of each chapter.
+\copyrightnotice
+
+\chapter{Learning Partial Lexicographic Preference Trees over Combinatorial Domains}
+\input{learningPLPT}
+%Note the copyright notice at the end of each chapter.
+\copyrightnotice
+
+\chapter{Aggregating Lexicographic Preference Trees over Combinatorial Domains}
+\input{aggLP}
+%Note the copyright notice at the end of each chapter.
+\copyrightnotice
+
+\chapter{Summary}
+\input{summary}
+%Note the copyright notice at the end of each chapter.
+\copyrightnotice
+
+
 %-----------------------------------------------
 \backmatter
-put your bibliography/references here.  Appendices go here as well. 
+%put your bibliography/references here.  Appendices go here as well. 
+\bibliographystyle{plain}
+\bibliography{mybib}
+
 \chapter{Vita}
 A brief vita goes here.
+
 
 \end{document}

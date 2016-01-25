@@ -1,0 +1,1547 @@
+\paragraph{\bf Abstract.}
+%%%%We introduce \emph{preference trees} (\emph{P-trees}, for short) as 
+%%%%a qualitative preference representation formalism. 
+Preference trees, or \emph{P-trees} for short, offer an intuitive and
+often concise way of representing preferences over combinatorial domains. 
+In this paper, we propose an alternative definition of P-trees, and 
+formally define their compact representation that exploits occurrences 
+of identical subtrees. We show that P-trees generalize lexicographic 
+preference trees and are strictly more expressive. We relate P-trees 
+to \textit{answer-set optimization} programs and \textit{possibilistic 
+logic} theories. Finally, we study reasoning with P-trees and 
+establish computational complexity results for key reasoning tasks
+of comparing outcomes with respect to orders defined by P-trees, and 
+of finding optimal outcomes.
+
+\section{Introduction}
+Preferences are essential in areas such as constraint satisfaction, 
+decision making, multi-agent cooperation, Internet trading, and social
+choice. Consequently, preference representation languages and algorithms 
+for reasoning about preferences have received much 
+attention \cite{Kaci:Pref}. When there 
+are only a few objects (or \textit{outcomes}) to compare, it is both most 
+direct and feasible to represent preference orders by their explicit 
+enumerations. The situation changes when the domain of interest is 
+\emph{combinatorial}, that is, its elements are described in terms of 
+combinations of values of \emph{issues}, say $x_1,\ldots, x_n$ (also 
+called \emph{variables} or \emph{attributes}), with each issue $x_i$ 
+assuming values from some set $D_i$ --- its \emph{domain}. 
+
+Combinatorial domains appear commonly in applications. Since their 
+size is exponential in the number of issues, they are often so large 
+as to make explicit representations of preference orders impractical. 
+Therefore, designing languages to represent preferences on elements 
+from combinatorial domains in a concise and intuitive fashion is 
+important. Several such languages have been proposed including penalty 
+and possibilistic logics \cite{DuboisLP91}, conditional preference
+networks (CP-nets) \cite{bbdh03}, lexicographic preference trees 
+(LP-trees) \cite{booth:learningLP}, and answer-set optimization 
+(ASO) programs \cite{Brewka:ASO}. 
+
+In this paper, we focus our study on combinatorial domains with binary 
+issues. We assume that each issue $x$ has the domain $\{x,\neg x\}$ 
+(we slightly abuse the notation here, overloading $x$ to 
+stand both for an issue and for one of the elements of its domain). 
+Thus, outcomes in the combinatorial domain determined 
+by the set $\cI=\{x_1,\ldots,x_n\}$ of binary issues are simply complete
+and consistent sets of literals over $\cI$. We denote the set of all 
+such sets of literals by $\CD(\cI)$. We typically view them as truth 
+assignments (interpretations) of the propositional language over the 
+vocabulary $\cI$. This allows us to use propositional formulas over 
+$\cI$ as concise representations of sets of outcomes over $\cI$. Namely, 
+each formula $\vph$ represents the set of outcomes that satisfy $\vph$ 
+(make $\vph$ true).
+
+For example, let us consider preferences on possible ways to
+arrange a vacation. We will assume that vacations are described by 
+four binary variables: 
+\begin{enumerate}  %\itemsep -2pt
+\item \textit{activity} ($x_1$) with values \textit{water sports} ($x_1$) and 
+\textit{hiking} ($\neg x_1$),
+\item \textit{destination} ($x_2$) with \textit{Florida} ($x_2$) and 
+\textit{Colorado} ($\neg x_2$),
+\item \textit{time} ($x_3$) with \textit{summer} ($x_3$) and 
+\textit{winter} ($\neg x_3$), and
+\item the mode of \textit{travel} ($x_4$) could be \textit{car} ($x_4$)
+and \textit{plane} ($\neg x_4$).
+\end{enumerate}
+A complete and consistent set of literals $\neg x_1\neg x_2x_3x_4$
+represents the hiking vacation in Colorado in the summer to which we travel
+by car. 
+
+To describe sets of vacations we can use formulas. For instance, 
+vacations that take place in the summer ($x_3$) or involve water sports
+($x_1$) can be described by the formula $x_3 \vee x_1$, and vacations 
+in Colorado ($\neg x_2$) that we travel to by car ($X_4$) by the formula $\neg x_2
+\wedge x_4$.
+
+Explicitly specifying strict preference orders on $\CD(\cI)$ becomes 
+impractical even for combinatorial domains with as few as 7 or 8 issues. 
+However, 
+the setting introduced above allows us to specify total preorders on
+outcomes in terms of desirable properties outcomes should have. For 
+instance, a formula $\vph$ might be interpreted as a definition of
+a total preorder in which outcomes satisfying $\vph$ are preferred to
+those that do not satisfy $\vph$ (and outcomes within each of these
+two groups are equivalent). More generally, we could see an expression
+(a sequence of formulas)
+\[
+\vph_1> \vph_2>\ldots>\vph_k
+\]
+as a definition of a total preorder in which outcomes satisfying $\vph_1$
+are preferred to all others, among which outcomes satisfying $\vph_2$ are
+preferred to all others, etc., and where outcomes not satisfying any of the 
+formulas $\vph_i$ are least preferred. This way of specifying preferences 
+is used
+(with minor modifications) in possibilistic logic \cite{DuboisLP91} and 
+ASO programs \cite{Brewka:ASO}.
+In our example, the expression
+\[
+x_3 \land x_4 > \neg x_3 \land \neg x_2 
+\]
+states that we prefer summer vacations ($x_3$) where we drive by car ($x_4$)
+to vacations in winter ($\neg x_3$) in Colorado $(\neg x_2$), with all 
+other vacations being the least preferred.
+
+This linear specification of preferred formulas is sometimes too
+restrictive. An agent might prefer outcomes that satisfy a property 
+$\vph$ to those that do not. Within the first group that agent might 
+prefer outcomes satisfying a property $\psi_1$ and within the other 
+a property $\psi_2$. Such \emph{conditional} preference can be 
+naturally captured by a form of a decision tree presented in 
+\figref{pt}. Leaves, shown as boxes, represent sets of outcomes 
+satisfying the corresponding conjunctions of formulas ($\vph\land\psi_1$,
+$\vph\land\neg\psi_1$, etc.).
+
+\begin{figure}[!ht]
+	\centering
+	  \begin{tikzpicture}[->,>=stealth',
+	    level/.style={sibling distance=2cm/#1, level distance=25pt}]
+	    \node [main node] (1){$\vph$}
+	      child {node [main node,inner sep=1.7pt] (2) {$\psi_1$}
+	      	child {node [rectangle,draw] (3) {}}
+	      	child {node [rectangle,draw] (4) {}}
+				}
+	      child {node [main node,inner sep=1.7pt] (5) {$\psi_2$}
+	      	child {node [rectangle,draw] (6) {}
+					}
+	      	child {node [rectangle,draw] (7) {}
+					}
+	      };
+	  \end{tikzpicture}
+  \caption{A preference tree}
+%\vspace{-0.2cm}
+  \label{fig:pt}
+\end{figure}
+
+%%%%We refer to trees such as the one in Figure \ref{fig:pt} as 
+%%%%\emph{preference trees}, or \emph{P-trees}, for short. 
+Trees such as the one in Figure \ref{fig:pt} are called \emph{preference 
+trees}, or \emph{P-trees}. They were introduced by Fraser 
+\cite{fraser1993,fraser1994}, who saw them as a convenient way to
+represent conditional preferences. Despite their intuitive nature they
+have not attracted much interest in the preference research in AI. In
+particular, they were not studied for their relationship to other 
+preference formalisms. The issue of compact representations received 
+only an informal treatment by Fraser (P-trees in their full representation
+are often impractically large), and the algorithmic issues of reasoning
+with P-trees were also only touched upon. 
+
+
+In this paper, we propose an alternative definition of preference trees, 
+and formally define their compact representation that exploits occurrences 
+of identical subtrees. P-trees are reminiscent of LP-trees 
+\cite{booth:learningLP}. We discuss the relation between the two concepts 
+and show that P-trees offer a much more general, flexible and expressive 
+way of representing preferences. We also discuss the relationship between 
+preference trees and ASO preferences and possibilistic logic theories. 
+We study the complexity of problems of comparing outcomes with respect 
+to orders defined by preference trees, and of problems of finding optimal 
+outcomes. 
+
+Our paper is organized as follows. In the next section, we formally 
+define P-trees and a compact way to represent them. In the following 
+section we present results comparing the language of P-trees with other 
+preference formalisms. We then move on to study the complexity of key 
+reasoning tasks for preferences captured by P-trees and, finally, 
+conclude by outlining some future research directions.
+
+
+\section{Preference Trees}
+
+In this section, we define preference trees and discuss their
+representation. Let $\cI$ be a set of binary issues. A \emph{preference
+tree} (\textit{P-tree}, for short) over $\cI$ is
+a binary tree with all nodes other than 
+leaves labeled with propositional formulas over $\cI$. Each P-tree 
+$T$ defines a natural strict order $\succeq_T$ on the set of its leaves, 
+the order of their enumeration from left to right. 
+
+Given an outcome $M \in \CD(\cI)$, we define the \emph{leaf of $M$ in $T$}
+as the leaf reached by starting at the root of $T$ and proceeding 
+downwards. When at a node $t$ labeled with $\varphi$, if $M\models \varphi$, 
+we descend to the left child of $t$; otherwise, we descend to the right node 
+of $t$. We denote the leaf of $M$ in $T$ by $l_T(M)$.
+
+We use the concept of the leaf of an outcome $M$ in a P-tree $T$ to 
+define a total preorder on $\CD(\cI)$. Namely, for outcomes
+$M, M'\in \CD(\cI)$, 
+we set $M\succeq_T M'$, $M$ is \emph{preferred} to $M'$, if $l_T(M) \succeq_T l_T(M')$, and
+$M\succ_T M'$, $M$ is \emph{strictly preferred} to $M'$, 
+if $l_T(M) \succ_T l_T(M')$.
+(We overload the relations $\succeq_T$ and $\succ_T$ 
+by using it both for the order on the leaves of $T$ 
+and the corresponding preorder on the outcomes from $\CD(\cI)$). 
+We say that $M$ is 
+\emph{equivalent} to $M'$, $M \approx_T M'$, if $l_T(M)=l_T(M')$. 
+Finally, $M$ is \emph{optimal} if there exists no 
+$M'$ such that $M' \succ_T M$.
+
+Let us come back to the vacation example and assume that an agent 
+prefers vacations involving water sports in Florida or hiking in Colorado
+over the other options. This preference is described by the formula
+$(x_1\land x_2) \lor (\neg x_1 \land \neg x_2)$ or, more concisely, as 
+an equivalence $x_1 \equiv x_2$.
+Within each of the two groups of vacations 
+(satisfying the formula and not satisfying the formula), 
+driving ($x_4$) is the preferred transporting mode. These preferences can be captured by the P-tree in
+\figref{pt_vac_full}. We note that in this example, the preferences at 
+the second level are \emph{unconditional}, that is, they do not depend on 
+preferences at the top level. 
+
+\begin{figure}[!ht]
+        \centering
+  \begin{subfigure}[b]{0.43\textwidth}
+          \centering
+          \begin{tikzpicture}[->,>=stealth',
+            level/.style={sibling distance=1.7cm/#1, level distance=33pt}]
+            \node [main node,inner sep=0pt] (1){$x_1 \!\! \equiv \!\! x_2$}
+              child {node [main node,inner sep=5pt] (2) {$x_4$}
+                child {node [rectangle,draw,fill] (3) {} edge from parent node[left] {\small{$l_1$}}}
+                child {node [rectangle,draw,fill] (4) {} edge from parent node[right] {\small{$l_2$}}}
+                                }
+              child {node [main node,inner sep=5pt] (5) {$x_4$}
+                child {node [rectangle,draw] (6) {}
+                                        }
+                child {node [rectangle,draw] (7) {}
+                                        }
+              };
+          \end{tikzpicture}
+          \caption{Full \label{fig:pt_vac_full}}
+        \end{subfigure}%
+  \begin{subfigure}[b]{0.43\textwidth}
+          \centering
+          \begin{tikzpicture}[->,>=stealth',
+            level/.style={sibling distance=2cm/#1, level distance=33pt}]
+            \node [main node,inner sep=0pt] (1){$x_1 \!\! \equiv \!\! x_2$}
+              child {node [main node,inner sep=5pt] (2) {$x_4$}
+                        child {node [rectangle] (4) {} edge from parent[draw=none]}
+                                };
+          \end{tikzpicture}
+          \caption{Compact \label{fig:pt_vac_compact}}
+        \end{subfigure}
+  \caption{P-trees on vacations}
+%\vspace{-0.2cm}
+  \label{fig:pt_vac}
+\end{figure}
+
+To compare two outcomes, $M=\neg x_1\neg x_2\neg x_3x_4$ 
+and $M'=x_1x_2x_3\neg x_4$,
+we walk down the tree and find that $l_T(M)=l_1$ and $l_T(M')=l_2$. 
+Thus, we have $M \succ_T M'$ since $l_1$ precedes $l_2$.
+
+
+\ignore{
+For a more complicated example, let us assume that an 
+agent prefers vacations that take place in summer or involve hiking 
+($\vph_1=\neg x_1 \lor x_3$) to all others, and this is the most 
+desirable property to her. Among those vacations that satisfy $\vph_1$, 
+the agent prefers hiking vacations in Colorado ($\vph_2 =\neg x_1 \land 
+\neg x_2$) over the remaining ones in that group. Provided $\vph_1$ is 
+satisfied, this is her second most important consideration. Her next 
+concern for vacations satisfying 
+$\vph_1$ is the mode of transportation. She prefers driving to flying 
+for summer vacations and flying to driving, otherwise ($\vph_3= (x_3 
+\rightarrow x_4) \land (\neg x_3 \rightarrow \neg x_4)$). Among vacations
+that do not have the property $\vph_1$, that is, the vacations that are
+in winter and involve water sports, the planner prefers to drive to 
+Florida for her vacation ($\vph_2'=x_2 \land x_4$). The resulting
+preference preorder on vacations can be represented as a P-tree $T$ 
+shown in \figref{PTree_full}. This preorder has six clusters of
+equivalent outcomes (vacation choices) represented by the six leaves,
+with the decreasing preference for clusters of outcomes associated 
+the leaves as we move from left to right. To compare two outcomes, $M
+=\neg x_1x_2\neg x_3\neg x_4$ and $M'=x_1\neg x_2x_3\neg x_4$,
+we walk down the trees and find that $l_T(M)=l_3$ and $l_T(M')=l_4$. 
+Thus, $M \succ_T M'$ since $l_3$ precedes $l_4$.
+
+\begin{figure}[!ht]
+	\centering
+  \begin{subfigure}[b]{0.23\textwidth}
+		\centering
+	  \begin{tikzpicture}[->,>=stealth',
+	    level/.style={sibling distance=2cm/#1, level distance=27pt}]
+	    \node [main node,inner sep=1.7pt] (1){$\varphi_1$}
+	      child {node [main node,inner sep=1.7pt,label={[xshift=-0.5cm, yshift=-0.6cm]$t$}] (2) {$\varphi_2$}
+	        child {node [main node,inner sep=1.7pt] (3) {$\varphi_3$}
+	      		child {node [rectangle,draw] (4) {}}
+	      		child {node [rectangle,draw] (5) {}}
+					}
+	        child {node [main node,inner sep=1.7pt] (6) {$\varphi_3$}
+	      		child {node [rectangle,draw,fill] (7) {} edge from parent node[left] {\small{$l_3$}}}
+	      		child {node [rectangle,draw,fill] (8) {} edge from parent node[right] {\small{$l_4$}}}
+					}
+				}
+	      child {node [main node,inner sep=0.9pt] (9) {$\varphi_2'$}
+	      	child {node [rectangle,draw] (10) {}
+					}
+	      	child {node [rectangle,draw] (11) {}
+					}
+	      };
+	  \end{tikzpicture}
+		\caption{Full representation \label{fig:PTree_full}}
+	\end{subfigure}%
+  \begin{subfigure}[b]{0.23\textwidth}
+		\centering
+	  \begin{tikzpicture}[->,>=stealth',
+	    level/.style={sibling distance=2cm/#1, level distance=27pt}]
+	    \node [main node,inner sep=1.7pt] (1){$\varphi_1$}
+	      child {node [main node,inner sep=1.7pt,label={[xshift=-0.5cm, yshift=-0.6cm]$t$}] (2) {$\varphi_2$}
+	        child {node [main node,inner sep=1.7pt] (3) {$\varphi_3$}
+	      		child {node [rectangle] (4) {} edge from parent[draw=none]}
+					}
+				}
+	      child {node [main node,inner sep=0.9pt] (5) {$\varphi_2'$}
+	      	child {node [rectangle] (6) {} edge from parent[draw=none]}
+	      };
+	  \end{tikzpicture}
+		\caption{Compact representation \label{fig:PTree_compact}}
+	\end{subfigure}
+  \caption{P-trees}
+%\vspace{-0.2cm}
+  \label{fig:PTree}
+\end{figure}
+}
+
+The key property of P-trees is that they can represent any total preorder on 
+$\CD(\cI)$.
+
+\begin{prop}
+\label{prop:1}
+For every set $\cI$ of binary issues, for every set $D\subseteq\CD(\cI)$
+of outcomes over $\cI$, and for every total preorder $\succeq$ on $D$ into
+no more than $2^n$ clusters of equivalent outcomes, there is a P-tree $T$ 
+of depth at most $n$ such that the preorder determined by $T$ on $\CD(\cI)$ 
+when restricted to $D$ coincides with $\succeq$ 
+(that is, ${\succeq_T}_{|D}=\succeq$).
+\end{prop}
+\begin{proof}
+Let $\succeq$ be a total preorder on a subset $D\subseteq \CD(\cI)$ of outcomes
+over $\cI$, and let $D_1\succ D_2\succ \ldots\succ D_m$ be the corresponding 
+strict ordering of clusters of equivalent outcomes, with $m\leq 2^n$. If
+$m=1$, a single-leaf tree (no decision nodes, just a box node) represents 
+this preorder. This tree has depth 0 and so, the assertion holds. Let us assume
+then that $m>1$, and let us define $D'=D_1\cup\ldots\cup D_{\lceil m/2\rceil}$ 
+and $D''=D\setminus
+D'$. Let $\varphi_{D'}$ be a formula such that models of $D'$ 
+are precisely the outcomes in $D'$ (such a formula can be constructed as a
+disjunction of conjunctions of literals, each conjunction representing a
+single outcome in $D'$). If we place $\varphi_{D'}$ in the root of a P-tree,
+that tree represents the preorder with two clusters, $D'$ and $D''$, with 
+$D'$ preceding $D''$. Since each of $D'$ and $D''$ has no more than $2^{n-1}$
+clusters, by induction, the preorders $D_1\succ \ldots\succ 
+D_{\lceil m/2\rceil}$ and $D_{\lceil m/2\rceil+1}\succ \ldots\succ D_m$ 
+can each be represented as a P-tree with depth at most $n-1$. Placing
+these trees as the left and the right subtrees of $\varphi_{D'}$ 
+respectively results in a P-tree of depth at most $n$ that represents
+$\succeq$. 
+\end{proof}
+
+\paragraph{\bf Compact Representation of P-Trees.}
+Proposition \ref{prop:1} shows high expressivity 
+of P-trees. However, the construction described in the proof has little 
+practical use. First, the P-tree it produces may have a 
+large size due to the large sizes of labeling formulas that are generated. 
+Second, to apply it, one would need to have an explicit enumeration of 
+the preorder to be modeled, and that explicit representation in practical 
+settings is unavailable.         
+
+However, preferences over combinatorial domains that arise in practice
+typically have structure that can be elicited from a user and exploited
+when constructing a P-tree representation of the preferences. First,
+decisions at each level are often based on considerations involving
+only very few issues, often just one or two and very rarely more than that.
+Moreover, the subtrees of a node that order the ``left'' and the``right''
+outcomes are often identical or similar. 
+
+Exploiting these features often leads to much smaller representations.  
+A \emph{compact P-tree over} $\cI$ is a tree such that
+\begin{enumerate}[itemsep=0pt]
+	\item every node is labeled with a Boolean formula over $\cI$, and
+  \item every non-leaf node $t$ labeled with $\varphi$ has either
+        two outgoing edges, with the left one meant to be taken by 
+        outcomes that satisfy $\varphi$ and the right one by those that
+        make $\varphi$ false (\figref{compact1}), or one 
+    outgoing edge pointing
+    \begin{itemize}[itemsep=0pt]
+      \item straight-down (\figref{compact2}), which indicates that the two subtrees of $t$ 
+            are \textit{identical} and the formulas
+            labeling every pair of corresponding nodes in the two subtrees are the \textit{same},
+      \item left (\figref{compact3}), which indicates that right subtree 
+      of $t$ is empty, or
+      \item right (\figref{compact4}), which indicates that left subtree 
+      of $t$ is empty.
+    \end{itemize}
+\end{enumerate}
+
+\begin{figure}[!ht]
+	\centering
+  \begin{subfigure}[b]{0.3\textwidth}
+		\centering
+	  \begin{tikzpicture}[->,>=stealth',
+	    level/.style={sibling distance=1.5cm/#1, level distance=30pt}]
+	    \node [main node,inner sep=3pt,label={[xshift=0cm, yshift=0cm]$t$}] (1){$\varphi$}
+				child [edge from parent path ={(\tikzparentnode.-140) -- (\tikzchildnode.north)}] {
+					node [subtree,yshift=0.4cm] (2) {}}
+				child [edge from parent path ={(\tikzparentnode.-40) -- (\tikzchildnode.north)}] {
+					node [subtree,yshift=0.4cm] (3) {}};
+	  \end{tikzpicture}
+		\caption{\label{fig:compact1}}
+	\end{subfigure}%
+  \begin{subfigure}[b]{0.2\textwidth}
+		\centering
+	  \begin{tikzpicture}[->,>=stealth',
+	    level/.style={sibling distance=1.5cm/#1, level distance=30pt}]
+		    \node [main node,inner sep=3pt,label={[xshift=0cm, yshift=0cm]$t$}] (1){$\varphi$}
+					child {node [subtree,yshift=0.4cm] (2) {}};
+	  \end{tikzpicture}
+		\caption{\label{fig:compact2}}
+	\end{subfigure}%
+  \begin{subfigure}[b]{0.2\textwidth}
+		\centering
+		  \begin{tikzpicture}[->,>=stealth',
+		    level/.style={sibling distance=1.5cm/#1, level distance=30pt}]
+		    \node [main node,inner sep=3pt,label={[xshift=0cm, yshift=0cm]$t$}] (1){$\varphi$}
+					child [edge from parent path ={(\tikzparentnode.-140) -- (\tikzchildnode.north)}] {
+						node [subtree,yshift=0.4cm] (2) {}}
+	      		child {node [rectangle] (3) {} edge from parent[draw=none]
+		      };
+		  \end{tikzpicture}
+			\caption{\label{fig:compact3}}
+	\end{subfigure}%
+  \begin{subfigure}[b]{0.2\textwidth}
+		\centering
+	  \begin{tikzpicture}[->,>=stealth',
+	    level/.style={sibling distance=1.5cm/#1, level distance=30pt}]
+		    \node [main node,inner sep=3pt,label={[xshift=0cm, yshift=0cm]$t$}] (1){$\varphi$}
+	      	child {node [rectangle] (2) {} edge from parent[draw=none]
+		      }
+					child [edge from parent path ={(\tikzparentnode.-40) -- (\tikzchildnode.north)}] {
+						node [subtree,yshift=0.4cm] (2) {}};
+	  \end{tikzpicture}
+		\caption{\label{fig:compact4}}
+	\end{subfigure}
+  \caption{Compact P-trees}
+%\vspace{-0.2cm}
+  \label{fig:compact}
+\end{figure}
+
+
+The P-tree in \figref{pt_vac_full} can be collapsed as both 
+subtrees of the root are the same (including the labeling formulas). This 
+leads to a tree in \figref{pt_vac_compact} with a straight-down edge.
+\ignore{
+Let $t$ be a node in a P-tree $T$.  
+We denote by $\Inst(t)$ the set of 
+ancestor nodes of $t$ in $T$ that have two outgoing edges.
+}
+\ignore{
+Similarly, in the P-tree 
+in \figref{PTree_full}, the two subtrees of node $t$ and the formulas 
+labeling the corresponding nodes are identical. Thus, we can collapse 
+them and achieve a compact representation in \figref{PTree_compact}. 
+}
+We note that we drop box-labeled leaves in compact representations 
+of P-trees, as they no longer have an interpretation as distinct clusters.
+
+\paragraph{\bf Empty Leaves in P-Trees.} Given a P-tree $T$ one can prune it
+so that all sets of outcomes corresponding to its leaves are non-empty.
+However, keeping empty clusters may lead to compact representations of much
+smaller (in general, even exponentially smaller) size.
+
+%A compact P-tree $T$ in \figref{PTree_EL_compact} represents a full 
+%binary tree $T'$ in \figref{PTree_EL_full}.
+%The formulas labeling the non-leaf nodes in $T$ are $\varphi_1=\neg x_1 \vee x_3$, $\varphi_2=x_2 \vee \neg x_4$
+%and $\varphi_3=x_2 \wedge x_3$.
+%We can check that leaves $l_1$, $l_2$ and $l_3$ are empty, that is,
+%the conjunctions $\varphi_1 \wedge \neg \varphi_2 \wedge \varphi_3$,
+%$\neg \varphi_1 \wedge \varphi_2 \wedge \varphi_3$ and
+%$\neg \varphi_1 \wedge \neg \varphi_2 \wedge \varphi_3$ are
+%unsatisfiable.
+A full P-tree $T$ in \figref{PTree_EL_full} uses labels
+$\varphi_1=\neg x_1 \vee x_3$, $\varphi_2=x_2 \vee \neg x_4$, and
+$\varphi_3=x_2 \wedge x_3$.
+We check that leaves $l_1$, $l_2$ and $l_3$ are empty, that is,
+the conjunctions $\varphi_1 \wedge \neg \varphi_2 \wedge \varphi_3$,
+$\neg \varphi_1 \wedge \varphi_2 \wedge \varphi_3$ and
+$\neg \varphi_1 \wedge \neg \varphi_2 \wedge \varphi_3$ are
+unsatisfiable.
+Pruning $T$ one obtains a compact tree $T'$ (\figref{PTree_NEL_compact}) that is
+smaller compared to $T$, but larger than $T''$ (\figref{PTree_EL_compact}), another compact 
+representation of $T$, should we allow empty leaves and exploit
+the structure of $T$.
+
+\begin{figure}[!ht]
+	\centering
+  \begin{subfigure}[b]{0.4\textwidth}
+		\centering
+	  \begin{tikzpicture}[->,>=stealth',
+	    level/.style={sibling distance=2cm/#1, level distance=27pt}]
+	    \node [main node,inner sep=1.7pt] (1){$\varphi_1$}
+	      child {node [main node,inner sep=1.7pt] (2) {$\varphi_2$}
+	        child {node [main node,inner sep=1.7pt] (3) {$\varphi_3$}
+	      		child {node [rectangle,draw] (4) {}}
+	      		child {node [rectangle,draw] (5) {}}
+					}
+	        child {node [main node,inner sep=1.7pt] (6) {$\varphi_3$}
+	      		child {node [rectangle,draw,fill] (7) {} edge from parent node[left] {\small{$l_1$}}}
+	      		child {node [rectangle,draw] (8) {}}
+					}
+				}
+	      child {node [main node,inner sep=1.7pt] (9) {$\varphi_2$}
+	        child {node [main node,inner sep=1.7pt] (10) {$\varphi_3$}
+	      		child {node [rectangle,draw,fill] (11) {} edge from parent node[left] {\small{$l_2$}}}
+	      		child {node [rectangle,draw] (12) {}}
+					}
+	        child {node [main node,inner sep=1.7pt] (13) {$\varphi_3$}
+	      		child {node [rectangle,draw,fill] (14) {} edge from parent node[left] {\small{$l_3$}}}
+	      		child {node [rectangle,draw] (15) {}}
+					}
+	      };
+	  \end{tikzpicture}
+		\caption{$T$ \label{fig:PTree_EL_full}}
+	\end{subfigure}%
+  \begin{subfigure}[b]{0.4\textwidth}
+		\centering
+		  \begin{tikzpicture}[->,>=stealth',
+		    level/.style={sibling distance=1.6cm/#1, level distance=27pt}]
+		    \node [main node,inner sep=1.7pt] (1){$\varphi_1$}
+		      child {node [main node,inner sep=1.7pt] (2) {$\varphi_2$}
+		        child {node [main node,inner sep=1.7pt] (3) {$\varphi_3$}
+		      		child {node [rectangle] (4) {} edge from parent[draw=none]}
+		      		child {node [rectangle] (5) {} edge from parent[draw=none]}
+						}
+		        child {node [rectangle] (6) {} edge from parent[draw=none]
+						}
+					}
+		      child {node [main node,inner sep=1.7pt] (7) {$\varphi_2$}
+		        child {node [rectangle] (8) {} edge from parent[draw=none]}
+		        child {node [rectangle] (9) {} edge from parent[draw=none]}
+		      };
+		  \end{tikzpicture}
+			\caption{$T'$: pruned $T$\label{fig:PTree_NEL_compact}}
+	\end{subfigure}%
+  \begin{subfigure}[b]{0.2\textwidth}
+		\centering
+	  \begin{tikzpicture}[->,>=stealth',
+	    level/.style={sibling distance=2cm/#1, level distance=27pt}]
+	    \node [main node,inner sep=1.7pt] (1){$\varphi_1$}
+	      child {node [main node,inner sep=1.7pt] (2) {$\varphi_2$}
+	        child {node [main node,inner sep=1.7pt] (3) {$\varphi_3$}
+	      		child {node [rectangle] (4) {} edge from parent[draw=none]}
+					}
+				};
+	  \end{tikzpicture}
+		\caption{$T''$ \label{fig:PTree_EL_compact}}
+
+	\end{subfigure}
+  \caption{P-trees with empty leaves}
+%\vspace{-0.2cm}
+  \label{fig:PTree_EL}
+\end{figure}
+
+That example generalizes and leads to the question
+of finding small sized representations of P-trees.
+(We conjecture that the
+problem in its decision version asking about the existence of a compact 
+representation of size at most $k$ is NP-complete). 
+From now on, we assume that P-trees are given in their compact representation. 
+
+%\begin{figure}[!ht]
+%	\centering
+%	  \begin{tikzpicture}[->,>=stealth',
+%	    level/.style={sibling distance=2cm/#1, level distance=27pt}]
+%	    \node [main node,inner sep=1.7pt] (1){$\varphi_1$}
+%	      child {node [main node,inner sep=1.7pt] (2) {$\varphi_2$}
+%	        child {node [main node,inner sep=1.7pt] (3) {$\varphi_3$}
+%	      		child {node [rectangle,draw] (4) {}}
+%	      		child {node [rectangle,draw] (5) {}}
+%					}
+%	        child {node [rectangle,draw] (6) {}
+%					}
+%				}
+%	      child {node [main node,inner sep=1.7pt] (7) {$\varphi_2$}
+%	        child {node [rectangle,draw] (8) {}}
+%	        child {node [rectangle,draw] (9) {}}
+%	      };
+%	  \end{tikzpicture}
+%		\caption{$T''$: pruned $T'$}
+%\vspace{-0.2cm}
+%  \label{fig:PTree_full_NEL}
+%\end{figure}
+
+\section{P-Trees and Other Formalisms}
+
+In this section we compare the preference representation language of P-trees
+with other preference languages.
+
+
+\paragraph{\bf P-Trees Generalize LP-Trees.}
+
+As stated earlier, P-trees are reminiscent of LP-trees, a preference 
+language that has received significant attention recently 
+\cite{booth:learningLP,lang:aggLP,LiuT}. In fact, LP-trees over a set
+$\cI=\{x_1,\ldots,x_n\}$ of issues are simply special P-trees over $\cI$.
+Namely, an LP-tree over $\cI$ can be defined as a P-tree over $\cI$, in
+which all formulas labeling nodes are atoms $x_i$ or their negations $\neg x_i$,
+depending on whether $x_i$ or $\neg x_i$ is the preferred over the other, and every path from 
+the root to a leaf has all atoms $x_i$ appear in it as labels exactly 
+once. Clearly, LP-trees are full binary trees of depth $n$ (assuming the depth of the root is 1) 
+and determine strict \emph{total orders} on outcomes 
+in $\CD(\cI)$ (no indifference between different outcomes). An example 
+of an LP-tree over $\{x_1,x_2,x_3,x_4\}$ for our vacation example is 
+given in \figref{LPT_full}. 
+
+\begin{figure}[!ht]
+	\centering
+	  \begin{tikzpicture}[->,>=stealth',
+       level 1/.style={sibling distance=4.3cm, level distance=28pt},
+       level 2/.style={sibling distance=2.2cm, level distance=28pt},
+       level 3/.style={sibling distance=1.0cm, level distance=28pt}]
+	    \node [main node,inner sep=2pt,label={[xshift=0.9cm, yshift=-0.5cm]$\scriptstyle \neg x_1>x_1$}] (1){$x_1$}
+	    child {node [main node,inner sep=2pt,label={[xshift=0.9cm, yshift=-0.5cm]$\scriptstyle x_3>\neg x_3$}] (2) {$x_3$}
+	      child {node [main node,inner sep=2pt,label={[xshift=0.9cm, yshift=-0.5cm]$\scriptstyle \neg x_2>x_2$}] (3) {$x_2$}
+	        child {node [main node,inner sep=2pt,label={[xshift=-0.1cm, yshift=-1cm]$\scriptstyle \neg x_4>x_4$}] (4) {$x_4$}}
+	        child {node [main node,inner sep=2pt,label={[xshift=0.05cm, yshift=-1cm]$\scriptstyle x_4>\neg x_4$}] (5) {$x_4$}}
+				}
+	      child {node [main node,inner sep=2pt,label={[xshift=0.9cm, yshift=-0.5cm]$\scriptstyle \neg x_4>x_4$}] (6) {$x_4$}
+	        child {node [main node,inner sep=2pt,label={[xshift=0cm, yshift=-1cm]$\scriptstyle x_2>\neg x_2$}] (7) {$x_2$}}
+	        child {node [main node,inner sep=2pt,label={[xshift=0.05cm, yshift=-1cm]$\scriptstyle x_2>\neg x_2$}] (8) {$x_2$}}
+	      }
+			}
+	    child {node [main node,inner sep=2pt,label={[xshift=0.9cm, yshift=-0.5cm]$\scriptstyle x_3>\neg x_3$}] (9) {$x_3$}
+	      child {node [main node,inner sep=2pt,label={[xshift=0.9cm, yshift=-0.5cm]$\scriptstyle \neg x_2>x_2$}] (10) {$x_2$}
+	        child {node [main node,inner sep=2pt,label={[xshift=0cm, yshift=-1cm]$\scriptstyle \neg x_4>x_4$}] (11) {$x_4$}}
+	        child {node [main node,inner sep=2pt,label={[xshift=0.05cm, yshift=-1cm]$\scriptstyle x_4> \neg x_4$}] (12) {$x_4$}}
+				}
+	      child {node [main node,inner sep=2pt,label={[xshift=0.9cm, yshift=-0.5cm]$\scriptstyle \neg x_4>x_4$}] (13) {$x_4$}
+	        child {node [main node,inner sep=2pt,label={[xshift=0cm, yshift=-1cm]$\scriptstyle x_2>\neg x_2$}] (14) {$x_2$}}
+	        child {node [main node,inner sep=2pt,label={[xshift=0.05cm, yshift=-1cm]$\scriptstyle x_2>\neg x_2$}] (15) {$x_2$}}
+	      }
+			}
+			;
+	  \end{tikzpicture}
+  \caption{A full LP-tree on vacations}
+%	\vspace{-0.2cm}
+  \label{fig:LPT_full}
+\end{figure}
+
+In general representing preferences by LP-trees is impractical. The size of
+the representation is of the same order as that of an explicit enumeration
+of the preference order. However, in many cases preferences on outcomes 
+have structure that leads to LP-trees with similar subtrees. That structure
+can
+be exploited, as in P-trees, to represent LP-trees compactly.  
+\figref{LPT_PT_lpt} shows a compact representation of the LP-tree in  
+\figref{LPT_full}. We note the presence of conditional preference tables 
+that make up for the lost full binary tree structure. Together with the 
+simplicity of the language, compact representations are behind the practical 
+usefulness of LP-trees. The compact representations of LP-trees translate 
+into compact representations of P-trees, in the sense defined above. This 
+matter is not central to our discussion and we simply illustrate it with 
+an example. The compactly represented P-tree in \figref{LPT_PT_pt} is the
+counterpart to the compact LP-tree in \figref{LPT_PT_lpt},
+where $\varphi=(x_2 \land x_4) \lor (\neg x_2 \land \neg x_4)$.
+
+\begin{figure}[!ht]
+	\centering
+  \begin{subfigure}[b]{0.43\textwidth}
+		\centering
+	  \begin{tikzpicture}[->,>=stealth',node distance=1.2cm]
+	        
+	    \node[main node] (1) {$x_1$};
+	    \node[rectangle,draw,inner sep=1pt] at (1,0) {$\neg x_1\!\! >\!\! x_1$};
+	
+	    \node[main node] (2) [below of=1] {$x_3$};
+	    \node[rectangle,draw,inner sep=1pt] at (1,-1.2) {$x_3 \!\!>\!\! \neg x_3$};
+	    
+	    \node[main node] (3) [below left of=2] {$x_2$};
+	    \node[rectangle,draw,inner sep=1pt] at (-1.85,-2.05) {$\neg x_2 \!\!>\!\! x_2$};
+	    
+	    \node[main node] (4) [below of=3] {$x_4$};
+	    \node[rectangle split, rectangle split parts=2, draw,inner sep=1pt,font=\sffamily\small] at (-2.2,-3.3)
+	        {
+	          $x_2\!:\!x_4 \!\!>\!\! \neg x_4$
+	          \nodepart{second}
+	          $\neg x_2\!:\!\neg x_4 \!\!>\!\! x_4$
+	        };
+	    
+	    \node[main node] (5) [below right of=2] {$x_4$};
+	    \node[rectangle,draw,inner sep=1pt] at (1.85,-2.05) {$\neg x_4\!\! > \!\! x_4$};
+	    
+	    \node[main node] (6) [below of=5] {$x_2$};
+	    \node[rectangle,draw,inner sep=1pt] at (1.85,-3.3) {$x_2 \!\!>\!\! \neg x_2$};
+	  
+	    \path[every node/.style={font=\sffamily\small}]
+	      (1) edge (2)
+	      (2) edge (3)
+	          edge (5)
+	      (3) edge (4)
+	      (5) edge (6);
+	  \end{tikzpicture}
+  	\caption{A compact LP-tree \label{fig:LPT_PT_lpt}}
+	\end{subfigure}%
+	\begin{subfigure}[b]{0.43\textwidth}
+			\centering
+		  \begin{tikzpicture}[->,>=stealth',
+		    level/.style={sibling distance=3.4cm/#1, level distance=31pt}]
+		    \node [main node,inner sep=1.5pt] (1){$\neg x_1$}
+		    child {node [main node] (2) {$x_3$}
+		      child {node [main node,inner sep=1.5pt] (3) {$\neg x_2$}
+		        child {node [main node,inner sep=4pt] (4) {$\varphi$}
+		      		%child {node [rectangle] (5) {} edge from parent[draw=none]}
+						}
+					}
+		      child {node [main node,inner sep=1.5pt] (6) {$\neg x_4$}
+		        child {node [main node] (7) {$x_2$}
+		      		%child {node [rectangle] (8) {} edge from parent[draw=none]}
+						}
+		      }};
+		  \end{tikzpicture}
+  		\caption{The corresponding P-tree \label{fig:LPT_PT_pt}}
+		\end{subfigure}
+  \caption{A compact LP-tree as a compact P-tree}
+%\vspace{-0.2cm}
+  \label{fig:LPT_PT}
+\end{figure}
+
+The major drawback of LP-trees is that they can capture only a very small
+fraction of preference orders. One can show that the number, say $G(n)$, 
+of LP-trees over $n$ issues is 
+\begin{equation*}
+G(n)=\prod_{k=0}^{n-1} (n-k)^{2^k} \cdot 2^{2^k}
+\end{equation*}
+and is asymptotically much smaller than $L(n)=(2^n)!$, the number of all 
+preference orders of the corresponding domain of outcomes. In fact, 
+one can show that 
+\[
+\frac{G(n)}{L(n)} < \frac{1}{2^{(2^n \cdot (n-\log n -2))}}.
+\]
+This is in stark contrast with Proposition \ref{prop:1}, according
+to which every total preorder can be represented by a P-tree.
+
+Even very natural orderings, which have simple (and compact) representations
+by P-trees often cannot be represented as LP-trees. For instance, there is 
+no LP-tree on $\{x_1,x_2\}$ representing the order $00\succ 11 \succ 01 
+\succ 10\}$. However, the P-trees (both full and compact) in \figref{pt_vac}
+do specify it.
+
+\ignore{
+We show in \thmref{exp_small_ratio} that
+LP-trees only encode an exponentially small portion of all linear orders.
+\begin{thm}
+\label{thm:exp_small_ratio}
+	Let $L(n)=2^n!$ be the number of linear orders of outcomes over $n$ binary issues,
+	$r$ be the ratio of $G(n)$ to $L(n)$.
+	We have
+	\begin{equation}
+		r = \frac{G(n)}{L(n)} < \frac{1}{2^{(2^n \cdot (n-\log n -2))}}.
+	\end{equation}
+\end{thm}
+%\begin{proof}
+%	\begin{align*}
+%		r 2^n! &= T(n); \numberthis \\
+%		\log r + \log 2^n! &= \log (\prod_{k=0}^{n-1} (n-k)^{2^k} \cdot 2^{2^k})\\
+%		&= \sum_{k=0}^{n-1} (\log ((n-k)^{2^k}) + 2^k)\\
+%		&= \sum_{k=0}^{n-1} (2^k \cdot (\log (n-k) + 1))\\
+%		&< \sum_{k=0}^{n-1} (2^k \cdot (\log n + 1))\\
+%		&= (\log n + 1) \cdot \sum_{k=0}^{n-1} 2^k\\
+%		&= (\log n + 1) \cdot (2^n-1). \numberthis 
+%	\end{align*}
+%	
+%	Let $N$ be such that $N=(\log n + 1) \cdot (2^n-1)$.
+%	By the Stirling's approximation $n! \geq \sqrt{2\pi n} \cdot (\frac{n}{e})^n$,
+%	we have the following.
+%	
+%	\begin{align*}
+%		\log r &< N - \log 2^n! \\
+%		&\leq N- \log (\sqrt{2\pi 2^n} \cdot (\frac{2^n}{e})^{2^n})\\
+%		&< N- \log (\sqrt{2^n} \cdot (\frac{2^n}{e})^{2^n})\\
+%		&= N- (\frac{n}{2}+\log \frac{2^{n\cdot 2^n}}{e^{2^n}})\\
+%		&= N- (\frac{n}{2}+n\cdot 2^n-\log e^{2^n})\\
+%		&< N- (\frac{n}{2}+n\cdot 2^n-\log 2^{2^n})\\
+%		&= N- (\frac{n}{2}+n\cdot 2^n-2^n)\\
+%		&= 2^n \cdot (\log n -n+2)-\log n-1-\frac{n}{2}\\
+%		&< 2^n \cdot (\log n -n+2). \numberthis
+%	\end{align*}
+%	
+%	Therefore, we have
+%	\begin{equation}
+%		r < \frac{1}{2^{(2^n \cdot (n-\log n -2))}}.
+%	\end{equation}
+%\end{proof}
+}
+
+\paragraph{\bf P-Trees Extend ASO-Rules.} The formalism of ASO-rules 
+\cite{Brewka:ASO} provides an intuitive way to express preferences
+over outcomes as total preorders.
+An ASO-rule partitions outcomes into ordered clusters according to 
+the semantics of the formalism.
+Formally, an ASO-rule $r$ over $\cI$ is a preference rule of the form
+\begin{equation} \label{eq:ASO}
+\small{C_1 > \ldots > C_m \leftarrow B,}
+\end{equation}
+
+\noindent
+where all $C_i$'s and $B$ are propositional formulas over $\cI$.
+For each outcome $M$, rule (\ref{eq:ASO}) determines its \emph{satisfaction degree}.
+It is denoted by $\SD_r(M)$ and defined by
+\[
+\small{\SD_r(M) =
+  \begin{cases}
+   1, & M \models \neg B \\
+   m+1, & M \models B \wedge \bigwedge_{1 \leq i \leq m} \neg C_i \\
+   min\{i:M \models C_i\}, & \mbox{otherwise}.
+  \end{cases}}
+\]
+
+\noindent
+We say that an outcome $M$ is weakly preferred to an 
+outcome $M'$ ($M
+\succeq_r M'$) if $\SD_r(M)\leq\SD_r(M')$. Thus, the notion of the 
+satisfaction degree (or, equivalently, the preference $r$) partitions
+outcomes into (in general) $m+1$ clusters.\footnote{This definition is 
+a slight adaptation of the original one.}
+
+Let us consider the domain of vacations.
+An agent may prefer hiking in Colorado to water sports in Florida if she
+is going on a summer vacation.
+Such preference can be described as an ASO-rule:
+\begin{center}
+	$\neg x_1 \land \neg x_2 > x_1 \land x_2 \leftarrow x_3$.
+\end{center}
+Under the semantics of ASO, this preference rule specifies that
+the most desirable vacations are summer hiking vacations to Colorado
+and all winter vacations, the next preferred vacations are
+summer water sports vacations to Florida, and the least desirable vacations
+are summer hiking vacations to Florida and summer water sports vacations to Colorado.
+
+Given an ASO-rule $r$ of form (\ref{eq:ASO}),
+we show how $r$ is encoded in a P-tree.
+From the ASO-rule $r$, we build a P-tree $T_r$ in \figref{ASO_P},
+where $\varphi_1 = \neg B \vee C_1$,
+$\varphi_i =C_i$ ($2 \leq i \leq m$),
+and the dashed edge represents nodes labeled by the formulas $\varphi_3,\ldots,\varphi_{m-1}$
+and every formula $\varphi_i$, $3 \leq i \leq m-1$, is constructed such that
+the parent of $\varphi_i$ is $\varphi_{i-1}$, the left child of $\varphi_i$
+is empty, and the right child of $\varphi_i$ is $\varphi_{i+1}$.
+
+\begin{figure}
+  \small
+  \centering
+	  \begin{tikzpicture}[->,>=stealth',
+        level 1/.style={sibling distance=1.5cm, level distance=27pt},
+        level 2/.style={sibling distance=1.5cm, level distance=27pt}
+        ]
+	    \node [main node,inner sep=1.7pt] (1){$\varphi_1$}
+	      child {node [rectangle] (2) {} edge from parent[draw=none]}
+	      child {node [main node,inner sep=1.7pt] (3) {$\varphi_2$}
+	      	child {node [rectangle] (4) {} edge from parent[draw=none]}
+					child {node [main node,inner sep=0.9pt] (5) {$\varphi_m$} [dashed]
+						%child [solid] {node [rectangle,draw] (6) {}}
+					}
+				};
+	  \end{tikzpicture}
+  \caption{A P-tree $T_r$ ($T_P$)}
+%\vspace{-0.2cm}
+  \label{fig:ASO_P}
+\end{figure}
+
+\begin{thm}
+\label{thm:ASO_P}
+	Given an ASO-rule $r$, the P-tree $T_r$ has size
+	linear in the size of $r$, and for every two outcomes $M$ and $M'$
+	\begin{center}
+		$M \succeq_r^{\textit{ASO}} M' \;\; \textit{iff} \;\; M \succeq_{T_r} M'$
+	\end{center}
+\end{thm}
+\begin{proof}
+	The P-tree $T_r$ induces a total preorder $\succeq_{T_r}$ where outcomes satisfying $\varphi_1$ are preferred
+	to outcomes satisfying $\neg \varphi_1 \land \varphi_2$, which are then preferred to
+	outcomes satisfying $\neg \varphi_1 \land \neg \varphi_2 \land \varphi_3$, and so on.
+	The least preferred are the ones satisfying $\bigwedge_{1\leq i\leq m} \neg \varphi_i$.
+	Clearly, this order $\succeq_{T_r}$ is precisely the order $\succeq^{\textit{ASO}}_r$
+	given by the ASO rule $r$.
+\end{proof}
+
+%Clearly, the size of $T_r$ is linear in the size of the input $r$.
+There are other ways of translating ASO-rules to P-trees. For instance,
+it might be beneficial if the translation produced a more balanced tree.
+Keeping the definitions of $\vph_i$, $1\leq i\leq m$, as 
+before and setting $\vph_{m+1}=B \land \neg C_1 \land \ldots \land \neg 
+C_m$, we could proceed as in the proof of \propref{1}. %for $m+1$ clusters. 
+%First, create the root node $N$ of $T^b_r$ and label it with the formula
+%$\bigvee_{1 \leq i \leq \lfloor \frac{m+2}{2} \rfloor} \varphi_i$.
+%Then, proceed recursively to construct $N$'s left subtree $T_1$ for 
+%$\varphi_1,\ldots,\varphi_{\lfloor \frac{m+2}{2} \rfloor}$,
+%and $N$'s right subtree $T_2$ for $\varphi_{\lfloor \frac{m+2}{2} \rfloor+1},
+%\ldots, \varphi_{m+1}$.
+
+For example, if $m=6$, we build the P-tree $T^b_r$ in \figref{PTree_tp},
+where $\psi_1=\varphi_1 \vee \varphi_2 \vee \varphi_3 \vee \varphi_4$,
+$\psi_2=\varphi_1 \vee \varphi_2$, $\psi_3=\varphi_1$, $\psi_4=\varphi_3$,
+$\psi_5=\varphi_5 \vee \varphi_6$, and $\psi_6=\varphi_5$.
+The indices $i$'s of the formulas $\psi_i$'s indicate the order in which
+the corresponding formulas are built recursively.
+
+
+\begin{figure}[!ht]
+	\centering
+	  \begin{tikzpicture}[->,>=stealth',
+	    level/.style={sibling distance=2cm/#1, level distance=27pt}]
+	    \node [main node,inner sep=1.7pt] (1){$\psi_1$}
+	      child {node [main node,inner sep=1.7pt] (2) {$\psi_2$}
+	        child {node [main node,inner sep=1.7pt] (3) {$\psi_3$}
+	      		%child {node [rectangle,draw] (4) {}}
+	      		%child {node [rectangle,draw] (5) {}}
+					}
+	        child {node [main node,inner sep=1.7pt] (6) {$\psi_4$}
+	      		%child {node [rectangle,draw] (7) {}}
+	      		%child {node [rectangle,draw] (8) {}}
+					}
+				}
+	      child {node [main node,inner sep=1.7pt] (9) {$\psi_5$}
+	        child {node [main node,inner sep=1.7pt] (10) {$\psi_6$}
+	      		%child {node [rectangle,draw] (11) {}}
+	      		%child {node [rectangle,draw] (12) {}}
+					}
+	        child {node [rectangle] (13) {} edge from parent[draw=none]}
+	      };
+	  \end{tikzpicture}
+		\caption{$T^b_r$ when $m=6$}
+%\vspace{-0.2cm}
+  \label{fig:PTree_tp}
+\end{figure}
+
+This P-tree representation of a preference $r$ of the form (\ref{eq:ASO}) 
+is balanced with height $\lceil \log_2 (m+1) \rceil$. Moreover, 
+the property in \thmref{ASO_P} also holds for the balanced $T^b_r$
+of size polynomial in the size of $r$.
+In fact, the size of $T^b_r$ is in $O(s_r \log s_r)$, where $s_r$ is
+the size of rule $r$.
+It is clear that, though tree $T^b_r$ is larger than $T_r$ in size,
+comparing outcomes could be done faster due to a smaller depth of $T^b_r$.
+
+\paragraph{\bf Representing P-Trees as RASO-Theories.}
+
+Preferences represented by compact P-trees cannot in general be
+captured by ASO preferences without a significant (in some cases,
+exponential) growth in the size of the representation. However, any 
+P-tree can be represented as a set of \emph{ranked} ASO-rules, 
+or an RASO-theory \cite{Brewka:ASO}, aggregated by the Pareto method.
+
+\nop{Introduce RASO and Pareto method}
+We first show how Pareto method is used to order outcomes with regard
+to a set of \emph{unranked} ASO-rules. Let $M$ and $M'$ be two outcomes.  
+Given a set $P$ of unranked ASO-rules, $M$ is weakly preferred to $M'$ 
+with respect to $P$, $M \succeq^u_P M'$, if $\SD_r(M) \leq \SD_r(M')$ 
+for every $r \in P$. Moreover, $M$ is strictly preferred to $M'$, $M 
+\succ^u_P M'$, if $M \succeq^u_P M'$ and $\SD_r(M) < \SD_r(M')$ for some 
+$r \in P$, and $M$ is equivalent to $M'$, $M \approx^u_P M'$,
+if $\SD_r(M) = \SD_r(M')$ for every $r \in P$.
+
+In general, the resulting preference relation is not total. However, by 
+ranking rules according to their importance in some cases, total preorders
+can be obtained. Let us assume $P=\{P_1,\ldots,P_g\}$ is a collection of 
+ranked ASO preferences divided into $g$ sets $P_i$, with each set $P_i$ 
+consisting 
+of ASO-rules of rank $d_i$ so that $d_1 < d_2<\ldots d_g$. We assume that 
+a lower rank of a preference
+rule indicates its higher importance.
+We define $M 
+\succeq^{rk}_P M'$ w.r.t $P$ if for every $i$, $1\leq i\leq g$, 
+$M \approx^u_{P_i} M'$, or if there exists a rank $i$ such that 
+$M \approx^u_{P_j} M'$ for every $j$, $j< i$, and $M \succ^u_{P_i} M'$.
+
+Given a P-tree $T$, we construct an RASO-theory $\Phi_T$ as follows.
+We start with $\Phi_T=\emptyset$.
+For every node $t_i$ in a P-tree $T$, we update
+$\Phi_T=\Phi_T \cup \{\varphi_i \overset{d_i}{\leftarrow} conditions\}$,
+where $\varphi_i$ is the formula labeling node $t_i$,
+$d_i$, rank of the ASO-rule, is the depth of node $t_i$,
+and $conditions$ is the conjunction
+of formulas $\varphi_j$ or $\neg \varphi_j$ labeling all nodes $t_j$
+%such that $t_j \in \Inst(t_i)$.
+that are ancestor nodes of $t_i$ in $T$ with two outgoing edges.
+Whether $\varphi_j$ or $\neg \varphi_j$ is used depends on how the path 
+from the root to
+$t_i$ determines whether descending left ($\varphi_j$) or right ($\neg \varphi_j$)
+at $t_j$.
+
+For instance, the P-tree $T$ in \figref{LPT_PT_pt} gives rise to the following RASO-theory:
+
+	\begin{framed}
+%\vspace{-0.2cm}
+		\noindent $\neg x_1 \overset{1}{\leftarrow}$.  \\%$\;\;\;\;\;$
+		$x_3 \overset{2}{\leftarrow}$.\\
+		$\neg x_2 \overset{3}{\leftarrow} x_3$.  $\;\;\;\;\;$
+		$\neg x_4 \overset{3}{\leftarrow} \neg x_3$.\\
+		$(x_2 \land x_4) \lor (\neg x_2 \land \neg x_4) \overset{4}{\leftarrow} x_3$. $\;\;\;\;\;$
+		$x_2 \overset{4}{\leftarrow} \neg x_3$.
+%\vspace{-0.2cm}
+	\end{framed}
+
+\begin{thm}
+\label{thm:P_RASO}
+	Given a P-tree $T$, there exists an RASO-theory $\Phi_T$ of size
+	polynomial in the size of $T$ such that for every two outcomes $M$ and $M'$
+	\begin{center}
+		$M \succeq_{\Phi_T}^{\textit{RASO}} M' \;\; \textit{iff} \;\; M \succeq_{T} M'$
+	\end{center}
+\end{thm}
+%\noindent Proof of \thmref{P_RASO} is omitted due to space constraint.
+\begin{proof}
+($\Leftarrow$) Let us assume $M \succeq_{T} M'$.
+Denote by $(\varphi_{i_1},\ldots,\varphi_{i_j})$ the order of formulas 
+labeling the path determined by $M$ from the root to a leaf.
+Let $\varphi_{i_k}$, $1 \leq k \leq j$, be the first formula that
+$M$ and $M'$ evaluate differently, in fact, $M \models \varphi_{i_k}$
+and $M' \not \models \varphi_{i_k}$.
+Denote by $d$ the depth of $\varphi_{i_k}$ in $T$.
+Based on the construction of $\Phi_T$, 
+for every RASO-rule $r$ of rank less than $d$, we have
+$M \approx_{r}^{\textit{ASO}} M'$. For every RASO-rule $r$
+of rank $d$, we have $M \succ_{r}^{\textit{ASO}} M'$ if
+$r$ comes from $\varphi_{i_k}$; $M \approx_{r}^{\textit{ASO}} M'$
+for other rules of rank $d$.
+According to RASO ordering, $M \approx_{\Phi_T}^{\textit{RASO}} M'$ holds
+if $\varphi_{i_k}$ does not exist; $M \succ_{\Phi_T}^{\textit{RASO}} M'$
+holds, otherwise.  Therefore, $M \succeq_{\Phi_T}^{\textit{RASO}} M'$ holds.
+
+($\Rightarrow$) Prove by contradiction.  We assume that $M \succeq_{\Phi_T}^{\textit{RASO}} M'$ 
+and $M' \succ_{T} M$ hold.
+We again denote by $(\varphi_{i_1},\ldots,\varphi_{i_j})$ the order of formulas
+labeling the path determined by $M$ from the root to a leaf.
+There must exist some formula $\varphi_{i_k}$, $1 \leq k \leq j$, such that
+$M' \models \varphi_{i_k}$, $M \not \models \varphi_{i_k}$, and
+all formulas $\varphi_\ell$, $1 \leq \ell \leq k-1$, are evaluated in the same way
+by $M$ and $M'$. Based on RASO ordering, we have $M' \succ_{\Phi_T}^{\textit{RASO}} M$,
+contradiction.
+\end{proof}
+
+Hence, the relationship between P-trees and ASO preferences can be summarized as follows.
+Every ASO preference rule can be translated into a P-tree, and 
+every P-tree into a theory of ranked ASO preference rules.
+In both cases, the translations have size polynomial in the size of the input.
+Examining the reverse direction, the size of the ASO rule translated from a P-tree
+could be exponential, and the orders represented by ranked ASO theories
+\emph{strictly include} the orders induced by P-trees as RASO-theories describe
+\emph{partial} preorders in general.
+
+\paragraph{\bf P-Trees Extend Possibilistic Logic.}
+
+\nop{\comm{DEFINE THE SEMANTICS OF POSS LOG}}
+
+A possibilistic logic theory $\Pi$ over a vocabulary $\cI$ is a set of 
+\emph{preference pairs}
+\begin{center}
+	$\{ (\phi_1,a_1), \ldots, (\phi_m,a_m) \}$,
+\end{center}
+where every $\phi_i$ is a Boolean formula over $\cI$, and every $a_i$ is a real number
+such that $1\geq a_1>\ldots>a_m\geq 0$ (if two formulas have the same 
+importance level, they can be replaced by their conjunction).
+Intuitively, $a_i$ represents the importance of $\phi_i$, with larger values
+indicating higher importance.
+
+The \textit{tolerance degree} of outcome $M$ with regard to preference 
+pair $(\phi,a)$, $\TD_{(\phi,a)}(M)$, is defined by
+\[
+ \TD_{(\phi,a)}(M) =
+  \begin{cases}
+   1, & M \models \phi \\
+   1-a, & M \not \models \phi
+  \end{cases}
+\]
+Based on that, the tolerance degree of outcome $M$ with regard to a \emph{set}
+$\Pi$ of preference pairs, $\TD_\Pi(M)$, is defined by 
+\begin{center}
+	$\TD_\Pi(M)=min\{\TD_{(\phi_i,a_i)}(M):1\leq i \leq m\}$.
+\end{center}
+The larger $\TD_\Pi(M)$, the more preferred $M$ is.
+
+For example, for the domain of vacations, we might have the following
+set of preference pairs $\{(\neg x_1 \wedge x_3,0.8), (x_2 \wedge x_4,0.5)\}$.
+According to the possibilistic logic interpretation, vacations satisfying 
+both preferences are the most preferred, those satisfying $\neg x_1 \wedge x_3$ 
+but falsifying $x_2 \wedge x_4$ are the next
+preferred, and those falsifying $\neg x_1 \wedge x_3$ are the worst.
+
+Similarly as for ASO-rules, we can apply different methods to encode 
+a possibilistic logic theories in P-trees. Here we discuss one of them.
+We define $T_\Pi$ to be an unbalanced P-tree shown in \figref{ASO_P} with with 
+labels $\varphi_i$ defined as follows: 
+$\varphi_1=\bigwedge_{\substack{1\leq i \leq m}} \phi_i$, 
+$\varphi_2=\bigwedge_{\substack{1\leq i \leq m-1}} \phi_i \wedge \neg \phi_m$,
+$\varphi_3=\bigwedge_{\substack{1\leq i \leq m-2}} \phi_i \wedge \neg \phi_{m-1}$, and
+$\varphi_m = \phi_1 \wedge \neg \phi_2$.
+%$\varphi_{m+1}=\neg \phi_1$.
+
+%\begin{figure}
+%  \small
+%  \centering
+%	  \begin{tikzpicture}[->,>=stealth',
+%	    level/.style={sibling distance=1.5cm/#1}]
+%	    \node [main node] (1){$\varphi_1$}
+%	      child {node [rectangle,draw] (2) {}
+%				}
+%	        child {node [main node] (3) {$\varphi_m$} [dashed]
+%						child [solid] {node [rectangle,draw] (4) {}}
+%					};
+%	  \end{tikzpicture}
+%  \caption{A P-tree $T_P$}
+%  \label{fig:Poss_P}
+%\end{figure}
+
+\begin{thm}
+\label{thm:Poss_P}
+	Given a possibilistic theory $\Pi$, there exists a P-tree $T_\Pi$ of size
+	polynomial in the size of $\Pi$ such that for every two outcomes $M$ and $M'$
+	\begin{center}
+		$M \succeq_\Pi^{\textit{Poss}} M' \;\; \textit{iff} \;\; M \succeq_{T_\Pi} M'$
+	\end{center}
+\end{thm}
+\begin{proof}
+	%Note that both induce in general total preorders of $m+1$ clusters.
+	%It is clear that
+	%outcome $M$ is in the $i$-th cluster induced by $\Pi$ if and only if
+	%it is in the $i$-th cluster induced by $T_\Pi$.
+	It is clear that the size of P-tree $T_\Pi$ is polynomial in the size of $\Pi$.
+	Let $mi(M,\Pi)$ denote the maximal index $j$ such that $M$ satisfies
+	all $\phi_1, \ldots, \phi_j$ in $\Pi$.
+	(If $M$ falsifies all formulas in $\Pi$, we have $mi(M,\Pi)=0$.)
+	One can show that $M \succeq_\Pi^{\textit{Poss}} M'$ if and only if
+	$mi(M,\Pi) \geq mi(M',\Pi)$, and $mi(M,\Pi) \geq mi(M',\Pi)$ if and only
+	if $M \succeq_{T_\Pi} M'$.  Therefore, the theorem follows.
+\end{proof}
+
+
+
+\section{Reasoning Problems and Complexity}
+
+In this section, we study decision problems on reasoning about preferences described as
+P-trees, and provide computational complexity results for the three reasoning
+problems defined below.
+
+\begin{definition}
+\label{def:dom}
+  Dominance-testing ({\sc DomTest}): given a P-tree $T$ and two distinct outcomes
+  $M$ and $M'$, decide whether $M \succeq_T M'$.
+\end{definition}
+
+\begin{definition}
+\label{def:opt_test}
+  Optimality-testing ({\sc OptTest}): given a P-tree $T$ and an outcome $M$ of $T$,
+  decide whether $M$ is optimal.
+\end{definition}
+
+\begin{definition}
+\label{def:opt_prop}
+  Optimality-with-property ({\sc OptProp}): given a P-tree $T$ and some property $\alpha$ 
+	expressed as a Boolean formula 
+	over the vocabulary of $T$,
+  decide whether there is an optimal outcome $M$ that satisfies $\alpha$.
+\end{definition}
+
+Our first result shows that P-trees support efficient dominance testing.
+\begin{thm}
+\label{thm:dom}
+	The {\sc DomTest} problem can be solved in time linear in the
+	height of the P-tree $T$.
+\end{thm}
+\begin{proof}
+	The {\sc DomTest} problem can be solved by walking down the tree.
+	The preference between $M$ and $M'$ is determined at the first non-leaf node
+	$n$ where $M$ and $M'$ evaluate $\varphi_n$ differently.  If such
+	node does not exist before arriving at a leaf, $M \approx_T M'$.
+\end{proof}
+An interesting reasoning problem not mentioned above is to decide whether 
+there exists an optimal outcome with respect to the order given by a P-tree.
+However, this problem is trivial as the answer simply depends on whether 
+there is any outcome at all. However, optimality \emph{testing} is a 
+different matter. Namely, we have the following result.
+
+\begin{thm}
+\label{thm:opt_test}
+	The {\sc OptTest} problem is coNP-complete.
+\end{thm}
+\begin{proof}
+%	Need to show that deciding whether the given outcome $M$ is \textit{not} an optimal 
+%	outcome in a given P-tree $T$ is NP-complete.
+%	This complement problem is  in class NP because one can guess an outcome $M'$ in
+%	polynomial time and verify in polynomial time that $M' \succ_T M$.
+%	Hardness follows from a polynomial time reduction from SAT \cite{Garey:1979}.
+%	Details of the reduction is omitted due to limited space.
+%	(Membership) The problem is in class NP because one can guess an outcome $M'$ in
+%	polynomial time and verify in polynomial time that $M' \succ M$.
+%
+%	(Hardness) The hardness follows from a polynomial time reduction from SAT \cite{Garey:1979}.
+We show that the complementary problem, testing non-optimality of an outcome
+$M$, is NP-complete. Membership is obvious. A witness of non-optimality of $M$
+is any outcome $M'$ such that $M' \succ_T M$, a property that can be verified 
+in linear time (cf. Theorem \ref{thm:dom}).
+	NP-hardness follows from a polynomial time reduction from SAT \cite{Garey:1979}.
+	Given a CNF formula $\Phi=c_1\land\ldots\land c_n$ over a set of variables
+	$V=\{X_1,\ldots,X_m\}$, we construct a P-tree $T$ and an outcome $M$
+as follows.
+\begin{enumerate}
+\item We choose $X_1,\ldots,X_m,unsat$ as issues, where $unsat$ is 
+a new variable;
+\item we define the P-tree $T_\Phi$ (cf. \figref{P_opt_2_comp}) to consist of a 
+single node labeled by $\Psi=\Phi \land \neg unsat$;
+\item we set $M=\{unsat\}$.
+\end{enumerate}
+
+	We show that $M=\{unsat\}$ is not an optimal outcome if and only if
+	$\Phi=\{c_1,\ldots,c_n\}$ is satisfiable.
+
+\noindent
+	($\Rightarrow$) Assume that $M=\{unsat\}$ is not an optimal outcome.
+	Since $M \not \models \Psi$, $M$ belongs to the right
+	leaf and there must exist an outcome $M'$ such that $M' \succ M$.
+	This means that $M' \models \Phi \wedge \neg unsat$. Thus, 
+	$\Phi$ is satisfiable.
+
+\noindent
+	($\Leftarrow$) Let $M'$ be a satisfying assignment to $\Phi$ over $\{X_1,\ldots,X_m\}$.
+	Since no $c_i \in \Phi$ mentions $unsat$, we can assume $unsat \not \in M'$.
+	So $M' \models \Psi$ and $M'$ is optimal.
+	Thus, $M=\{unsat\}$ is not optimal.
+\end{proof}
+
+\begin{figure}
+  \centering
+	  \begin{tikzpicture}[->,>=stealth',
+	    level/.style={sibling distance=1.5cm/#1, level distance=30pt}]
+	    \node [main node,inner sep=4pt] (1){$\Psi$}
+	      %child {node [rectangle,draw] (2) {}}
+				;
+	  \end{tikzpicture}
+  \caption{The P-tree $T_\Phi$}
+%\vspace{-0.2cm}
+  \label{fig:P_opt_2_comp}
+\end{figure}
+
+
+\begin{thm}
+\label{thm:opt_prop}
+	The {\sc OptProp} problem is $\deltap{2}$-complete.
+\end{thm}
+\begin{proof}
+	(Membership) The problem is in the class $\deltap{2}$. Let $T$ be a given
+	preference tree. To check whether there is an optimal outcome that 
+	satisfies a property $\alpha$, we start at the root of $T$ and move down.
+	As we do so, we maintain the information about the path we took by 
+	updating a formula $\psi$, which initially is set to $\top$ (a generic
+	tautology). Each time we move down to the left from a node $t$, we 
+	update $\psi$ to $\psi\land\vph_t$, and when we move down to the right,
+	to $\psi\land\neg\vph_t$. To decide whether to move down left or right 
+	form a node $t$, we check if $\vph_{t} \land \psi$ is satisfiable by 
+	making a call to an NP oracle for deciding satisfiability. If $\vph_{t} 
+	\land \psi$ is satisfiable, we proceed to the left subtree and, 
+	otherwise, to the right one. We then update $t$ to be the node we moved 
+	to and repeat. When we reach a leaf of the tree (which represents a
+	cluster of outcomes), this cluster is non-empty, consists of all 
+	outcomes satisfying $\psi$ and all these outcomes are optimal. Thus, 
+	returning YES, if $\psi\land \alpha$ is satisfiable and NO, otherwise, 
+	correctly decides the problem. Since the number of oracle calls is 
+	polynomial in the size of the tree $T$, the problem is in the class
+	$\deltap{2}$. 
+
+\medskip
+\noindent
+	(Hardness) The maximum satisfying assignment (MSA) problem\footnote{
+		Given a Boolean formula $\Phi$ over $\{x_1,\ldots,x_n\}$, the
+		maximum satisfying assignment (MSA) problem is to decide whether $x_n=1$ 
+		in the lexicographically maximum satisfying assignment for $\Phi$.
+		(If $\Phi$ is unsatisfiable, the answer is $\no$.)
+	}
+	\cite{Krentel:88} is $\deltap{2}$-complete.
+	We first show that MSA remains $\deltap{2}$-hard if we
+	restrict the input to Boolean formulas that are satisfiable and 
+        have models other than
+	the all-false model (i.e., $\neg x_1\ldots\neg x_n$).
+
+	\begin{lem}
+	\label{lem:MSA_sat}
+		The MSA problem is $\deltap{2}$-complete when $\Phi$ is satisfiable and has models
+		other than the all-false model.
+	\end{lem}
+	\begin{proof}
+		Given a Boolean formula $\Phi$ over $\{x_1,\ldots,x_n\}$, we define
+		$\Psi=\Phi \lor (x_0\land\neg x_1 \land\ldots \land\neg x_n)$ over
+		$\{x_0,x_1,\ldots,x_n\}$.
+		It is clear that $\Psi$ is satisfiable, and has at least one model other than
+		the all-false one.
+		Let $M$ be a lexicographically maximum assignment satisfying $\Phi$ and
+		$M$ has $x_n=1$.
+		Extending $M$ by $x_0=1$ yields a lexicographically maximum assignment 
+		satisfying $\Psi$ and this assignment satisfies $x_n=1$.
+		Conversely, if $M$ is a lexicographically maximum assignment satisfying $\Psi$
+		and $x_n=1$ holds in $M$, it follows that $M \models \Phi$.  Thus,
+		restricted $M$ to $\{x_1,\ldots,x_n\}$, the assignment is lexicographically maximal
+		satisfying $\Phi$.
+	\end{proof}
+
+	We now show the hardness of the {\sc OptProp} problem by a reduction from this
+	restricted version of the MSA problem. Let $\Phi$
+	be a satisfiable propositional formula over variables $x_1,\ldots,x_n$ 
+	that has at least one model other than the all-false one.
+	We construct an instance of the {\sc OptProp} problem as follows.
+	We define the P-tree $T_\Phi$ as shown in \figref{P_opt_3_comp}, 
+where every node is labeled by formula $\Phi \land x_i$, and we set
+	$\alpha=x_n$.
+
+	\begin{figure}
+	  \small
+	  \centering
+		  \begin{tikzpicture}[->,>=stealth',
+		    level/.style={sibling distance=2.5cm/#1, level distance=40pt}]
+		    \node [main node,inner sep=0pt] (1){$\Phi \! \land \! x_1$}
+		      child {node [main node,inner sep=0pt] (2) {$\Phi \! \land \! x_n$} [dashed]
+		      	%child [solid] {node [rectangle,draw] (3) {}}
+		      };
+		  \end{tikzpicture}
+	  \caption{The P-tree $T_\Phi$}
+%\vspace{-0.2cm}
+	  \label{fig:P_opt_3_comp}
+	\end{figure}
+
+	Our P-tree $T_\Phi$ induces a total preorder consisting of a sequence of
+	singleton clusters, each containing an outcome satisfying $\Phi$,
+	followed by a single cluster comprising all outcomes that falsify
+	$\Phi$ and the all-false model.
+	By our assumption on $\Phi$, the total preorder has at least 
+        two non-empty clusters.
+	Moreover, all singleton clusters
+	preceding the last one are ordered lexicographically. Thus, the optimal 
+	outcome of $T_\Phi$ satisfies $\alpha$ if and only if the lexicographical
+	maximum satisfying outcome of $\Phi$ satisfies $x_n$.
+\end{proof}
+
+%\section{Aggregating P-Trees}
+%In the setting of multi-agent systems when agents that collaborate
+%with each other need to make a common decision, it is important to
+%aggregate their individual preferences in order to reach a collective agreement.
+%We adopt two approaches to solve aggregation problems of P-trees:
+%the Pareto method and voting rules.
+%
+%\subsection{The Pareto method}
+%%When an agent express her preferences in terms of a set of P-trees, it is important to consider these P-trees
+%%together to compute optimal outcomes to support further decision making process.
+%%For instance, in a recommendation system preferences are aggregated so that the top $K$ outcomes are computed.
+%We define the Pareto method problem and present its implementation using answer set programming (ASP) 
+%\cite{mt99:stable}.
+%
+%
+%\begin{definition}
+%\label{def:opt_pareto}
+%  Optimality-testing-Pareto ({\sc OptTestPa}): given a set $P$ of P-trees
+%	and an outcome $M$,
+%	decide whether $M$ is a Pareto optimal outcome with regard to $P$.
+%\end{definition}
+%
+%\begin{definition}
+%\label{def:dom_pareto}
+%  Dominance-testing-Pareto ({\sc DomTestPa}): given a set $P$ of P-trees
+%	and an outcome $M$,
+%	decide whether there exists another outcome $M'$ such that $M' \succ_P M$,
+%	that is, $M$ is Pareto dominated by $M'$ with respect to $P$.
+%\end{definition}
+%
+%The {\sc OptTestPa} problem is \textit{coNP-complete}, 
+%and the {\sc DomTestPa} problem is \textit{NP-complete}.
+%It is clear that the {\sc OptTestPa} problem is in coNP.
+%Hardness of {\sc OptTestPa} follows from \thmref{opt_test} where a single P-tree is considered.
+%As for the {\sc DomTestPa} problem, obviously it is in NP, and its hardness is due to
+%the fact that its solution leads to the solution of the complement of {\sc OptTestPa}.
+%
+%The implementation is based on a testing program in ASP that takes an outcome as input and computes
+%a strictly better one if such an outcome exists.
+%The computation starts with an arbitrary outcome which is given to the testing program.
+%If the testing program fails to generate a strictly better outcome, the input outcome is Pareto
+%optimal with regard to $P$.  If the testing program generates such an outcome that is strictly
+%better, the new outcome becomes the input and the process repeats until Pareto optimality is reached.
+%
+%\smallskip \noindent \textbf{Encoding P-trees as logic programming rules.}
+%A P-tree can be encoded as a set of logic programming rules.
+%To solve the {\sc OptTestPa} problem, we need to encode P-trees in such a way that
+%the dominance between two outcomes can be determined.
+%
+%Let $\varphi_i$ be the formula that labels a node $t$ in a P-tree $T$ at depth $d^T_i$,
+%$\Inst(t)=\{t_1,\ldots, t_j\}$ where each $t_q$, $1\leq q \leq j$, 
+%is labeled by a formula $\varphi_{i_q}$.
+%The location of $t$ is determined by its
+%depth $d^T_i$ and by how the formulas $\varphi_{i_1},\ldots,\varphi_{i_j}$
+%labeling $\Inst(t)$ are evaluated (they determine whether we descend to the left or
+%to the right child as we descend down the tree).
+%Thus, the preferences with $\varphi_i$ can be represented by the following
+%logic programming rule.
+%\begin{equation} \label{eq:prefASP}
+%\begin{split}
+%  \small
+%  pt&(T,d^T_i,i) \; \ifLparse \; \form(T,i_1), \ldots, \form(T,i_k), \\
+%    &not \; \form(T,i_{k+1}), \ldots, not \; \form(T,i_j), \form(T,i).
+%\end{split}
+%  \end{equation}
+%In rule (\eqtref{prefASP}), predicate $\form(T,\ell)$ holds for an outcome $M$ 
+%if in P-tree $T$ outcome $M$ satisfies
+%formula $\varphi_\ell$, and predicate $pt(T,d^T_i,i)$ holds for $M$ if
+%in $T$ outcome $M$ satisfies formula $\varphi_i$ at depth $d^T_i$.
+%The rule indicates that $pt(T,d^T_i,i)$ holds for $M$
+%if in $T$ outcome $M$ satisfies formulas $\varphi_{i_1},\ldots,\varphi_{i_k} \in \Inst(t)$,
+%falsifies formulas $\varphi_{i_{k+1}},\ldots,\varphi_{i_j} \in \Inst(t)$,
+%and satisfies formula  $\varphi_i$.
+%
+%Let us recall the example P-tree $T$ in \figref{PTree_compact} and represent the P-tree as
+%a set of logic rules in \figref{P_ASP}, where predicate $outcome(X_i,a)$ holds
+%for outcome $M$ if $M$ assigns value $a$ to variable $X_i$.
+%
+%\begin{figure}[ht!]
+%	\begin{framed}
+%\footnotesize
+%		\begin{verbatim}
+%1  id(1).
+%2  form(1,1) :- outcome(1,1).
+%3  form(1,2) :- outcome(2,1), outcome(3,1).
+%4  form(1,3) :- outcome(4,0).
+%5  form(1,4) :- outcome(2,0), outcome(4,1).
+%6  pt(1,1,1) :- form(1,1).
+%7  pt(1,2,2) :- form(1,1), form(1,2).
+%8  pt(1,2,4) :- not form(1,1), form(1,4).
+%9  pt(1,3,3) :- form(1,1), form(1,3).
+%		\end{verbatim}
+%	\end{framed}
+%	\caption{Encode $T$ in ASP}
+%  \label{fig:P_ASP}
+%\end{figure}
+%
+%
+%\smallskip \noindent \textbf{The $P$-dominance-Pareto problem in ASP.}
+%We assume the starting outcome $M$ is $\vec{0}$, that is, an outcome assigning
+%0 to all variables. The testing program $P$ is built by adding the following rules
+%to the encoding of $P$:
+%\begin{enumerate}
+%	\item For each formula $\varphi_i \in P$ such that $M \models \varphi_i$, include a fact 
+%				$pt\_start(T,d^T_i,i)$ where $T$ is the id of the P-tree that 
+%				$\varphi_i$ comes from, and $d^T_i$ is the depth of $\varphi_i$ in $T$.
+%	\item Include the rules in \figref{P_dom_encod}.
+%\end{enumerate}
+%
+%\begin{figure}[ht!]
+%	\begin{framed}
+%\footnotesize
+%		\begin{verbatim}
+% 1  1{ outcome(X,Y) : val(Y) }1 :- var(X).
+% 
+% 2  split_depth(ID,D) :- pt(ID,D,F), 
+%      not pt_start(ID,D,F).
+% 3  split_depth(ID,D) :- not pt(ID,D,F), 
+%      pt_start(ID,D,F).
+% 4  first_split_depth(ID,D) :- id(ID), 
+%      D=#min[split_depth(ID,Depth)=Depth].
+% 
+% 5  eq(ID) :- id(ID), 
+%      first_split_depth(ID,#supremum).
+% 6  better(ID) :- first_split_depth(ID,D), 
+%      D != #supremum, pt(ID,D,F).
+% 7  bettereq(ID) :- eq(ID).
+% 8  bettereq(ID) :- better(ID).
+% 
+% 9  :- not exist_better.
+%10  exist_better :- better(ID).
+%11  :- id(ID), not bettereq(ID).
+%		\end{verbatim}
+%	\end{framed}
+%	\caption{Encode the {\sc DomTestPa} problem in ASP}
+%  \label{fig:P_dom_encod}
+%\end{figure}
+%
+%
+%
+%\subsection{Voting rules}
+%As P-trees are in general total preorders over outcomes,
+%we consider voting rules to aggregate them, such as positional scoring rules
+%(Plurality, $k$-Approval, Borda, etc), Maximin, and Copeland.
+%
+%\tc{
+%	Votes with empty leaves make a difference when we apply positional scoring
+%	rules on them, whereas they do not matter for comparison-based voting rules.
+%	So for positional scoring rules, do we consider votes with empty leaves valid or invalid?
+%	If invalid, we need to identify those votes and discard them from the profile, but
+%	checking if one P-tree is invalid takes exponentially many calls of the SAT oracle
+%	in the worst case!
+%	If valid, we still need to compute, for every P-tree, which leaves are
+%	empty, which again takes exponentially many calls to a SAT solver!
+%	However, I think that one can assume all votes are carefully specified
+%	so that empty leaf does not exist.
+%}
+%
+%\smallskip \noindent \textbf{Plurality.}
+%Assume for vote (P-tree) $T$ there are $c$ outcomes with rank 1.
+%If $c=0$, it means that $T$ vetos all outcomes, thus $T$ is an invalid
+%vote and is removed from the profile.
+%Otherwise, every top-ranked outcome gets score $\frac{1}{c}$.
+%Understanding the Plurality this way, we need to know the number of top-ranked
+%outcomes in every P-tree.  The problem of ``counting the number of
+%outcomes that satisfy a formula $\Phi$" is \#P-hard.
+%
+%\smallskip \noindent \textbf{Copeland.}
+%As proved by Lang et al \cite{lang:aggLP}, for LP-trees in classes $\{UI,CI\} \times \{UP,CP\}$,
+%computing the Copeland score of a given outcome in a given profile is \#P-complete,
+%and the Maximin evaluation problem is coNP-complete.
+%These results should still hold in the setting of P-trees which extend the
+%framework of LP-trees.
+
+
+\section{Conclusion and Future Work}
+
+We investigated the qualitative preference representation language of 
+\textit{preference trees}, or \textit{P-trees}. This language was 
+introduced in early 1990s (cf. \cite{fraser1993,fraser1994}), but have 
+not received a substantial attention as a formalism for preference 
+representation in AI. We studied formally the issue of compact 
+representations of
+P-trees, established its relationship to other preference languages
+such as lexicographic preference trees, possibilistic logic and
+answer-set optimization. For several preference reasoning problems 
+on P-trees we derived their their computational complexity.
+
+P-trees are quite closely related to possibilistic logic theories or
+preference expressions in answer-set optimization. However, they allow
+for much more structure among formulas appearing in these latter two
+formalisms (arbitrary trees as opposed to the linear structure of 
+preference formulas in the other two formalisms). This structure allows 
+for representations of conditional preferences. P-trees are also more
+expressive than lexicographic preference trees. This is the case even 
+for P-trees in which every node is labeled with a formula involving just
+two issues, as we illustrated with the $00\succ 11\succ 01\succ 01$ 
+example. Such P-trees are still simple enough to correspond well to
+the way humans formulate hierarchical models of preferences, with all
+their decision conditions typically restricted to one or two issues. 
+
+Our paper shows that P-trees form a rich preference formalism that
+deserves further studies. Among the open problems of interest are 
+those of learning P-trees and their compact representations, aggregating
+P-trees coming from different sources (agents), and computing
+optimal consensus outcomes. These problems will be considered in the 
+future work. 

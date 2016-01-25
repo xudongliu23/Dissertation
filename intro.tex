@@ -1,0 +1,217 @@
+%%%% INTRO FUN! %%%%%%
+%% start of comments
+%\tc{
+%	Here I will talk about the field I am working in, namely, 
+%	preferences in Artificial Intelligence and 
+%	Social Choice.
+%	I will discribe the problems I am interested in in the field and explain
+%	why these problems are interesting, important and
+%	challenging for researchers to study. I will briefly mention other
+%	people's work.
+%	I will outline this document at the end of this section.
+%}
+%% end of comments
+
+Preferences are an essential component in areas such as constraint 
+satisfaction, decision making, and social choice theory. 
+I focus on problems in preference representation, reasoning and learning.
+
+Preferences can be represented in a quantitative or qualitative manner.
+For the former, agents express preferences in a numerical form of
+a value function that precisely assesses the degree of satisfaction
+of objects
+(often called \textit{outcomes} or \textit{alternatives}).
+Specifying preferences as value functions on alternatives
+is feasible for humans in some situations, e.g., 
+when the number of alternatives is limited.
+In other circumstances, particularly when the number of alternatives is large, however,
+people often cannot express their 
+preferences directly and accurately as value 
+functions \cite{Domshlak20111037}.
+%due to the burden of deciding the value function for
+%a large number of alternatives \cite{Domshlak20111037}.
+
+Assume an agent is given three flavors of ice-cream 
+$strawberry$, $chocolate$ and $vanilla$, and asked to describe 
+her preference among them.
+The agent could think of a value function that
+assigns quantities (\textit{utilities}) to each outcome
+based on a scale from 1 to 10, with 10 representing the most satisfaction.
+For instance, the agent could give the following value function:
+\begin{center}
+	$strawberry \mapsto 6$, $chocolate \mapsto 9$ and $vanilla \mapsto 3$.
+\end{center}
+This function shows that the favorite alternative to the agent is
+$chocolate$ with the highest utility, and
+$strawberry$ is preferred over $vanilla$.
+
+Instead of rating alternatives quantitatively, it is
+often easier and more intuitive to give preferential information
+in small pieces in a qualitative way,
+e.g., to specify binary preference relations.
+Thus, the same agent could rank the flavors as the following
+set of binary comparisons:
+\begin{center}
+	$\{chocolate \succ vanilla, chocolate \succ strawberry,
+	strawberry \succ vanilla\}$.
+\end{center}
+Note that one can formulate the qualitative preferences from
+the value function, but not vice versa.
+
+Several preference formalisms in both categories have been developed.
+Numeric preference systems include 
+fuzzy constraint satisfaction \cite{343640} \cite{Bisterelli},
+generalized additive independence networks (GAI nets) \cite{BacchusG95,LIP61766},
+conditionally utility independence networks (CUI nets) \cite{EngelW06},
+and expected utility networks (EU nets) \cite{Mura2013}, while 
+qualitative preference paradigms proposed in AI community include
+penalty logic, 
+possibilistic logic, conditional preference networks (\emph{CP-nets}) \cite{Kaci:Pref},
+conditional preference networks with tradeoffs (\emph{TCP-nets}) \cite{BrafmanD02:TCP},
+lexicographic preference trees (\textit{LP trees}) \cite{booth:learningLP},
+conditional preference theories (\textit{CP theories}) \cite{Wilson04extendingcp-nets},
+and answer set optimization theories (\textit{ASO theories}) \cite{Brewka:ASO,Brewka04}.
+% Each of these formalisms provides the user
+% with a concise way to express her preferences. 
+
+Once we fix a preference formalism, say $\cF$, in which preferences of agents
+are specified, learning preferences expressed in $\cF$ from agents
+becomes a problem that has drawn attention from many AI researchers.
+Different techniques have been proposed to learning preferences
+in $\cF$
+such as active learning (or preference elicitation) and passive learning 
+\cite{Furnkranz:pref_learning}.
+In the process of
+active learning, the algorithm asks the user for a pairwise 
+preference relation between two given alternatives and constructs
+an instance of $\cF$ as more pairwise relations are elicited.
+For passive learning, the algorithm assumes that a set of
+pairwise relations are somehow obtained and builds an instance
+of $\cF$ with no more information from the user.
+
+Provided with preferences learned and presented in a formalism,
+what can we say about the agent's preferences over outcomes?
+Reasoning problems can be classified
+based on the number of agents $n$ from whom the preferences
+are elicited:
+\begin{enumerate} \itemsep -4pt
+	\item $n=1$: individual decision making,
+	\item $n>1$: collaborative decision making.
+\end{enumerate}
+In case $n=1$, we focus on optimization of the agent's preferences and
+help her make a better decision by, for example, computing an optimal
+alternative or comparing two given alternatives.  For the case
+where $n>1$, it is important to calculate
+a collective decision (e.g., a winning outcome or ranking)
+among the group of agents.
+
+One of the problems in preference reasoning is to
+aggregate preferences of a group of
+agents (referred
+to as \emph{voters} in social choice), which is central to collective decision making and has been studied
+extensively in social choice theory. 
+Let us consider such a scenario, where we are
+given a set of alternatives $X = \{ a,b,c,d,e \}$ and a set $P_X$ of 10 
+preferences (total orders, or votes) as follows.
+	\begin{center}
+		5 : $a > c > b > e > d$,\\
+		3 : $b > a > e > c > d$,\\
+		2 : $c > d > b > a > e$.
+	\end{center}
+	
+	We are asked to compute the winner according to some voting rules. 
+	Plurality, veto and Borda are examples of commonly used voting rules.
+	For each vote, plurality assigns score 1 to the top ranked alternative
+	and 0 to the others, veto assigns score 0 to the bottom ranked alternative
+	and 1 to the others, and Borda assigns score $m-i$ to the $i$th ranked 
+	alternative ($m$ is the number of alternatives).
+	Then the winner, thus, is the alternative with the highest score; in case of
+	ties, we break them based on the order $a > b > c > d > e$.
+	We compute the winner for $P_X$ as follows.
+	
+	\begin{enumerate}  \itemsep -4pt
+		\item Plurality: alternative $a$ is the winner because the score of $a$ is maximal.
+		\item Veto: since $a$, $b$ and $c$ are not vetoed but $d$ and $e$ are, 
+					$a$, $b$ and $c$ are tied and $a$ wins.
+		\item Borda: the winner is $a$ since its score, 31, is the highest.
+	\end{enumerate}
+
+
+While in the cases when the
+number of alternatives is small the preference-aggregating problems (winner determination, 
+etc) have received wide attention in the literature,
+the problems concerning preferences over combinatorial
+domains have not been as much investigated.
+For example, a group of students plan on a joint vacation.
+They may consider issues $Time$, $Transportation$,
+$Destination$, $Duration$, etc.  
+Each issue has a domain of values that it can take, e.g.,
+$Time$ may have three values $spring$, $summer$ and $fall$.
+There could be tens or hundreds of vacations even for
+a relatively small number of issues, and
+students will soon find it unlikely to enumerate all of
+them in a strict total order.
+Thus, applying voting rules directly is infeasible.
+Methods that consider individual issues one by one have been proposed
+and analyzed based on how well they approximate standard voting rules
+\cite{fargier:ibi,Xia:SMV}.
+
+Consequently, an expressive yet concise representation is needed in which
+preferences over combinatorial alternatives are specified
+in a compact way.
+Such models have been proposed in the literature and include
+conditional preference networks (CP-nets) \cite{Kaci:Pref}, 
+lexicographic preference trees (LP trees) \cite{booth:learningLP} and
+answer set optimization theories (ASO theories) \cite{Brewka:ASO,Brewka04}.
+Compact and expressive as they are, CP-nets are limited
+to describe preference relations under a 
+\textit{ceteris paribus} interpretation, and
+ASO theories apply a rather weak Pareto ordering
+to rank outcomes with respect to multiple objectives \cite{Brewka:ASO}.
+
+In our earlier work \cite{LiuT}\footnote{A joint paper with my PhD advisor
+Dr. Miroslaw Truszczynski}, 
+we have considered the preference paradigm of LP trees.
+An LP tree is an intuitive and compact representation
+of preferences over alternatives from combinatorial domains.
+Informally, it exploits a natural way that humans apply to
+express preference information in the setting of combinatorial domains.
+Often a human agent would first consider the most important issue and
+specify her preference within the domain of that issue.  Then,
+based on how the most important issue is evaluated in an alternative,
+the agent identifies the next important issue and specify her preference
+over values of that issue, and so on.
+This process ends up with a structured preference system that always
+induces a strict total order.
+In our paper, we obtained new complexity results for some preference
+aggregation problems (e.g. computing the winning alternative)
+according to positional scoring rules when votes are expressed as
+LP trees, and provided insight into effectiveness of computational
+tools on solving the problems of practical sizes.
+
+For the future research, I will explore the relationship
+between different preference formalisms, especially between
+CP-nets and LP trees.
+Furthermore, I will extend the existing
+preference paradigms to allow more expressivity when it
+comes to representing complex preferences.
+In particular, I focus on a hybrid system where
+relations of subsystems are specified as a decision tree
+and preferences within each subsystem are expressed as
+partial preorders.
+We will also study preference learning techniques to
+elicit preference relations over combinatorial domains,
+aggregating partial LP trees, and manipulation problems
+in social choice when votes are LP trees.
+
+The outline of the rest of this proposal is the following. 
+In \secref{relwork}, we considered related work that proposed
+approaches to preference representation and aggregation both
+in AI and social choice theory.
+In \secref{mywork}, we focus on a specific preference formalism,
+LP trees, and present our own work on aggregating LP trees
+over combinatorial domains based on standard voting schemes, 
+where both computational complexity
+and expirical results are shown and analyzed. 
+Plan of the following research towards my PhD thesis
+is demonstrated in \secref{plan}.

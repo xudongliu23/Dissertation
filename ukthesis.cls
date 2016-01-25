@@ -44,16 +44,16 @@
 %\newif\if@nofigures
 
 \DeclareOption{nosignatures}{\@sigsfalse}
-\DeclareOption{12pt}{\PassOptionsToClass{12pt}{memoir}}
-\DeclareOption{10pt}{\PassOptionsToClass{10pt}{memoir}}
-\DeclareOption{draft}{\@drafttrue\PassOptionsToClass{draft}{memoir}}
+\DeclareOption{12pt}{\PassOptionsToClass{12pt,oldfontcommands}{memoir}}
+\DeclareOption{10pt}{\PassOptionsToClass{10pt,oldfontcommands}{memoir}}
+\DeclareOption{draft}{\@drafttrue\PassOptionsToClass{draft,oldfontcommands}{memoir}}
 \DeclareOption{pretty}{\@prettytrue}
-\DeclareOption{final}{\@prettyfalse\@sigstrue\PassOptionsToClass{final,oneside,12pt}{memoir}}
-\DeclareOption{twoside}{\PassOptionsToClass{twoside}{memoir}}
-\DeclareOption{oneside}{\PassOptionsToClass{oneside}{memoir}}
+\DeclareOption{final}{\@prettyfalse\@sigstrue\PassOptionsToClass{final,oneside,12pt,oldfontcommands}{memoir}}
+\DeclareOption{twoside}{\PassOptionsToClass{twoside,oldfontcommands}{memoir}}
+\DeclareOption{oneside}{\PassOptionsToClass{oneside,oldfontcommands}{memoir}}
 \DeclareOption{a4paper}{\ClassWarning{ukthesis}{Option 'a4paper' is
     not available.  Defaulting to US letter paper}}
-\DeclareOption*{\PassOptionsToClass{\CurrentOption}{memoir}}
+\DeclareOption*{\PassOptionsToClass{\CurrentOption,oldfontcommands}{memoir}}
 \ExecuteOptions{12pt}
 \ProcessOptions\relax
 
@@ -172,7 +172,7 @@
 \newcommand{\@theabstract}{}
 \newcommand{\@thekeywords}{}
 \newcommand{\@theadvisor}{}
-\newcommand{\@thedept}{Mathematics}
+\newcommand{\@thedept}{Computer Science}
 \newcommand{\@thedgs}{}
 \newcommand{\dgs}[1]{
   \renewcommand{\@thedgs}{#1}
@@ -183,7 +183,7 @@
 \newcommand{\keywords}[1]{
   \renewcommand{\@thekeywords}{#1}
 }
-\newcommand{\advisor}[2][Mathematics]{
+\newcommand{\advisor}[2][Computer Science]{
   \renewcommand{\@theadvisor}{#2}
   \renewcommand{\@thedept}{#1}
 }
@@ -309,7 +309,7 @@
             A dissertation submitted in partial
             fulfillment of the requirements for the degree of 
             Doctor of Philosophy in the 
-            College of Arts and Sciences
+            College of Engineering
             at the
             University of Kentucky
           \end{center}
@@ -371,7 +371,7 @@
             A dissertation submitted in partial
             fulfillment of the requirements for the degree of 
             Doctor of Philosophy in the 
-            College of Arts and Sciences
+            College of Engineering
             at the
             University of Kentucky
           \end{center}
@@ -468,9 +468,9 @@
 \if@pretty\relax\else%this gives the grad school required frontmatter
 \renewcommand{\maketitle}{
   \begin{titlingpage}
-  \makeabcoverpage
-  \makeabtitlepage
-  \makeabstractpage
+  %\makeabcoverpage
+  \maketitlepage
+  %\makeabstractpage
   \makeapprovalpage
   \makerulespage
   \makecoverpage
