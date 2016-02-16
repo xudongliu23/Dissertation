@@ -11,8 +11,8 @@
 %	I will outline this document at the end of this section.
 %}
 %% end of comments
-Preferences are ubiquitous in various forms (e.g., movie ratings, 
-favorite ice cream flavors, and electoral ballots over candidates),
+Preferences are ubiquitous in various forms (e.g.,
+favorite ice cream flavors, electoral ballots over candidates, and choices over cars),
 and attractive to researchers and scientists in areas such as 
 artificial intelligence, psychology, economics, and operations research.
 Specifically, there have been growing interests in research problems on
@@ -21,7 +21,7 @@ satisfaction, decision making, and social choice theory.
 My research focuses on problems in preference modeling, 
 reasoning and learning.
 
-Preferences can be represented in a quantitative or qualitative manner.
+Preferences can be represented in a \tit{quantitative} or \tit{qualitative} manner.
 For the former, agents express preferences in a numerical form of
 a value function that precisely assesses the degree of satisfaction
 of objects
@@ -62,48 +62,12 @@ set of binary comparisons:
 \end{center}
 Note that one can formulate the qualitative preferences from
 the value function, but not vice versa.
+My research, however, mostly deals with qualitative preference relations.
 
-My research mostly deals with preference models that induce
-qualitative preference relations.
-These preference formalisms are often categorized into \tit{logical models} and
-\tit{graphical models}.
-Logical models include penalty logic (\tit{Pen-logic})\cite{haddawy1992representations}, 
-possibilistic logic (\tit{Poss-logic})\cite{DuboisLP91},
-qualitative choice logic (\tit{Qual-logic})\cite{brewka2004qualitative},
-conditional preference theories (\tit{CP-theories})\cite{Wilson04extendingcp-nets},
-and answer set optimization theories (\tit{ASO-theories})\cite{Brewka:ASO},
-whereas graphical models found in the literature are
-generalized additive independence networks (GAI-nets)\cite{BacchusG95,LIP61766},
-lexicographic preference trees (\tit{LP-trees})\cite{booth:learningLP,conf/adt13/LiuT},
-%partial lexicographic preference trees (\tit{PLP-trees})\cite{conf/aaai15/LiuT},
-%preference trees (\tit{P-trees})\cite{fraser1994,liu2014preference,conf/adt15/liuT},
-conditional preference networks (\tit{CP-nets})\cite{Kaci:Pref},
-conditional preference networks with tradeoffs (\tit{TCP-nets})\cite{BrafmanD02:TCP},
-conditional importance networks (\tit{CI-nets})\cite{Kaci:Pref},
-to list a few.
-% Each of these formalisms provides the user
-% with a concise way to express her preferences. 
-
-Once we fix a preference formalism, say $\cF$, in which preferences of agents
-are specified, acquiring preferences expressed in $\cF$ from agents
-becomes a problem that has engaged attention from many AI researchers.
-Different techniques have been proposed to preference learning
-in $\cF$
-such as \tit{active learning} (or\tit{ preference elicitation}) and 
-\tit{passive learning}\cite{Furnkranz:pref_learning}.
-In the process of
-active learning, the algorithm iteratively asks the user for a pairwise 
-preference between two given outcomes and constructs
-an instance of $\cF$ as more preferences are elicited.
-For passive learning, the learning algorithm assumes that a set of
-pairwise preferences are obtained over a period of time and builds an instance
-of $\cF$ with no more information from the user.
-
-Provided with preferences learned and presented in a formalism,
-what can we say about the agent's preferences over outcomes?
-Reasoning problems can be classified
-based on the number of agents, $n$, whose preference models we
-are reasoning about at hand:
+%Provided with preferences learned and presented in a formalism,
+%what can we say about the agent's preferences over outcomes?
+Preference reasoning problems can be classified
+based on the number $n$ of agents from which the preferences are gathered:
 \begin{enumerate} \itemsep -4pt
 	\item $n=1$: individual decision making,
 	\item $n>1$: collaborative decision making.
@@ -121,7 +85,7 @@ agents (referred
 to as \emph{voters} in social choice), which is central to collective decision making and has been studied
 extensively in social choice theory. 
 Let us consider such a scenario, where we are
-given a set of alternatives $X = \{ a,b,c,d,e \}$ and a set $P_X$ of 10 
+given a set of candidates $X = \{ a,b,c,d,e \}$ and a set $P_X$ of 10 
 preferences (total orders, or votes) as follows.
 	\begin{center}
 		5 : $a > c > b > e > d$,\\
@@ -134,7 +98,7 @@ preferences (total orders, or votes) as follows.
 	For each vote, plurality assigns score 1 to the top ranked alternative
 	and 0 to the others, veto assigns score 0 to the bottom ranked alternative
 	and 1 to the others, and Borda assigns score $m-i$ to the $i$th ranked 
-	alternative ($m$ is the number of alternatives).
+	alternative ($m$ is the number of candidates).
 	Then the winner, thus, is the alternative with the highest score; in case of
 	ties, we break them based on the order $a > b > c > d > e$.
 	We compute the winner for $P_X$ as follows.
@@ -148,47 +112,64 @@ preferences (total orders, or votes) as follows.
 
 
 While in the cases when the
-number of alternatives is small the preference-aggregating problems (winner determination, 
+number of alternatives is small the preference-aggregating 
+problems (dominance testing, winner determination,
 etc) have received wide attention in the literature,
-the problems concerning preferences over combinatorial
-domains have not been as much investigated.
+the problems concerning preferences over \tit{combinatorial
+domains} have not been as much investigated.
 
 For example, a committee board in a taxi company plan to purchase a fleet of
 cars.
-Each vehicle consists of attributes $BodyType$, $Capacity$,
-$Make$, $Price$, $Safety$, etc.  
+Each vehicle consists of attributes \tit{BodyType}, \tit{Capacity},
+\tit{Make}, \tit{Price}, \tit{Safety}, etc.  
 Each attribute has a domain of values that it can take, e.g.,
-$BodyType$ may have four values \tit{minivan}, \tit{sedan}, \tit{sport}, and \tit{suv}.
+\tit{BodyType} may have four values \tit{minivan}, \tit{sedan}, \tit{sport}, and \tit{suv}.
 There could be hundreds or thousands of cars even for
 a relatively small number of attributes, and
 the agent will soon find it impossible to enumerate all of
 them from the most preferred to the least.
-Thus, applying voting rules directly is infeasible.
-Methods that consider individual issues one by one have been proposed
-and analyzed based on how well they approximate standard voting rules
-\cite{fargier:ibi,Xia:SMV}.
 
 Consequently, an expressive yet concise representation is needed in which
 preferences over combinatorial alternatives are specified
 in a compact way.
-Such models have been proposed in the literature and include
-conditional preference networks (CP-nets) \cite{Kaci:Pref}, 
-lexicographic preference trees (LP-trees) \cite{booth:learningLP} and
-answer set optimization theories (ASO-theories) \cite{Brewka:ASO,Brewka04}.
-Compact and expressive as they are, CP-nets are limited
-to describe preference relations under a 
-\textit{ceteris paribus} interpretation, and
-ASO theories apply a rather weak Pareto ordering
-to rank outcomes with respect to multiple objectives \cite{Brewka:ASO}.
+Such preference formalisms are often categorized into \tit{logical models} and
+\tit{graphical models}.
+Logical models include penalty logic (\tit{Pen-logic})\cite{haddawy1992representations}, 
+possibilistic logic (\tit{Poss-logic})\cite{DuboisLP91},
+qualitative choice logic (\tit{Qual-logic})\cite{brewka2004qualitative},
+conditional preference theories (\tit{CP-theories})\cite{Wilson04extendingcp-nets},
+and answer set optimization theories (\tit{ASO-theories})\cite{Brewka:ASO},
+whereas graphical models found in the literature are
+generalized additive independence networks (GAI-nets)\cite{BacchusG95,LIP61766},
+lexicographic preference trees (\tit{LP-trees})\cite{booth:learningLP,conf/adt13/LiuT},
+conditional preference networks (\tit{CP-nets})\cite{Kaci:Pref},
+conditional preference networks with tradeoffs (\tit{TCP-nets})\cite{BrafmanD02:TCP},
+conditional importance networks (\tit{CI-nets})\cite{Kaci:Pref},
+to list a few.
 
-Most of my research has considered the language of LP-trees.
+Once we fix a preference formalism, say $\cF$, in which preferences of agents
+are specified, learning preferences expressed in $\cF$ from agents
+becomes a problem that has engaged attention from many AI researchers.
+Different techniques have been proposed to preference learning
+in $\cF$
+such as \tit{active learning} (or \tit{preference elicitation}) and 
+\tit{passive learning}\cite{Furnkranz:pref_learning}.
+In the process of
+active learning, the algorithm iteratively asks the user for a pairwise 
+preference between two given outcomes and constructs
+an instance of $\cF$ as more preferences are elicited.
+For passive learning, the learning algorithm assumes that a set of
+pairwise preferences are obtained over a period of time and builds an instance
+of $\cF$ with no more information from the user.
+
+My research has considered the language of LP-trees.
 Extending LP-trees, I have proposed two new tree-like preference formalisms:
 partial lexicographic preference trees (\tit{PLP-trees})\cite{conf/aaai15/LiuT}
 and preference trees (\tit{P-trees})\cite{fraser1994,liu2014preference,conf/adt15/liuT}.
 For example, the language of P-trees exploits a natural way that humans apply to
 express preference information in the setting of combinatorial domains.
 Often a human agent would first consider the most desired \tit{criterion},
-usually represented by a propositional formula $\varphi$.
+possibly represented by a propositional formula $\varphi$.
 Outcomes that agree with it are preferred to those that do not.  
 Then, the same mechanism is applied recursively to further discriminate the 
 outcomes that satisfy $\varphi$ and those that falsify $\varphi$.
@@ -199,21 +180,22 @@ My research has led to fruitful results as follows in the three general perspect
 of preferences, namely, preference modeling, learning and reasoning.
 
 \smallskip \noindent \textbf{Preference Modeling \ }
-\noindent My research formally defined the language 
-of \tit{preference trees} (P-trees),
-studied the relationship between P-trees and other existing preference languages, and
-showed that P-trees extend  
-LP-trees, possibilistic logic theories, and ASO-rules\cite{liu2014preference,conf/adt15/liuT}.
+\noindent My research formally proposed 
+\tit{partial lexicographic preference trees} (PLP-trees)\cite{conf/aaai15/LiuT} and
+\tit{preference trees} (P-trees)\cite{liu2014preference,conf/adt15/liuT}.
+In particular, I studied
+the relationship between P-trees and other existing preference languages, and
+showed that P-trees extend
+LP-trees, possibilistic logic, and ASO-rules.
 Moreover, my work established computational complexity results of commonly considered decision
 problems in the setting of P-trees, such as \textit{dominance testing} 
 \textit{optimality testing}, and
 \textit{optimality testing w.r.t a property}.
 
 \smallskip \noindent \textbf{Preference Learning \ }
-My research introduced the formalism of \tit{partial lexicographic preference trees} (PLP-trees), 
-a subclass of P-trees, over combinatorial domains\cite{conf/aaai15/LiuT}.
 Given a set of pairwise preferences between alternatives, called \textit{examples}, from the user,
-my work studied problems of how to learn (i) a PLP-tree, preferably of a small size, 
+my work\cite{conf/aaai15/LiuT} studied problems of how to learn (i) a PLP-tree, 
+preferably of a small size, 
 consistent with a dataset of examples, and (ii) a PLP-tree correctly
 ordering as many of the examples as possible in case
 of inconsistency. Furthermore, I established complexity results
