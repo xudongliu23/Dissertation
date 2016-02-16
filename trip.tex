@@ -1,0 +1,121 @@
+\paragraph{\bf Abstract.}
+In the setting of multi-modal trip planning, it is essential for
+the planner to allow users to express personal constraints and preferences,
+and to compute optimal trips accordingly.
+In this work, we designed and implemented a personalizable multi-modal trip
+planning framework.
+
+\section{Personalizability}
+Personalizability consists of two aspects: constraints and preferences.
+From the viewpoint of the planner,
+constraints, also referred to as hard constraints, are statements that the planner
+has to satisfy during the planning process; whereas preferences, also called
+soft constraints, are specifications that the planner will need to optimize.
+We formulated constraints using linear temporal logic (LTL) and preferences as
+a preferential cost function (PCF), and implemented our planner leveraging the
+widely-used graph search algorithm the A*.
+
+\subsection{Constraints}
+\begin{itemize}
+	\setlength\itemsep{1pt}
+	\item Describe syntax and semantics of LTL in the setting of trip planning.
+	\begin{itemize}
+		\setlength\itemsep{0pt}
+		\item Specifically, we need to point out the ``after" temporal connective,
+					and we need to describe the semantics: what is a plan, why we can
+					eliminate actions and put them as state attributes instead, etc.
+	\end{itemize}
+\end{itemize}
+As constraints in the setting of trip planning are often declarative and
+temporal, our choice of LTL is straightforward.
+We now give a brief review of linear temporal logic (LTL).
+Let $f$ be a propositional formula over a finite set $L$ of Boolean variables.  
+LTL formulas are defined recursively as follows.
+\begin{equation}
+	\varphi = f | \varphi_1 \land \varphi_2 | \varphi_1 \lor \varphi_2 | \neg \varphi | 
+		\bigcirc \varphi |	\Box \varphi | \Diamond \varphi | \varphi_1 \cA \varphi_2
+\end{equation}
+Note that we have $\varphi_1 \cA \varphi_2$, and it means that
+``$\varphi_2$ holds right after $\varphi_1$ holds."
+
+An intuitive constraint in trip planning could be ``I will never drive after biking or
+taking the public transit."
+In LTL, such constraint can be translated into an LTL formula
+\begin{align*}
+	((M=b) \lor (M=t)) \,\cA\, (\Box (\neg (M=c))).
+\end{align*}
+
+As the actions in trip planning is limited to taking different transportation modes,
+in our definition of the semantics of LTL
+these actions are subsumed into the interpretations of $L$, or \tit{states}.
+The semantics of LTL is defined with regard to trajectories of states. 
+Let $\sigma$ be a trajectory of states $S_0,a_1,S_1,\ldots,a_n,S_n$, and
+$\sigma[i]$ a suffix $S_i, a_{i+1}, S_{i+1}, \ldots,a_n,S_n$.  We have
+\begin{align*}
+	\sigma \models f \;\; &\itiff \;\; S_0 \models f,\\
+	\sigma \models \varphi_1 \land \varphi_2 \;\; &\itiff \;\; \sigma \models \varphi_1 \; and \; \sigma \models \varphi_2,\\
+	\sigma \models \varphi_1 \lor \varphi_2 \;\; &\itiff \;\; \sigma \models \varphi_1 \; or \; \sigma \models \varphi_2,\\
+	\sigma \models \neg \varphi \;\; &\itiff \;\; \sigma \not \models \varphi,\\
+	\sigma \models \bigcirc \varphi \;\; &\itiff \;\; \sigma[1] \models \varphi,\\
+	\sigma \models \Box \varphi \;\; &\itiff \;\; \forall 0 \leq i \leq n (\sigma[i] \models \varphi),\\
+	\sigma \models \Diamond \varphi \;\; &\itiff \;\; \exists 0 \leq i \leq n (\sigma[i] \models \varphi),\\
+	\sigma \models \varphi_1 \cA \varphi_2 \;\; &\itiff \;\; \forall 0 \leq i < n (\IF \; \sigma[i] \models \varphi_1, \sigma[i+1] \models \varphi_2).
+\end{align*}
+
+
+\subsection{Preferences}
+\begin{itemize}
+	\setlength\itemsep{1pt}
+	\item Describe our preferential cost function (PCF).
+	\begin{itemize}
+		\setlength\itemsep{0pt}
+		\item Describe why and how we break down time and money.
+		\item Describe why and how we design coefficients to these time and money pieces.
+		\item Describe why and how we design the two ratios: dollars per hour and dollars per aux.
+	\end{itemize}
+\end{itemize}
+
+A state is described as a set of \tit{state variables}.
+The state variables of a state $S$ include the transportation mode $M$ that led to $S$,
+time spent $T$ so far per mode (e.g., $T_\bike$ for biking and $T_\public$ for
+public transit), fare $D$ spent so far per mode (e.g., $D_\gas$ for driving and
+$D_\taxi$ for taking a cab), and variables related to the auxiliary data once uploaded.
+These extra data related variables are metrics such as the sum ($A_\SUM$),
+the maximum ($A_\MAX)$, the minimum ($A_\MIN$), and the average ($A_\AVG$) data along the path.
+
+We focused on weighted functions over state variables and
+designed the cost function, called preferential cost function (PCF), that guides the
+graph-based search engine in our trip planner as follows.
+\begin{equation}
+	\begin{aligned}
+		\PCF(S) =& \beta_1 * (\alpha_1 \cdot T_\walk + \alpha_2 \cdot T_\wait + \ldots) \\
+								&+ (D_\gas + D_\public + \ldots) \\
+								&+ \beta_2 * (A_\SUM + \ldots),
+	\end{aligned}
+\end{equation}
+where $\alpha_i$ are real numbers representing the relations among different time pieces,
+and $\beta_1$ ($\beta_2$) is the ratio that essentially describes how much in dollars a user would pay to
+save an hour (an auxiliary data, respectively).
+
+\subsubsection{Preference Elicitation}
+To gather these coefficients ($\alpha_i$ and $\beta_i$) in our $\PCF$, we designed interface to
+elicit these numbers from the user.
+
+\subsection{Reasoning with Constraints and Preferences}
+\begin{itemize}
+	\setlength\itemsep{1pt}
+	\item Describe why and how we integrate constraints and preferences into A*.
+\end{itemize}
+
+We leveraged the widely-used A* search algorithm on top of our high-performance graph search
+engine.  The A* algorithm incorporates the following cost function.
+\begin{equation}
+	f(S) = g(S) + h(S),
+\end{equation}
+where $g(S)$ is the cost of an optimal trip from the initial state to $S$, and
+$h(S)$ is an admissible estimate of the cost of an optimal trip from $S$ to goal.
+
+To prune the search space, we check satisfiability of the temporal constraints in LTL
+at expansion of the search tree.
+To guide the search engine, we set $g(S)=\PCF(S)$ and $h(S)$ the minimum estimate among
+all available modes in $S$.
