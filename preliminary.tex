@@ -1,17 +1,19 @@
 %%%%% Techinical Preliminaries %%%%%
 
-In this section I will give an overview of different 
+In this section I will give an overview of
 mathematical and computational concepts
 that we will use throughout the rest of this document. 
 First, since we consider preference relations that are modeled
 as binary relations,
-we recall binary relations, properties of binary relations
-and different preference relations satisfying some properties.
+we recall the definition of binary relations and their
+properties.
+We then define several types of preference relations in terms of
+their properties.
 Second, we review combinatorial domains because we focus on
 problems concerning preferences over combinatorial domains.
-Finally, in order to quantify how hard these problems are in
-a computational sense, we discuss concepts in computational
-complexity theory that are related to our research.
+Finally, we review concepts in computational complexity theory,
+as they are useful in describing the hardness of problems
+involving reasoning about preference.
 
 \section{Relations \label{sec:relations}}
 
@@ -25,25 +27,27 @@ complexity theory that are related to our research.
 \end{definition}
 
 
-Now let us review some of the important properties of binary relations.
+The following properties of binary relations are particularly relevant for modeling preferences.
 \begin{definition}
-	Let $R$ be a binary relation over a set $O$ of objects ($R \subseteq O \times O$),
-	we define the following properties of $R$:
+	Let $R$ be a binary relation over a set $O$ of objects ($R \subseteq O \times O$).
+	we say that $R$ is
 	\begin{enumerate} \itemsep -4pt
-		\item reflexive: $\forall o \in O, oRo$.
-		\item irreflexive: $\forall o \in O, \neg oRo$.
-		\item total: $\forall o,o' \in O, oRo'$ or $o'Ro$.
-		\item transitive: $\forall o,o',o'' \in O$, if $oRo'$ and $o'Ro''$, $oRo''$.
-%		\item symmetric: $\forall o,o' \in O$, if $oRo'$, $o'Ro$.
-		\item antisymmetric: $\forall o,o' \in O$, if $oRo'$ and $o \not = o'$, $\neg o'Ro$.
+		\item reflexive if for every $o \in O$, $(o,o) \in R$.
+		\item irreflexive if for every $o \in O$, $(o,o) \not \in R$.
+		\item total if for every $o_1,o_2 \in O$, $(o_1,o_2) \in R$ or $(o_2,o_1) \in R$.
+		\item transitive if for every $o_1,o_2,o_3 \in O$, if $(o_1,o_2) \in R$ and $(o_2,o_3) \in R$, 
+					then $(o_1,o_3) \in R$.
+		\item symmetric if for every $o_1,o_2 \in O$, if $(o_1,o_2) \in R$, then $(o_2,o_1) \in R$.
+		\item antisymmetric if for every $o_1,o_2 \in O$, if $(o_1,o_2) \in R$ and $(o_2,o_1) \in R$, then $o_1=o_2$.
 %		\item asymmetric: $\forall o,o' \in O$, if $oRo'$, $\neg o'Ro$.
 	\end{enumerate}
 \end{definition}
 
 For instance, assuming $\bbN=\{1,2,\ldots\}$ is the set of positive integers,
-the at-most relation $\leq$ over $\bbN$ is reflexive,
-complete, transitive and antisymmetric, while the less-than relation
+the \tit{at-most} relation $\leq$ over $\bbN$ is reflexive,
+total, transitive and antisymmetric, while the \tit{less-than} relation
 $<$ over $\bbN$ is irreflexive, transitive and antisymmetric.
+
 
 \begin{definition}
 \label{def:orders}
@@ -80,8 +84,9 @@ Let us consider some examples of preference relations in \figref{relations}.
 We assume that a directed edge between two objects is from the less preferred object to
 the more preferred one.
 We also assume that relations obtained by transitivity are omitted.
-It is clear that the relation in \figref{relations}(a) is a partial 
-order, and \figref{relations}(b) a total order.
+It is clear that the relation in \figref{partpre} is a partial 
+preorder, \figref{totalpre} a total preorder, \figref{partord} a partial
+order, and \figref{totalord} a total order.
 
 
 \begin{figure}[ht]
@@ -106,7 +111,7 @@ order, and \figref{relations}(b) a total order.
 					(3) edge [loop right] (3)
 					(4) edge [loop below] (4);
 		  \end{tikzpicture}
-      \caption{partial preorder}
+      \caption{partial preorder\label{fig:partpre}}
     \end{subfigure}
     \begin{subfigure}[b]{0.45\textwidth}
 	  	\centering
@@ -128,7 +133,7 @@ order, and \figref{relations}(b) a total order.
 					(3) edge [loop right] (3)
 					(4) edge [loop right] (4);
 		  \end{tikzpicture}
-      \caption{total preorder}
+      \caption{total preorder\label{fig:totalpre}}
     \end{subfigure} \\
     \begin{subfigure}[b]{0.45\textwidth}
 	  	\centering
@@ -149,7 +154,7 @@ order, and \figref{relations}(b) a total order.
 					(3) edge [loop right] (3)
 					(4) edge [loop below] (4);
 		  \end{tikzpicture}
-      \caption{partial order}
+      \caption{partial order\label{fig:partord}}
     \end{subfigure}
     \begin{subfigure}[b]{0.45\textwidth}
 	  	\centering
@@ -171,7 +176,7 @@ order, and \figref{relations}(b) a total order.
 					(3) edge [loop right] (3)
 					(4) edge [loop right] (4);
 		  \end{tikzpicture}
-      \caption{total order}
+      \caption{total order\label{fig:totalord}}
     \end{subfigure}
   \caption{Binary relations}
   \label{fig:relations}
@@ -184,7 +189,7 @@ order, and \figref{relations}(b) a total order.
 \end{definition}
 
 As an example of relation extensions, we consider the partial order $\succeq$ 
-in \figref{relations}(a).
+in \figref{partord}.
 Since $o_2 \sim o_3$, we have in total two extensions:
 \begin{center}
 	$o_1 \succeq o_2 \succeq o_3 \succeq o_4$,\\
@@ -193,11 +198,11 @@ Since $o_2 \sim o_3$, we have in total two extensions:
 
 \begin{definition}
 	Let $\succeq$ be a preference relation over $O$,
-	$o \in O$ is \textit{maximal} if there exists $o' \in O$
+	$o \in O$ is \textit{optimal} if there does not exist $o' \in O$
 	such that $o' \succeq o$.
 \end{definition}
-For instance, object $o_1$ is maximal in the total order
-shown in \figref{relations}(b).
+For instance, object $o_1$ is optimal in the partial preorder
+shown in \figref{partpre}.
 
 
 
