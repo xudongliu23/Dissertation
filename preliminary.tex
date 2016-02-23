@@ -57,10 +57,12 @@ $<$ over $\bbN$ is irreflexive, transitive and antisymmetric.
 	or a \textit{total order} if it is a partial order and total.
 \end{definition}
 
-Preference relations can be modeled as binary relations as defined in \defref{orders}.
+We use preorders to model preference relations.
+Thus, when we describe preference orders, we have in mind a relation
+that is a partial preorder.
 Given two objects $o$ and $o'$,
-we sometimes need to specify that $o'$ is at least as good as $o$ or
-$o'$ is strictly preferred over $o$.
+we sometimes need to specify that $o'$ is at least as good as $o$ or,
+that $o'$ is strictly preferred over $o$.
 In some situations we need to speak about the fact that $o'$ is
 as good as $o'$, whereas in some other situations, due to some reasons
 (e.g., lack of informations about the two objects at hand), we just
@@ -68,19 +70,20 @@ cannot determine which object is preferred over the other.  Formally,
 we have the following definitions.
 \begin{definition}
 	Let $O$ be a set of objects, $o$ and $o'$ two objects in $O$.
-	Let $\succeq$ be a preference relation that is a partial preorder \footnote{
+	Let $\succeq$ be a preference relation that is a preorder\footnote{
 		We only show the most general case where a preference relation is
 		a partial preorder.  Other cases will be defined accordingly.
 	}
 	over $O$.
 	We say that $o'$ is weakly preferred to $o$ if $o' \succeq o$.
 	Object $o'$ is strictly preferred to $o$, $o' \succ o$, if $o' \succeq o$ and $o \not \succeq o'$.
-	Object $o'$ is indifferent from $o$, $o' \approx o$, if $o' \succeq o$ and $o \succeq o'$.
+	Object $o'$ is equivalent with $o$, $o' \approx o$, if $o' \succeq o$ and $o \succeq o'$.
 	Object $o'$ is incomparable with $o$, $o' \sim o$, if $o' \not \succeq o$ and $o \not \succeq o'$.
 \end{definition}
 
 \nop{\tc{Examples of these orders.}}
-Let us consider some examples of preference relations in \figref{relations}.
+We illustrate these notions with several examples of preorders (preference orders)
+in \figref{relations}.
 We assume that a directed edge between two objects is from the less preferred object to
 the more preferred one.
 We also assume that relations obtained by transitivity are omitted.
@@ -207,20 +210,28 @@ shown in \figref{partpre}.
 
 
 \section{Combinatorial Domains \label{sec:comb_domains}}
-%One thing that makes decision problems difficult is the fact that outcomes of preferences 
-%are usually not represented directly as a given set of objects.
-%We focus on preferences among outcomes from combinatorial domains \cite{bbdh03}.
-We define the combinatorial domain as follows.
+One scenario that makes decision problems difficult is when outcomes
+are usually not represented directly as a given set of objects; instead,
+they appear as combinations of attribute values from finite domains.
+Take the domain of cars as an example.
+We consider attributes such as \tit{Price}, \tit{Safety}, and \tit{Capacity}.
+Every attribute has a finite domain of values:
+\tit{Price} with domain $\{$\tit{low,med,high,vhigh}$\}$,
+\tit{Safety} with domain $\{$\tit{low,med,high}$\}$, and
+\tit{Capacity} with domain $\{$\tit{2,5,7m}$\}$.
+Then, a car can be described as a vector of values from these domains.
+For instance, vector $\rangle$ \tit{med,high,7m} $\langle$ represents
+a car that is medium priced, medium level of safety, and can carry seven
+or more people.
 
 \begin{definition}
-	Let $\bV$ be a set of variables (or features, attributes) $\{X_1,\ldots,X_p\}$,
-	$\bD$ a set of finite domains $\{\Dom(X_1),\ldots,\Dom(X_p)\}$ for each
-	variable $X_i$.
-	A \textit{combinatorial domain} is a triple $\langle \bV, \bD, \bT \rangle$,
-	where $\bT$ is a set of tuples that are combinations of values from
-	domains in $\bD$ of variables in $\bV$:
+	Let $\cI$ be a set of attributes $\{X_1,\ldots,X_p\}$,
+	associated with a set of finite domains $\{\Dom(X_1),\ldots,\Dom(X_p)\}$ for each
+	attribute $X_i$.
+	A \textit{combinatorial domain} $\CD(\cI)$ is a set of outcomes 
+	that are combinations of values from $\Dom(X_i)$:
 	\begin{center}
-		$\bT = \prod_{X_i \in \bV} \Dom(X_i)$.
+		$\CD(\cI) = \prod_{X_i \in \bV} \Dom(X_i)$.
 	\end{center}
 \end{definition}
 
