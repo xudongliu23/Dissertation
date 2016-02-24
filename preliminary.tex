@@ -235,15 +235,15 @@ or more people.
 	\end{center}
 \end{definition}
 
-An example of combinatorial domain is the space of \textit{subsets} of $\bV$.
-In this case, $\bD$ is a set of binary domains, and a tuple
-$t \in \bT$ is a combination of 0's and 1's.
-Note that $0_i \in t$ means that $X_i$ is not in the corresponding subset,
-and that $1_i \in t$ means that $X_i$ is.
-It is not hard to see that
-the set $\bT$ of tuples is exactly the space $\bS$ of subsets of $\bV$.
+%An example of combinatorial domain is the space of \textit{subsets} of $\bV$.
+%In this case, $\bD$ is a set of binary domains, and a tuple
+%$t \in \bT$ is a combination of 0's and 1's.
+%Note that $0_i \in t$ means that $X_i$ is not in the corresponding subset,
+%and that $1_i \in t$ means that $X_i$ is.
+%It is not hard to see that
+%the set $\bT$ of tuples is exactly the space $\bS$ of subsets of $\bV$.
 
-Clearly, the size of $\bT$ is exponential in $p$, the number of variables.
+Clearly, the size of $\bT$ is exponential in $p$, the number of attributes.
 Note that, even though sets $\bV$ of binary variables are of main interest,
 the exponential growth of $|\bV|$ makes it impossible for agents
 to directly assess their preferences.
@@ -265,8 +265,9 @@ in terms of time (the number of instructions needed to solve the problem)
 or space (the size of memory needed to solve the problem).
 In this section, I define classes of computational
 complexity used for such classification.
-We assume formiliarity with the concept of the \textit{Turing machine} (TM).
-Details of it and other definitions discussed below can be found in complexity
+We assume familiarity with the concept of the \textit{Turing machine} (TM).
+The definition of this notion and other definitions discussed 
+below can be found in complexity
 books by Garey and Johnson \cite{gar-joh:b:int}; Lewis and Papadimitriou
 \cite{Lewis:Comput}; and Arora and Barak \cite{Arora:Comput}.
 
