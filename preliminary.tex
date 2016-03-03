@@ -252,6 +252,11 @@ formulas) are identified to eliminate the infeasible outcomes.
 
 
 
+\section{Propositional Logic}
+Introduce propositional logic here.
+
+
+
 \section{Computational Complexity Theory \label{sec:comp_theory}}
 \nop{\tc{
 Here I talk about complexity classes of interest, including
@@ -282,8 +287,8 @@ We denote by $\Sigma^*$ the set of all strings of elements in $\Sigma$.
 \begin{definition}
 	Let $f$ be a TM.
 	A \textit{decision problem} (or a \textit{language}) is a set 
-	$L_f$ of strings ($L \subseteq \Sigma^*$) such that $f$ accepts
-	any string in $L_f$.
+	$L_f$ of strings ($L_f \subseteq \Sigma^*$) such that $f$ accepts
+	any string in $L_f$; that is, we have $L_f=\{x:f(X)=1\}$.
 \end{definition}
 For instance, the SAT problem is the set of all finite propositional
 formulas that have a satisfying truth assignment (assuming some natural
@@ -415,7 +420,6 @@ Moreover, we have the relations of these classes as shown in \figref{ph_diagram}
   \includegraphics[width=0.3\textwidth]{img/ph_diagram.png}
   \caption{Polynomial hierarchy diagram \label{fig:ph_diagram}}
 \end{figure}
-
 
 \subsection{$\bPSPACE$}
 In this work, we consider yet another complexity class called $\bPSPACE$ that

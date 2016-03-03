@@ -7,11 +7,12 @@
 	these problems.
 }}
 
-In this section, I will first revisit some preference
+In this section, I will first review some of the preference
 systems in the literature that are designed to represent
-qualitative preferences. I will then give concepts
-in social choice that are often considered a mechanism
-combining individual preferences to reach a common decision.
+qualitative preferences over combinatorial domains. 
+I will then introduce concepts
+from social choice theory underlying mechanisms to
+combine individual preferences to reach a common decision.
 
 \section{Preferences Modeling and Reasoning \label{sec:pref_reasoning}}
 In the following, we recall two graphical
@@ -30,6 +31,7 @@ For either system, I will focus on three aspects \cite{Domshlak20111037}:
 and (iii) complexity of and algorithms for
 problems about the model (cf. the following definitions).
 
+[THESE DEFINITIONS ARE AT A WRONG PLACE.]
 \begin{definition}
 \label{def:dom}
   $\cL$-DOMINANCE: given an instance $\cC$ of a preference
@@ -64,17 +66,17 @@ problems about the model (cf. the following definitions).
 
 \subsection{Conditional Preference Networks}
 \noindent{\textbf{The Language.}}
-CP-nets define preferential relations between outcomes
+Conditional Preference Networks (CP-nets) define preferential relations between outcomes
 based on the \textit{ceteris paribus}
 semantics \cite{bbdh03}.
 \textit{Ceteris paribus} is latin for ``everything else being equal."
 
-Let $\bX$ be a set of variables, we denote by $\Asst(X)$ the set of
-all truth assignments to the variables in $\bX$.
+Let $\bV$ be a set of binary variables, we denote by $\Asst(\bV)$ the set of
+all truth assignments to the variables in $\bV$.
 \begin{definition}
 \label{def:pi}
-	A set of variables $\bX$ is preferentially independent
-	of $\bY=\bV-\bX$ $\itiff$ $\forall \bx_1,\bx_2 \in \Asst(\bX)$ and
+	A set of variables $\bX$ is \tit{preferentially independent}
+	of $\bY=\bV-\bX$ if $\forall \bx_1,\bx_2 \in \Asst(\bX)$ and
 	$\forall \by_1,\by_2 \in \Asst(\bY)$,
 	\begin{center}
 		$\bx_1\by_1 \succeq \bx_2\by_1 \; \itiff \; \bx_1\by_2 \succeq \bx_2\by_2$.
@@ -87,10 +89,10 @@ all truth assignments to the variables in $\bX$.
 	$\bX \cup \bY \cup \bZ = \bV$.
 	$\bX$ is conditionally preferentially independent
 	of $\bY$ given an assignment $\bz$ to $\bZ$ 
-	$\itiff$ $\forall \bx_1,\bx_2 \in \Asst(\bX)$ and
+	if $\forall \bx_1,\bx_2 \in \Asst(\bX)$ and
 	$\forall \by_1,\by_2 \in \Asst(\bY)$,
 	\begin{center}
-		$\bx_1\by_1z \succeq \bx_2\by_1z \; \itiff \; \bx_1\by_2z \succeq \bx_2\by_2z$.
+		$\bx_1\by_1\bz \succeq \bx_2\by_1\bz \; \itiff \; \bx_1\by_2\bz \succeq \bx_2\by_2\bz$.
 	\end{center}
 \end{definition}
 
@@ -192,19 +194,15 @@ The CP-DOMINANCE problem can be solved by
 a polynomial time algorithm for binary-valued tree-structured
 CP-nets, and that the problem is NP-complete for binary-valued
 CP-nets with specially structured dependency graphs 
-(i.e., directed-path singly connectedness, 
-max-$\delta$-connectedness) \cite{bbdh03}.
+(e.g., max-$\delta$-connectedness) \cite{bbdh03}.
 However, it is NP-hard for general binary-valued acyclic 
 CP-nets \cite{bbdh03}.
 Furthermore, in the most general case when the dependency graph
 could be cyclic, this problem is proved PSPACE-complete even
-if the CP-nets are consistent\cite{Goldsmith}.
+if the CP-nets are consistent \cite{Goldsmith}.
 
-The CP-OPTIMALITY-\rom{1} problem, where an optimal outcome
-is an undominated one, is in general NP-complete even the 
-dependency graph is cyclic \cite{Domshlak}.
-
-The other two optimization problems, namely, the CP-OPTIMALITY-\rom{2}
+The CP-OPTIMALITY-\rom{1} problem is in P, while
+the other two optimization problems, namely, the CP-OPTIMALITY-\rom{2}
 and CP-OPTIMALITY-\rom{3} problems, seem to have received 
 less attention than other problems.
 
@@ -488,21 +486,21 @@ according to some social choice scheme, such as
 issue-by-issue voting \cite{fargier:ibi},
 sequential majority voting rule \cite{Xia:SMV},
 positional scoring rules (e.g. Borda, $k$-Approval) \cite{lang,LiuT}.
-In \secref{mywork}, I will provide detailed definitions of aggregating
-problems and their complexity according to positional scoring rules, as
+In \chref{aggLP}, I will provide detailed definitions of aggregating
+problems and results I obtained on their complexity 
+according to positional scoring rules, as
 well as experimental analysis for two computational tools:
 Answer Set Programming (ASP) \cite{aspataglance} and 
 Weighted Partial Maximum Satisfiability (WPM) \cite{papado:b:compcomplexity}.
 
 \subsection{Conditional Preference Theories}
-A decade ago, Nic Wilson define a logic of conditional preferences,
-called Conditional Preference Theories (\textit{CP theories}), that allows
+The formalism of conditional preference theories was proposed by
+Wilson \cite{Wilson04extendingcp-nets}.
+Conditional Preference Theories (\textit{CP theories}) allows
 compact representation of certain kinds of conditional preference
-statements \cite{Wilson04extendingcp-nets}.
+statements.
 The logic generalizes both CP-net \cite{Wilson04extendingcp-nets} and TCP-net
-\cite{WilsonECAI04}.  Approximation of preference relations
-in CP theories, for which the DOMINANCE problem is in general very hard,
-has also been studied \cite{Wilson:2006:EUA:1567016.1567119}.
+\cite{WilsonECAI04}.
 
 \noindent{\textbf{The Language.}}
 In the language of CP-nets, one can express her preferences over cars
@@ -535,9 +533,9 @@ CP-nets cannot generally express such statements in a compact way
 
 \noindent{\textbf{The Model.}}
 \begin{definition}
-	For $\varphi=u:x>x'[W]$, let $T$ be a subset of $V$ such that
-	$T=V-\{U \cup \{X\} \cup W\}$.
-	define $\varphi^*$ the set of pairs of outcomes
+	For $\varphi=u:x>x'[W]$, let $T \subseteq V$ be
+	$V-\{U \cup \{X\} \cup W\}$.
+	Define $\varphi^*$ the set of pairs of outcomes
 	$\{(tuxw,tux'w'):t\in \underline{T}, w,w' \in \underline{W}\}$ induced
 	by $\varphi$.
 \end{definition}
@@ -546,16 +544,17 @@ $\alpha$ over $\beta$.  Informally, $\varphi$ expresses that,
 given $u$, $x$ is preferred to $x'$ regardless of the assignments $w,w'$
 to $W$, everything else (assignments $t$ to $T$) being equal.
 Consider a set of cars over three binary variables \textit{Make}, \textit{Color}
-and \textit{Category}, where $\Dom(Make)=\{Toyota,Ford\}$,
-$\Dom(Color)=\{black,white\}$, and $\Dom(Category)=\{sedan, truck\}$.
-For a preference over cars ``
-\textit{For Toyota cars, a sedan is preferred to a truck, regardless of other variables},"
+and \textit{Category}, where $\Dom(Make)=\{Toyota(t),Ford(f)\}$,
+$\Dom(Color)=\{black(b),white(w)\}$, and $\Dom(Category)=\{sedan(s), truck(r)\}$.
+For a preference over cars
+``\textit{For Toyota cars, a sedan is preferred to a truck, regardless of other variables},"
 we have the following preference statement $\varphi$:
 \begin{center}
 	$\textit{Toyota} : \textit{sedan} > \textit{truck} \, [\{Color\}]$.
 \end{center}
 We see that $\varphi$ is a shorthand for the set $\varphi^*$ of four binary relations
-it induces.
+it induces:
+$tbs \succ tbr$, $tbs \succ twr$, $tws \succ tbr$, and $tws \succ twr$.
 
 
 \begin{definition}
@@ -606,11 +605,11 @@ In general, the CPTh-DOMINANCE problem is PSPACE-complete
 
 \subsection{Answer Set Optimization}
 The formalism of Answer Set Optimization (ASO) was originally introduced by
-Brewka, Niemla and Truszczynski \cite{Brewka03answerset} and
+Brewka, Nieml\"a and Truszczynski \cite{Brewka03answerset} and
 later enhanced by Brewka \cite{Brewka04}.
-A declarative planning language, $\cPP$, was introduced \cite{Son:plan_pref}
-and shown that any preference in $\cPP$ can be embedded in ASO preferences
-\cite{Brewka04}.
+%A declarative planning language, $\cPP$, was introduced \cite{Son:plan_pref}
+%and shown that any preference in $\cPP$ can be embedded in ASO preferences
+%\cite{Brewka04}.
 
 In this work, we focus on the original framework \cite{Brewka03answerset} where 
 the Pareto method is used to order outcomes.
@@ -633,8 +632,8 @@ qualitative optimization problems.
 			\begin{center}
 				$\gamma_1 > \ldots > \gamma_k \leftarrow \alpha$,
 			\end{center}
-					where each $\gamma_i$ is a boolean combination built
-					of atoms in $A$ and $\alpha$ is a conjunction of
+					where each $\gamma_i$ is a propositional formula
+					over $A$ and $\alpha$ is a conjunction of
 					literals of atoms in $A$.
 	\end{enumerate}
 \end{definition}
@@ -648,12 +647,15 @@ A single ASO preference rule specifies a total preorder over outcomes, while,
 applying the Pareto ordering, a general ASO program with multiple preferences
 describe a partial preorder over the space of answer sets.
 
-We say outcome $o$ is irrelevant to preference rule $r$ if
+We say outcome $o$ is \tit{irrelevant} to preference rule $r$ if
 $o \models (\neg \alpha) \vee (\neg \gamma_1 \wedge \ldots \wedge \gamma_k)$,
 that is, $o$ does not satisfy $\alpha$ or $o$ does not satisfy any of
 the Boolean combinations. As mentioned in the work by Brewka et al \cite{Brewka03answerset},
 outcomes irrelevant to $r$ are considered as good as the
 best outcomes.
+This default treatment of irrelevance can be overwritten by
+including formula $(\neg \alpha) \vee (\neg \gamma_1 \wedge \ldots \wedge \gamma_k)$
+in any place of the preference rule $r$.
 Formally we define satisfaction degree of an answer set with respect to a
 preference rule.
 \begin{definition}
@@ -678,9 +680,10 @@ preference rule.
 Consider an ASO theory $P=(P_{\gen}, P_{\PREF})$, where
 \begin{center}
 	$P_{\gen}=\{$
-	$1\{a,\bar{a}\}1. \;$
-	$1\{b,\bar{b}\}1. \;$
-	$1\{c,\bar{c}\}1.\}$ and\\
+	$(a \lor \bar{a}) \land (\neg (a \land \bar{a})). \;$
+	$(b \lor \bar{b}) \land (\neg (b \land \bar{b})). \;$
+	$(c \lor \bar{c}) \land (\neg (c \land \bar{c})). \;$
+	and\\
 	$P_{\PREF}=\{
 		a > \bar{a} \leftarrow b \vee c. \;\;
 		b \wedge \bar{c} > \bar{b} \wedge c.
@@ -706,15 +709,16 @@ above stay unchanged.
 
 \section{Social Choice}
 The study of preference aggregation can be traced back to social choice theory,
-which dates from Condorcet's paradox of voting, noted by the
-\textit{Marquis de Condorcet} in the 18th century, in which
+which dates back to Condorcet's paradox of voting, noted by the
+Marquis de Condorcet in the 18th century, in which
 the winning ranking of alternatives could be cyclic even 
 given acyclic individual votes \cite{wiki:soc}.
 Kenneth Arrow's work, \textit{Social Choice and Individual Values},
 is recognized as the basis of modern social choice \cite{aarrow:b:socialchoice}.
 In the book, Arrow states that any preference aggregation method for at least three
-alternatives cannot meet some fairly desirable axioms.
-Built upon this Arrow's impossibility theorem, the Gibbard-Satterthwaite Theorem shows
+alternatives cannot meet some fairly desirable axioms, a result known as
+the Arrow's impossibility theorem.
+Extending this result, Gibbard and Satterthwaite showed
 that any social choice function, again meeting some fair properties, is subject
 to manipulation \cite{gib:j:maip-scheme,satt:j:strat-proof}.
 Extending the Gibbard-Satterthwaite theorem, the Duggan-Schwartz theorem deals with 
@@ -730,10 +734,9 @@ bartholdi:j:howhard}.
 The idea is that, if manipulation is computationally hard to
 achieve, manipulation is unlikely.
 
-The field of computational social choice adds an algorithmic
-perspective from computer science
-to the formal approach of social choice theory
-\cite{Brandt:COMSOC}.
+That started the field of computational social choice by adding an algorithmic
+perspective from computer science to the formal approach 
+of social choice theory \cite{Brandt:COMSOC}.
 
 
 
@@ -828,11 +831,12 @@ functions satisfies some fairness conditions, defined as follows.
 		$\cL(A)^n \rightarrow 2^A-\{\emptyset\}$.
 	\end{center}
 	We call the resulting alternative (alternatives)
-	an winner (co-winners, respectively).
+	a winner (co-winners, respectively).
 \end{definition}
 
 We now discuss some of the desirable axioms of an $\SCF$ including
 resolution, anonymity and neutrality.
+Note that the axioms for $\SWF$ may not directly apply here.
 
 \begin{definition}
 	An $\SCF$ $f$ is resolute if it always yields a unique winning alternative, that is,
@@ -852,26 +856,26 @@ resolution, anonymity and neutrality.
 \end{definition}
 
 Surprisingly, these three fairness conditions cannot be satisfied simultaneously
-by any $\SCF$. We have the following easy impossibility theorem.
+by any $\SCF$. We have the following easy impossibility theorem \cite{Brandt:COMSOC}.
 
 \begin{thm}
 \label{thm:easy}
 	A resolute $\SCF$ cannot satisfy both anonymity and neutrality.
 \end{thm}
-\begin{proof}
-	Consider the election with two votes over two alternatives $a$ and $b$:
-	\begin{center}
-		$P=\{a \succ_1 b, b \succ_2 a\}$.
-	\end{center}
-	We apply the resolute $\SCF$: the majority rule with tie-breaking in favor of $a$.
-	So $a$ wins in $P$.
-	Assuming anonymity, we still have $a$ as the winner in profile $P'$:
-	\begin{center}
-		$P'=\{a \succ_2 b,b \succ_1 a\}$.
-	\end{center}
-	Let us assume neutrality also holds, $b$ wins in $P'$.  Contradiction!
-
-\end{proof}
+%\begin{proof}
+%	Consider the election with two votes over two alternatives $a$ and $b$:
+%	\begin{center}
+%		$P=\{a \succ_1 b, b \succ_2 a\}$.
+%	\end{center}
+%	We apply the resolute $\SCF$: the majority rule with tie-breaking in favor of $a$.
+%	So $a$ wins in $P$.
+%	Assuming anonymity, we still have $a$ as the winner in profile $P'$:
+%	\begin{center}
+%		$P'=\{a \succ_2 b,b \succ_1 a\}$.
+%	\end{center}
+%	Let us assume neutrality also holds, $b$ wins in $P'$.  Contradiction!
+%
+%\end{proof}
 
 %The three axioms discussed in Arrow's theorem need adjusting 
 %in the setting of social choice functions.
@@ -926,8 +930,7 @@ has a chance to win, namely, surjectivity (or non-imposingness).  More formally,
 an $\SCF$ $f$ is surjective if for every alternative $a \in A$, there exists
 some profile $P$ such that $a \in f(P)$.
 Regarding the aforementioned two fairness conditions, Muller and Satterthwaite \cite{Mull_Satt}
-proved yet anther impossibility theorem, which is the counterpart of Arrow's theorem
-for $\SCF$s.
+proved yet another impossibility theorem for $\SCF$'s.
 
 \begin{thm}
 \label{thm:Mull_Satt}
@@ -978,11 +981,9 @@ A voting method, that is closely related to positional scoring rules, is
 the approval voting \cite{BraFis}.
 Under approval voting, each voter approves any number of alternatives
 and the winner, or co-winners, are those with the highest score.
-However, it is not considered as a voting rule as it does not
-accept preference profiles as input.
 
 \noindent{\textbf{Condorcet Consistent Rules.}}
-A Condorcet winner is an alternative that wins every pairwise comparisons
+A \tit{Condorcet winner} is an alternative that wins every pairwise comparisons
 against each of the other alternatives.
 Clearly, a Condorcet winner is unique whenever it exists.
 If a voting rule $r$ always selects the Condorcet winner,
@@ -996,7 +997,7 @@ only to list a few \cite{Brandt:COMSOC}.
 				it wins, and some number between 0 and 1 for each pairwise comparison
 				it ties.  Alternatives with the highest score are the co-winners.
 	\item Maximin: The Maximin score of an alternative $a$ is the minimum number of
-				votes against $a$ among all pairwise comparisons.  
+				votes for $a$ among all pairwise comparisons.  
 				Alternatives with the highest Maximin score wins.
 	\item Kemeny's rule: It selects linear rankings that maximize the number of agreements 
 				with pairwise preferences of alternatives in the profile of votes, and
