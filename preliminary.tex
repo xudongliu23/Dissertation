@@ -289,6 +289,11 @@ For instance, the SAT problem is the set of all finite propositional
 formulas that have a satisfying truth assignment (assuming some natural
 representation of propositional formulas as strings over a finite alphabet).
 
+Studying decision problems on preferences involves designing algorithms and
+proving complexity results.  Hence, it is important to review complexity classes
+that are related to later discussions of computational complexity results.
+These classes include $\bP$, $\bNP$, $\bCoNP$, classes in the polynomial
+hierarchy, and $\bPSPACE$.
 
 
 \subsection{$\bP$, $\bNP$ and $\bCoNP$}
@@ -305,13 +310,14 @@ can be solved by a deterministic or a nondeterministic TM. \cite{Arora:Comput}
 %We focus on complexity classes with respect to ``time," although
 %we will discuss about the class of PSPACE with respect to ``space" in a
 %later section.
-Let $\bDTIME(x)$ ($\bNTIME(x)$) be a set of decision problems 
+Let $f(n)$ be the computation time to solve a problem of input size $n$.
+We denote by $\bDTIME(f(n))$ ($\bNTIME(f(n))$) a set of decision problems 
 for which there exists a deterministic (nondeterministic, respectively) TM
-that solves any instance of the problems in time $c\cdot x$ for some
-constant $c>0$.
+that solves any instance of the problems in time $f(n)$.
 We now define the two classes as follows.
 
 \begin{definition}
+	[Garey and Johnson, 1979]
 	The class $\bP$ ($\bNP$) contains the decision problems that can be solved using a 
 	deterministic (nondeterministic, respectively) TM 
 	in time polynomial in the size of the input.  Formally, we have
@@ -361,7 +367,8 @@ idea of $C$-hardness.
 
 \begin{definition}
 	Let $C$ be a complexity class ($\bNP$, $\bCoNP$, etc).
-	A decision problem $L'$ is $C$-\textit{complete} if $L'$ is in class $C$ and $L'$ is $C$-hard.
+	A decision problem $L'$ is $C$-\textit{complete} if $L'$ is in the class 
+	$C$ and $L'$ is $C$-hard.
 \end{definition}
 It is clear that, in order to prove $C$-completeness, one need to first show
 that $L' \in C$ (membership of class $C$), and then prove $C$-hardness.
@@ -374,8 +381,8 @@ that $L' \in C$ (membership of class $C$), and then prove $C$-hardness.
 %problems in those three classes.
 %For this reason, the classes of the polynomial hierarchy are defined, inductively.
 %\noindent{\textbf{TM with Oracles.}}
-A \textit{TM with an oracle} for a decision problem $L$ is a TM that makes calls to an algorithm that
-decides $L$.
+A \textit{TM with an oracle} for a decision problem $L$ is a TM that makes calls 
+to an oracle that decides $L$.
 
 \begin{definition}
 	Define the base case:
@@ -400,7 +407,7 @@ We denote by $\bPH$ the collection of all classes in the polynomial hierarchy.
 
 The relation between any classes on the hierarchy is of interest.
 One may notice that the classes $\sigmap{i}$ and $\pip{i}$ are
-complement, that is $\sigmap{i} = \textbf{co}\pip{i}$.
+complement problems.
 Moreover, we have the relations of these classes as shown in \figref{ph_diagram}.
 
 \begin{figure}[h!]
@@ -411,9 +418,9 @@ Moreover, we have the relations of these classes as shown in \figref{ph_diagram}
 
 
 \subsection{$\bPSPACE$}
-In this work, we consider yet another complexity class we will 
-use later is $\bPSPACE$ that
+In this work, we consider yet another complexity class called $\bPSPACE$ that
 concerns the complexity of space.
+It consists of problems that can be decided in polynomial space.
 
 \begin{definition}
 	The class $\bPSPACE$ is the class of decision problems solvable by a TM
