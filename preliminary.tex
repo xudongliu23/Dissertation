@@ -15,7 +15,7 @@ Finally, we review concepts in computational complexity theory,
 as they are useful in describing the hardness of problems
 involving reasoning about preference.
 
-\section{Relations \label{sec:relations}}
+\section{Relations and Orders \label{sec:relations}}
 
 
 \begin{definition}
@@ -220,7 +220,7 @@ Every attribute has a finite domain of values:
 \tit{Safety} with domain $\{$\tit{low,med,high}$\}$, and
 \tit{Capacity} with domain $\{$\tit{2,5,7m}$\}$.
 Then, a car can be described as a vector of values from these domains.
-For instance, vector $\rangle$ \tit{med,high,7m} $\langle$ represents
+For instance, vector $\la$ \tit{med,high,7m} $\ra$ represents
 a car that is medium priced, medium level of safety, and can carry seven
 or more people.
 
@@ -262,16 +262,19 @@ We first define the syntax of the language, that is, how formulas are constructe
 Then, we show its semantics, i.e., what it means for a formula to be true or false.
 
 Propositions are represented as \tit{well-formed formulas}, or simply \tit{formulas} when no ambiguity.
-Formulas are built from an alphabet of truth symbols ($T$ for True and $F$ for False),
+Formulas are built from an alphabet of truth values ($T$ for \tit{True} and $F$ for \tit{False}),
 variables (uppercase letters), connectives ($\neg$, $\land$, $\lor$, and $\rar$), and parantheses.
 A \tit{formulas} is either a truth symbol, a variable, or, if $\varphi$ and $\psi$ are formulas,
 $\neg \varphi$, $\varphi \lor \psi$, $\varphi \land \psi$, $ \varphi \rar \psi$, and $(\varphi)$.
 For example, if $X$ and $Y$ are formulas, we have that $X \land (X \rar \neg Y)$ is a formula.
 
 The meaning of any formula is its \tit{truth table}.
-The truth table enumerates truth assignments to variables appearing in a formula to determine
+The truth table enumerates \tit{truth assignments} to variables appearing in a formula to determine
 whether the formula is true or not.
-We say the meaning of $T$ is true, and that of $F$ is false.
+We have that the meaning of $T$ is true, and that of $F$ is false.
+We say that truth assignment $v$ \tit{satisfies} formula $\varphi$ if
+$\varphi$ is true under $v$, and $v$ \tit{falsifies} $\varphi$ if
+it is false under $v$.
 For instance, the semantics of several formulas is given as a true table in \tblref{truth}.
 
 \begin{table}[ht]
@@ -292,10 +295,29 @@ For instance, the semantics of several formulas is given as a true table in \tbl
 	\caption{Truth table\label{tbl:truth}}
 \end{table}
 
-A truth assignment can then be viewed an outcome in a combinatorial domain,
-and a formula is a compact way of representing a set of, 
+A truth assignment can then be viewed an outcome in a combinatorial domain.
+We see that the values in the attribute domains are variables.
+Any truth assignment $M$ over these variables represents an outcome $o$
+in the following way.
+A variable assigned \tit{True} (\tit{False}) in $M$ means corresponding 
+attribute value is in $o$ (is not in $o$, respectively).
+As a result, a formula provides a compact way of representing a set of, 
 possibly exponentially many, outcomes.
-
+Formula $\varphi$ represents the set of outcomes whose counterpart
+truth assignments satisfying $\varphi$.
+We consider the domain of cars as discussed in \secref{comb_domains}.
+The car $\la$ \tit{med,high,7m} $\ra$ in the combinatorial domain
+is represented as a truth assignment over $10$ variables, because
+there are $10$ attribute values.
+We denote these variables by $L_P$, $M_P$, $H_P$, $V_P$,
+$L_S$, $M_S$, $H_S$, $T_C$, $F_C$, and $S_C$, in order of the
+values in attributes \tit{Price}, \tit{Security}, and \tit{Capacity}.
+This truth assignment sets \tit{True} on variables $M_P$,
+$H_S$, and $S_C$.
+Moreover, formula $(H_P \land S_C) \lor (M_P \land M_S)$ precisely
+and concisely represents the set of cars that have high price and
+capacity of 7 or more, and cars that have medium price and medium
+security.
 
 
 \section{Computational Complexity Theory \label{sec:comp_theory}}
