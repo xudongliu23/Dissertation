@@ -253,7 +253,48 @@ formulas) are identified to eliminate the infeasible outcomes.
 
 
 \section{Propositional Logic}
-Introduce propositional logic here.
+In this work, \tit{propositional logic} plays an important role in compactly representing
+preferences over combinatorial domains.
+Propositional logic, or propositional calculus, is a logic language concerning
+propositions (e.g., statements that are true or false) that are built upon other propositions
+connected by logical connectives.
+We first define the syntax of the language, that is, how formulas are constructed.
+Then, we show its semantics, i.e., what it means for a formula to be true or false.
+
+Propositions are represented as \tit{well-formed formulas}, or simply \tit{formulas} when no ambiguity.
+Formulas are built from an alphabet of truth symbols ($T$ for True and $F$ for False),
+variables (uppercase letters), connectives ($\neg$, $\land$, $\lor$, and $\rar$), and parantheses.
+A \tit{formulas} is either a truth symbol, a variable, or, if $\varphi$ and $\psi$ are formulas,
+$\neg \varphi$, $\varphi \lor \psi$, $\varphi \land \psi$, $ \varphi \rar \psi$, and $(\varphi)$.
+For example, if $X$ and $Y$ are formulas, we have that $X \land (X \rar \neg Y)$ is a formula.
+
+The meaning of any formula is its \tit{truth table}.
+The truth table enumerates truth assignments to variables appearing in a formula to determine
+whether the formula is true or not.
+We say the meaning of $T$ is true, and that of $F$ is false.
+For instance, the semantics of several formulas is given as a true table in \tblref{truth}.
+
+\begin{table}[ht]
+\centering
+	\begin{tabular}{ |c c|c c c c| }
+	  \hline
+	  $X$ & $Y$ & $\neg X$ & $X \land Y$ & $X \lor Y$ & $X \rar Y$ \\
+	  \hline
+		$T$ & $T$ & $F$ & $T$ & $T$ & $T$ \\
+	  \hline                            
+		$T$ & $F$ & $F$ & $F$ & $T$ & $F$ \\
+	  \hline                            
+		$F$ & $T$ & $T$ & $F$ & $T$ & $T$ \\
+	  \hline                            
+		$F$ & $F$ & $T$ & $F$ & $F$ & $T$ \\
+	  \hline
+	\end{tabular}
+	\caption{Truth table\label{tbl:truth}}
+\end{table}
+
+A truth assignment can then be viewed an outcome in a combinatorial domain,
+and a formula is a compact way of representing a set of, 
+possibly exponentially many, outcomes.
 
 
 
@@ -444,3 +485,5 @@ that are not in our focus.
   \includegraphics[width=0.7\textwidth]{img/comp_diagram.pdf}
   \caption{Computational complexity diagram \label{fig:comp_diagram}}
 \end{figure}
+
+
