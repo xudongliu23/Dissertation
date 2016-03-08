@@ -14,6 +14,13 @@
 
 \DisemulatePackage{setspace}
 \usepackage{setspace}
+
+\let\footruleskip\undefined
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\leftmark}
+\cfoot{\thepage}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \input{pckgmacros}
@@ -76,10 +83,10 @@
 %Note the copyright notice at the end of each chapter.
 \copyrightnotice
 
-\chapter{Personalization in Multi-Modal Trip Planning\label{ch:trip}}
-\input{trip}
-%Note the copyright notice at the end of each chapter.
-\copyrightnotice
+%\chapter{Personalization in Multi-Modal Trip Planning\label{ch:trip}}
+%\input{trip}
+%%Note the copyright notice at the end of each chapter.
+%\copyrightnotice
 
 \chapter{Summary\label{ch:summary}}
 \input{summary}
