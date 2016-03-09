@@ -19,15 +19,11 @@ In the following, we recall several preference languages that
 have contributed to the thesis work.
 These languages include graphical formalisms:
 \tit{Conditional Preference Networks} (CP-nets),
-\tit{Preference Trees} (P-trees),
-\tit{Partial Lexicographic Preference Trees} (PLP-trees), and
 \tit{Lexicographic Preference Trees} (LP-trees);
 and logical formalisms:
 \tit{Possibilistic Logic} (Poss-logic),
 \tit{Answer Set Optimization} (ASO), and
 \tit{Conditional Preference Theories} (CP-theories).
-We proposed the preference languages -- P-trees and PLP-trees --
-that are extension of existing LP-trees.
 They are developed to provide concise and intuitive
 presentations of preferential information in 
 combinatorial domains.
@@ -81,45 +77,48 @@ semantics \cite{bbdh03}.
 
 Let $\bV$ be a set of binary variables, we denote by $\Asst(\bV)$ the set of
 all truth assignments to the variables in $\bV$.
-\begin{definition}
-\label{def:pi}
-	A set of variables $\bX$ is \tit{preferentially independent}
-	of $\bY=\bV-\bX$ if $\forall \bx_1,\bx_2 \in \Asst(\bX)$ and
-	$\forall \by_1,\by_2 \in \Asst(\bY)$,
-	\begin{center}
-		$\bx_1\by_1 \succeq \bx_2\by_1 \; \itiff \; \bx_1\by_2 \succeq \bx_2\by_2$.
-	\end{center}
-\end{definition}
-
-\begin{definition}
-\label{def:cpi}
-	Let $\bX$, $\bY$ and $\bZ$ be nonempty sets such that
-	$\bX \cup \bY \cup \bZ = \bV$.
-	$\bX$ is conditionally preferentially independent
-	of $\bY$ given an assignment $\bz$ to $\bZ$ 
-	if $\forall \bx_1,\bx_2 \in \Asst(\bX)$ and
-	$\forall \by_1,\by_2 \in \Asst(\bY)$,
-	\begin{center}
-		$\bx_1\by_1\bz \succeq \bx_2\by_1\bz \; \itiff \; \bx_1\by_2\bz \succeq \bx_2\by_2\bz$.
-	\end{center}
-\end{definition}
-
-\begin{definition}
-	For each variable $X_i$, $\Pa(X_i)$ denotes its parent variables such that,
-	given an assignment to $\Pa(X_i)$, $X_i$ is conditionally preferentially independent
-	of $\bV-(\Pa(X_i) \cup \{X_i\})$.
-\end{definition}
+For each variable $X_i \in \bV$, $\Pa(X_i)$ denotes the \tit{parent} variables of
+$X_i$, such that preferences over the domain of $X_i$ depend upon how
+$\Pa(X_i)$ are evaluated.
+%\begin{definition}
+%\label{def:pi}
+%	A set of variables $\bX$ is \tit{preferentially independent}
+%	of $\bY=\bV-\bX$ if $\forall \bx_1,\bx_2 \in \Asst(\bX)$ and
+%	$\forall \by_1,\by_2 \in \Asst(\bY)$,
+%	\begin{center}
+%		$\bx_1\by_1 \succeq \bx_2\by_1 \; \itiff \; \bx_1\by_2 \succeq \bx_2\by_2$.
+%	\end{center}
+%\end{definition}
+%
+%\begin{definition}
+%\label{def:cpi}
+%	Let $\bX$, $\bY$ and $\bZ$ be nonempty sets such that
+%	$\bX \cup \bY \cup \bZ = \bV$.
+%	$\bX$ is conditionally preferentially independent
+%	of $\bY$ given an assignment $\bz$ to $\bZ$ 
+%	if $\forall \bx_1,\bx_2 \in \Asst(\bX)$ and
+%	$\forall \by_1,\by_2 \in \Asst(\bY)$,
+%	\begin{center}
+%		$\bx_1\by_1\bz \succeq \bx_2\by_1\bz \; \itiff \; \bx_1\by_2\bz \succeq \bx_2\by_2\bz$.
+%	\end{center}
+%\end{definition}
+%
+%\begin{definition}
+%	For each variable $X_i$, $\Pa(X_i)$ denotes its parent variables such that,
+%	given an assignment to $\Pa(X_i)$, $X_i$ is conditionally preferentially independent
+%	of $\bV-(\Pa(X_i) \cup \{X_i\})$.
+%\end{definition}
 
 \begin{definition}
 \label{def:cpn}
-	Let $\bV$ be a set of variables $\bV=\{X_1,\ldots,X_n\}$.
-	A CP-net over $\bV$ is a tuple ($H, \Gamma$), where
+	Let $\bV$ be a set of binary variables $\bV=\{X_1,\ldots,X_n\}$.
+	A CP-net over $\bV$ is a tuple ($G$,$T$), where
 	\begin{enumerate} \itemsep -4pt
-		\item $H$ is a directed graph ($V,E$) specifying
+		\item $G$ is a directed graph ($V,E$) specifying
 					dependencies among variables,
 					where for every $X_i \in V$ we have
 					$\Pa(X_i)=\{X_j:(X_j,X_i) \in E\}$,
-		\item $\Gamma$ is a collection of 
+		\item $T$ is a collection of 
 					conditional preference tables (CPTs) for
 					all variables.  A $\CPT(X_i)$ consists of preference
 					statements of the form
@@ -127,54 +126,123 @@ all truth assignments to the variables in $\bV$.
 						$\bu : \succ^i_{\bu}$,
 					\end{center}
 					where $\bu \in \Asst(\Pa(X_i))$ and $\succ^i_{\bu}$
-					is a total order over $\Dom(X_i)$ given $u$, everything else
-					being equal.
+					is a total order over $\Dom(X_i)$ given $u$.
 	\end{enumerate}
 \end{definition}
 
 \nop{\mc{Need an example of CP-net here.}}
-
+An example CP-net $N=(G,T)$ over binary variables $\bV=\{X_1,X_2,X_3\}$
+is shown in \figref{CPN_depend}.
+The directed graph $G$, also called \tit{dependency graph}, expresses
+dependencies among variables.  An arrow in the dependency graph points
+to a child variable from a parent variable. Thus, we see that, in $T$
+the preferences on $X_2$ ($X_3$) depend upon the assignment made
+to $X_1$ ($X_2$, respectively).
 
 \noindent{\textbf{The Model.}}
+To decide if outcome $o_1$ is preferred to outcome $o_2$ according to a CP-net,
+one need to show that there is a sequence of improving flips
+from $o_2$ to $o_1$.
 
 \begin{definition}
-	Let $N$ be a CP-net over $\bV$, $X_i \in \bV$, and $\bU = \Pa(X_i)$.
-	Given an assignment $\bu$ to $\bU$,
-	a total order $\succ$ over $\Asst(\bV)$ \textit{satisfies}
-	$\succ^i_{\bu}$ if for all $\by \in \Asst(\bY)$ and all
-	$x,x' \in \Dom(X_i)$, $\bu \it{x} \by \succ \bu \it{x'} \by$ whenever
-	$x \succ^i_{\bu} x'$.
-	$\succ$ \textit{satisfies}
-	$\CPT(X_i)$ if it satisfies $\succ^i_{\bu}$ for each
-	$\bu \in \Asst(\bU)$.
-	$\succ$ \textit{satisfies}
-	the CP-net $N$ if it satisfies $\CPT(X_i)$ for every $X_i$.
-	A CP-net $N$ is \textit{consistent} $\itiff$ there exists a total order
-	$\succ$ that satisfies $N$.
+	Let $N$ be a CP-net over $\bV$, $X_i \in \bV$, $\bU = \Pa(X_i)$,
+	and $\bY=\bV-(\bU \cup \{X_i\})$.
+	Let $\bu x_i \by$ be an outcome, where $x_i\in \Dom(X_i)$,
+	$\bu \in \Asst(\bU)$, and $\by \in \Asst(\bY)$.
+	An \tit{improving flip} of $\bu x_i \by$ wrt $X_i$ is
+	outcome $\bu x_i' \by$ such that $x_i' \succ^i_{\bu} x_i$.
+	A \tit{sequence of improving flips} wrt $N$ is a sequence of
+	outcomes $o_1,\ldots,o_j$ such that, for every $k<j$,
+	$o_{k+1}$ is an improving flip of $o_k$ wrt some variable.
 \end{definition}
 
-Consider a CP-net $N$ in \figref{cp_net} over three binary variables \cite{bbdh03}.
-In the dependency graph in \figref{cp_net}(a), an arrow points
-to a child variable from a parent variable.
-The preferences on $B$ ($C$) depend upon the assignment made
-to $A$ ($B$, respectively).
-This CP-net induces a partial order shown in \figref{cp_net}(b)
+%\begin{definition}
+%	Let $N$ be a CP-net over $\bV$, $X_i \in \bV$, and $\bU = \Pa(X_i)$.
+%	Given an assignment $\bu$ to $\bU$,
+%	a total order $\succ$ over $\Asst(\bV)$ \textit{satisfies}
+%	$\succ^i_{\bu}$ if for all $\by \in \Asst(\bY)$ and all
+%	$x,x' \in \Dom(X_i)$, $\bu \it{x} \by \succ \bu \it{x'} \by$ whenever
+%	$x \succ^i_{\bu} x'$.
+%	$\succ$ \textit{satisfies}
+%	$\CPT(X_i)$ if it satisfies $\succ^i_{\bu}$ for each
+%	$\bu \in \Asst(\bU)$.
+%	$\succ$ \textit{satisfies}
+%	the CP-net $N$ if it satisfies $\CPT(X_i)$ for every $X_i$.
+%	A CP-net $N$ is \textit{consistent} $\itiff$ there exists a total order
+%	$\succ$ that satisfies $N$.
+%\end{definition}
+
+Consider the CP-net $N$ in \figref{CPN}
+that induces a partial order shown in \figref{CPN_pref}
 where each arrow is from a less preferred outcome to a more preferred one.
 Since one pair of outcomes are incomparable,
-namely $\bar{a}\bar{b}\bar{c}$ and $a\bar{b}c$,
+namely $\obar{x_1}\obar{x_2}\obar{x_3}$ and $x_1\obar{x_2}x_3$,
 there are two models, total orders, satisfying $N$ as follows.
 
 \begin{center}
-	$abc \succ ab\bar{c} \succ a\bar{b}\bar{c} \succ a\bar{b}c \succ \bar{a}\bar{b}\bar{c} 
-		\succ \bar{a}\bar{b}c \succ \bar{a}bc \succ \bar{a}b\bar{c}$,\\
-	$abc \succ ab\bar{c} \succ a\bar{b}\bar{c} \succ \bar{a}\bar{b}\bar{c} \succ a\bar{b}c
-		\succ \bar{a}\bar{b}c \succ \bar{a}bc \succ \bar{a}b\bar{c}$.
+	$x_1x_2x_3 \succ x_1x_2\obar{x_3} \succ x_1\obar{x_2}\obar{x_3} 
+		\succ \bluetext{x_1\obar{x_2}x_3} \succ \bluetext{\obar{x_1}\obar{x_2}\obar{x_3}} 
+		\succ \obar{x_1}\obar{x_2}x_3 \succ \obar{x_1}x_2x_3 \succ \obar{x_1}x_2\obar{x_3}$,\\
+	$x_1x_2x_3 \succ x_1x_2\obar{x_3} \succ x_1\obar{x_2}\obar{x_3} 
+		\succ \bluetext{\obar{x_1}\obar{x_2}\obar{x_3}} \succ \bluetext{x_1\obar{x_2}x_3}
+		\succ \obar{x_1}\obar{x_2}x_3 \succ \obar{x_1}x_2x_3 \succ \obar{x_1}x_2\obar{x_3}$.
 \end{center}
 
-\begin{figure}[h!]
-  \centering
-  \includegraphics[width=0.7\textwidth]{img/acpn.png}
-  \caption{Acyclic CP-net \label{fig:cp_net}}
+%\begin{figure}[h!]
+%  \centering
+%  \includegraphics[width=0.7\textwidth]{img/acpn.png}
+%  \caption{Acyclic CP-net \label{fig:cp_net}}
+%\end{figure}
+
+\begin{figure}[!ht]
+	\centering
+  \begin{subfigure}[b]{0.45\textwidth}
+		\centering
+	  \begin{tikzpicture}[->,>=stealth',
+	    level/.style={sibling distance=2cm/#1, level distance=40pt}]
+	    \node [main node,inner sep=0.5pt] (1){$X_1$}
+	      child {node [main node,inner sep=0.5pt] (2) {$X_2$}
+	      	child {node [main node,inner sep=0.5pt] (3) {$X_3$} {}
+							child {node [rectangle,draw] (4) at (1.7,4.2) {$x_1\!\!>\!\!\bar{x_1}$} edge from parent[draw=none]}
+							child {node [rectangle split, rectangle split parts=2,draw] (5) at (1.35,2.8)
+								{$x_1\!:\!x_2\!\!>\!\!\bar{x_2}$ \nodepart{second} $\bar{x_1}\!:\!\bar{x_2}\!\!>\!\!x_2$} edge from parent[draw=none]}
+							child {node [rectangle split, rectangle split parts=2,draw] (6) at (0.7,1.4) 
+								{$x_2\!:\!x_3\!\!>\!\!\bar{x_3}$ \nodepart{second} $\bar{x_2}\!:\!\bar{x_3}\!\!>\!\!x_3$} edge from parent[draw=none]}
+					}
+	      };
+	  \end{tikzpicture}
+		\caption{Dependency graph and CPT's\label{fig:CPN_depend}}
+	\end{subfigure}%
+  \begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		  \begin{tikzpicture}[->,>=stealth',node distance=1cm,main node/.style={circle,draw,font=\small}]
+		    \node[rectangle,inner sep=0pt] (1)                                         {$\obar{x_1}x_2\obar{x_3}$};
+				\node[rectangle,inner sep=0pt] (2) [below of=1]                            {$\obar{x_1}x_2x_3$};
+				\node[rectangle,inner sep=0pt] (3) [below of=2]                            {$\obar{x_1}\obar{x_2}x_3$};
+				\node[rectangle,inner sep=0pt] (4) [left of =3,xshift=-1cm,yshift=-0.5cm]  {\bluetext{$\obar{x_1}\obar{x_2}\obar{x_3}$}};
+				\node[rectangle,inner sep=0pt] (5) [below of=3]                            {\bluetext{$x_1\obar{x_2}x_3$}};
+				\node[rectangle,inner sep=0pt] (6) [left of=5,xshift=-1cm,yshift=-0.5cm]   {$x_1\obar{x_2}\obar{x_3}$};
+				\node[rectangle,inner sep=0pt] (7) [below of=6]                            {$x_1x_2\obar{x_3}$};
+				\node[rectangle,inner sep=0pt] (8) [below of=5,yshift=-1cm]                {$x_1x_2x_3$};
+		
+		    \path[every node/.style={font=\sffamily\small}]
+		      (1) edge (2)
+		      (1) edge (4)
+		      (1) edge [bend right=70] (7)
+		      (2) edge (3)
+		      (2) edge [bend left=40] (8)
+		      (3) edge (4)
+		      (3) edge (5)
+		      (4) edge (6)
+		      (5) edge (6)
+		      (5) edge (8)
+		      (6) edge (7)
+		      (7) edge (8);
+		  \end{tikzpicture}
+		\caption{Preference graph\label{fig:CPN_pref}}
+	\end{subfigure}
+  \caption{Acyclic CP-net}
+  \label{fig:CPN}
 \end{figure}
 
 
