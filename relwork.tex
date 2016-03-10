@@ -18,12 +18,11 @@ combine individual preferences to reach a common decision.
 In the following, we recall several preference languages that
 have contributed to the thesis work.
 These languages include graphical formalisms:
-\tit{Conditional Preference Networks} (CP-nets),
+\tit{Conditional Preference Networks} (CP-nets) and
 \tit{Lexicographic Preference Trees} (LP-trees);
 and logical formalisms:
-\tit{Possibilistic Logic} (Poss-logic),
-\tit{Answer Set Optimization} (ASO), and
-\tit{Conditional Preference Theories} (CP-theories).
+\tit{Possibilistic Logic} and
+\tit{Answer Set Optimization} (ASO).
 They are developed to provide concise and intuitive
 presentations of preferential information in 
 combinatorial domains.
@@ -35,7 +34,15 @@ For either system, I will focus on three aspects \cite{Domshlak20111037}:
 and (iii) complexity of and algorithms for
 problems about the model (cf. the following definitions).
 
-[THESE DEFINITIONS ARE AT A WRONG PLACE.]
+\nop{{\bf [THESE DEFINITIONS ARE AT A WRONG PLACE.]}}
+\begin{definition}
+\label{def:con}
+  $\cL$-CONSISTENCE: given an instance $\cC$ of a preference
+	formalism $\cL$, decide whether $\cC$ is consistent, that is,
+  whether there exists a total order of outcomes that agrees with every
+	preference statement in $\cC$.
+\end{definition}
+
 \begin{definition}
 \label{def:dom}
   $\cL$-DOMINANCE: given an instance $\cC$ of a preference
@@ -131,18 +138,27 @@ $\Pa(X_i)$ are evaluated.
 \end{definition}
 
 \nop{\mc{Need an example of CP-net here.}}
-An example CP-net $N=(G,T)$ over binary variables $\bV=\{X_1,X_2,X_3\}$
+We consider the domain of cars.
+For simplicity, we take three binary variables
+\tit{Price}, \tit{Safety}, and \tit{Capacity}.
+Variable \tit{Capacity} ($C$) has two values \tit{high} ($c$) 
+and \tit{low} ($\bar{c}$).
+Variable \tit{Price} ($P$) has two values \tit{high} ($p$) 
+and \tit{low} ($\bar{p}$).
+Variable \tit{Safety} ($S$) has two values \tit{high} ($s$) 
+and \tit{low} ($\bar{s}$).
+An example CP-net $N=(G,T)$ over binary variables $\bV=\{C,P,S\}$
 is shown in \figref{CPN_depend}.
 The directed graph $G$, also called \tit{dependency graph}, expresses
 dependencies among variables.  An arrow in the dependency graph points
-to a child variable from a parent variable. Thus, we see that, in $T$
-the preferences on $X_2$ ($X_3$) depend upon the assignment made
-to $X_1$ ($X_2$, respectively).
+to a child variable from a parent variable. Thus, we see that,
+the preferences on \tit{Price} (\tit{Security}) depend upon the assignment made
+to \tit{Capacity} (\tit{Price}, respectively).
 
 \noindent{\textbf{The Model.}}
-To decide if outcome $o_1$ is preferred to outcome $o_2$ according to a CP-net,
-one need to show that there is a sequence of improving flips
-from $o_2$ to $o_1$.
+To decide if outcome $o_1$ is preferred to outcome $o_2$ in a CP-net $N$,
+one needs to show that $o_2$ can be improved, ceteris paribus, 
+according to the preference statements in $N$ to reach $o_1$.
 
 \begin{definition}
 	Let $N$ be a CP-net over $\bV$, $X_i \in \bV$, $\bU = \Pa(X_i)$,
@@ -154,7 +170,14 @@ from $o_2$ to $o_1$.
 	A \tit{sequence of improving flips} wrt $N$ is a sequence of
 	outcomes $o_1,\ldots,o_j$ such that, for every $k<j$,
 	$o_{k+1}$ is an improving flip of $o_k$ wrt some variable.
+	We say that outcome $o_1$ is preferred to outcome $o_2$ in $N$,
+	denoted by $o_1 \succ_N o_2$, if there exists a sequence of
+	improving flips from $o_2$ to $o_1$.
 \end{definition}
+
+In a CP-net $N$, we say that outcome $o$ is \tit{optimal} if
+there does not exist another outcome $o'$ such that
+$o' \succ_N o$.
 
 %\begin{definition}
 %	Let $N$ be a CP-net over $\bV$, $X_i \in \bV$, and $\bU = \Pa(X_i)$.
@@ -173,19 +196,26 @@ from $o_2$ to $o_1$.
 %\end{definition}
 
 Consider the CP-net $N$ in \figref{CPN}
-that induces a partial order shown in \figref{CPN_pref}
-where each arrow is from a less preferred outcome to a more preferred one.
-Since one pair of outcomes are incomparable,
-namely $\obar{x_1}\obar{x_2}\obar{x_3}$ and $x_1\obar{x_2}x_3$,
-there are two models, total orders, satisfying $N$ as follows.
+that induces a partial order shown in \figref{CPN_pref},
+where each arrow represents an improving flip between two outcomes.
+We see that $c\bar{p}\bar{s} \succ_N \bar{c}ps$
+because of the flipping sequence, the colored path in \figref{CPN_pref}.
+Outcome $cps$ is optimal because not other outcome is
+better.
+We note that there is no flipping sequence between
+$c\bar{p}s$ and $\bar{c}\bar{p}\bar{s}$.
+In such case, we say that the two outcomes are \tit{incomparable}.
+This CP-net is consistent because there exists a total order
+of outcomes in consent with the preference graph \figref{CPN_pref}.
+There are de facto two such total orders as follows.
 
 \begin{center}
-	$x_1x_2x_3 \succ x_1x_2\obar{x_3} \succ x_1\obar{x_2}\obar{x_3} 
-		\succ \bluetext{x_1\obar{x_2}x_3} \succ \bluetext{\obar{x_1}\obar{x_2}\obar{x_3}} 
-		\succ \obar{x_1}\obar{x_2}x_3 \succ \obar{x_1}x_2x_3 \succ \obar{x_1}x_2\obar{x_3}$,\\
-	$x_1x_2x_3 \succ x_1x_2\obar{x_3} \succ x_1\obar{x_2}\obar{x_3} 
-		\succ \bluetext{\obar{x_1}\obar{x_2}\obar{x_3}} \succ \bluetext{x_1\obar{x_2}x_3}
-		\succ \obar{x_1}\obar{x_2}x_3 \succ \obar{x_1}x_2x_3 \succ \obar{x_1}x_2\obar{x_3}$.
+	$cps \succ cp\bar{s} \succ c\bar{p}\bar{s} 
+		\succ \bm{c\bar{p}s} \succ \bm{\bar{c}\bar{p}\bar{s}} 
+		\succ \bar{c}\bar{p}s \succ \bar{c}ps \succ \bar{c}p\bar{s}$,\\
+	$cps \succ cp\bar{s} \succ c\bar{p}\bar{s} 
+		\succ \bm{\bar{c}\bar{p}\bar{s}} \succ \bm{c\bar{p}s}
+		\succ \bar{c}\bar{p}s \succ \bar{c}ps \succ \bar{c}p\bar{s}$.
 \end{center}
 
 %\begin{figure}[h!]
@@ -200,14 +230,14 @@ there are two models, total orders, satisfying $N$ as follows.
 		\centering
 	  \begin{tikzpicture}[->,>=stealth',
 	    level/.style={sibling distance=2cm/#1, level distance=40pt}]
-	    \node [main node,inner sep=0.5pt] (1){$X_1$}
-	      child {node [main node,inner sep=0.5pt] (2) {$X_2$}
-	      	child {node [main node,inner sep=0.5pt] (3) {$X_3$} {}
-							child {node [rectangle,draw] (4) at (1.7,4.2) {$x_1\!\!>\!\!\bar{x_1}$} edge from parent[draw=none]}
+	    \node [main node] (1){$C$}
+	      child {node [main node] (2) {$P$}
+	      	child {node [main node] (3) {$S$} {}
+							child {node [rectangle,draw] (4) at (1.7,4.2) {$c>\bar{c}$} edge from parent[draw=none]}
 							child {node [rectangle split, rectangle split parts=2,draw] (5) at (1.35,2.8)
-								{$x_1\!:\!x_2\!\!>\!\!\bar{x_2}$ \nodepart{second} $\bar{x_1}\!:\!\bar{x_2}\!\!>\!\!x_2$} edge from parent[draw=none]}
+								{$c:p>\bar{p}$ \nodepart{second} $\bar{c}:\bar{p}>p$} edge from parent[draw=none]}
 							child {node [rectangle split, rectangle split parts=2,draw] (6) at (0.7,1.4) 
-								{$x_2\!:\!x_3\!\!>\!\!\bar{x_3}$ \nodepart{second} $\bar{x_2}\!:\!\bar{x_3}\!\!>\!\!x_3$} edge from parent[draw=none]}
+								{$p:s>\bar{s}$ \nodepart{second} $\bar{p}:\bar{s}>s$} edge from parent[draw=none]}
 					}
 	      };
 	  \end{tikzpicture}
@@ -216,24 +246,24 @@ there are two models, total orders, satisfying $N$ as follows.
   \begin{subfigure}[b]{0.45\textwidth}
 		\centering
 		  \begin{tikzpicture}[->,>=stealth',node distance=1cm,main node/.style={circle,draw,font=\small}]
-		    \node[rectangle,inner sep=0pt] (1)                                         {$\obar{x_1}x_2\obar{x_3}$};
-				\node[rectangle,inner sep=0pt] (2) [below of=1]                            {$\obar{x_1}x_2x_3$};
-				\node[rectangle,inner sep=0pt] (3) [below of=2]                            {$\obar{x_1}\obar{x_2}x_3$};
-				\node[rectangle,inner sep=0pt] (4) [left of =3,xshift=-1cm,yshift=-0.5cm]  {\bluetext{$\obar{x_1}\obar{x_2}\obar{x_3}$}};
-				\node[rectangle,inner sep=0pt] (5) [below of=3]                            {\bluetext{$x_1\obar{x_2}x_3$}};
-				\node[rectangle,inner sep=0pt] (6) [left of=5,xshift=-1cm,yshift=-0.5cm]   {$x_1\obar{x_2}\obar{x_3}$};
-				\node[rectangle,inner sep=0pt] (7) [below of=6]                            {$x_1x_2\obar{x_3}$};
-				\node[rectangle,inner sep=0pt] (8) [below of=5,yshift=-1cm]                {$x_1x_2x_3$};
+		    \node[rectangle,inner sep=0pt] (1)                                         {$\bar{c}p\bar{s}$};
+				\node[rectangle,inner sep=0pt] (2) [below of=1]                            {\bluetext{$\bar{c}ps$}};
+				\node[rectangle,inner sep=0pt] (3) [below of=2]                            {\bluetext{$\bar{c}\bar{p}s$}};
+				\node[rectangle,inner sep=0pt] (4) [left of =3,xshift=-1cm,yshift=-0.5cm]  {\bluetext{$\bar{c}\bar{p}\bar{s}$}};
+				\node[rectangle,inner sep=0pt] (5) [below of=3]                            {$c\bar{p}s$};
+				\node[rectangle,inner sep=0pt] (6) [left of=5,xshift=-1cm,yshift=-0.5cm]   {\bluetext{$c\bar{p}\bar{s}$}};
+				\node[rectangle,inner sep=0pt] (7) [below of=6]                            {$cp\bar{s}$};
+				\node[rectangle,inner sep=0pt] (8) [below of=5,yshift=-1cm]                {$cps$};
 		
 		    \path[every node/.style={font=\sffamily\small}]
 		      (1) edge (2)
 		      (1) edge (4)
 		      (1) edge [bend right=70] (7)
-		      (2) edge (3)
+		      (2) edge[blue] (3)
 		      (2) edge [bend left=40] (8)
-		      (3) edge (4)
+		      (3) edge[blue] (4)
 		      (3) edge (5)
-		      (4) edge (6)
+		      (4) edge[blue] (6)
 		      (5) edge (6)
 		      (5) edge (8)
 		      (6) edge (7)
@@ -245,28 +275,22 @@ there are two models, total orders, satisfying $N$ as follows.
   \label{fig:CPN}
 \end{figure}
 
-
-
-\begin{definition}
-\label{def:con}
-  CP-CONSISTENCY: given a CP-net $N$, decide whether 
-	$N$ is consistent.
-\end{definition}
-
-Answering the CP-CONSISTENCY problem depends upon whether
-its dependency graph are acyclic and how preference rules
-in CPTs are specified.
-Researchers in AI have been working on this problem
-and many results can be found in the literature.
-Boutilier, Brafman, Domshlak, Hoos and Poole \cite{bbdh03} 
-prove that every acyclic CP-net
-is consistent, whereas Goldsmith, Lang, Truszczynski and Wilson \cite{Goldsmith} show
-that the CP-CONSISTENCY problem is PSPACE-complete.
+%Answering the CP-CONSISTENCY problem depends upon whether
+%its dependency graph are acyclic and how preference rules
+%in CPTs are specified.
+%Researchers in AI have been working on this problem
+%and many results can be found in the literature.
 
 
 
 \noindent{\textbf{Problems and Complexity.}}
-The CP-DOMINANCE problem can be solved by
+Boutilier, Brafman, Domshlak, Hoos and Poole \cite{bbdh03} 
+have proved that every acyclic CP-net
+is consistent, whereas Goldsmith, Lang, Truszczynski and Wilson \cite{Goldsmith}
+have shown that the CPN-CONSISTENCY problem is PSPACE-complete.
+
+For the CPN-DOMINANCE problem, its complexity depends.
+The CPN-DOMINANCE problem can be solved by
 a polynomial time algorithm for binary-valued tree-structured
 CP-nets, and that the problem is NP-complete for binary-valued
 CP-nets with specially structured dependency graphs 
@@ -277,57 +301,49 @@ Furthermore, in the most general case when the dependency graph
 could be cyclic, this problem is proved PSPACE-complete even
 if the CP-nets are consistent \cite{Goldsmith}.
 
-The CP-OPTIMALITY-\rom{1} problem is in P, while
-the other two optimization problems, namely, the CP-OPTIMALITY-\rom{2}
-and CP-OPTIMALITY-\rom{3} problems, seem to have received 
-less attention than other problems.
+For acyclic CP-nets, the optimality problems (i.e.,
+CPN-OPTIMALITY-\rom{1}, CPN-OPTIMALITY-\rom{2}, and
+CPN-OPTIMALITY-\rom{3}) are easy \cite{bbdh03}.
 
 
 
 \subsection{Lexicographic Preference Trees \label{sec:LPT}}
-\noindent{\textbf{The Language.}}
-Let us consider preferences over alternatives from combinatorial domains 
-determined by a set $\cI = \{X_1, X_2, \ldots, X_p\}$ of $p$ binary 
-\emph{issues}, with each issue
-$X_i$ having a binary domain $D(X_i) = \{0_i, 1_i\}$. The 
-\emph{combinatorial domain} in question is the set $\cX(\cI)=D(X_1) \times 
-D(X_2) \times \ldots\times D(X_p)$. If $\cI$ is implied by the context, 
-we write $\cX$ instead of $\cX(\cI)$. For instance, let $\cI = \{X_1, X_2, 
-X_3\}$. A 3-tuple $(0_1,1_2,1_3)$ is an alternative from $\cX(\cI)$,
-or simply, an alternative over $\cI$. We 
-often write it as $0_1 1_2 1_3$ or just as $011$. It assigns $0$ to 
-$X_1$, $1$ to $X_2$, and $1$ to $X_3$.  
-Clearly, the cardinality of 
-$\cX(\cI)$, which we denote by $m$ throughout the paper, is $2^p$. 
+The language of lexicographic preference trees \cite{booth:learningLP} 
+is a tree-like preference formalism that has arisen from lexicographic
+orderings \cite{Kaci:Pref} and lexicographic preferences \cite{10.2307/2296854}.
+My research mostly deals with lexicographic preference trees
+and other preference systems extending lexicographic preference trees,
+such as preference trees and partial lexicographic preference trees.
 
-A lexicographic preference tree (\emph{LP tree}) $T$ over a set $\cI$ 
-of $p$ binary issues $X_1,\ldots,X_p$ is a \emph{binary tree}. Each
-node $t$ in $T$ is labeled by an issue from $\cI$, denoted by 
+\noindent{\textbf{The Language.}}
+\tit{A lexicographic preference tree} (\emph{LP-tree}) $T$ over a set $\cI$ 
+of $p$ binary attributes $X_1,\ldots,X_p$ is a labeled \emph{binary tree}. Each
+node $t$ in $T$ is labeled by an attribute from $\cI$, denoted by 
 $\mathit{Iss}(t)$, and with \emph{preference information} of the form
 $a>b$ or $b>a$ indicating which of the two values $a$ and $b$  comprising
 the domain of $\Iss(t)$ is preferred (in general the preference may depend
-on the values of issues labeling the ancestor nodes). We require that 
-each issue appears exactly once on each path from the root to a leaf. 
+on the values of attributes labeling the ancestor nodes). We require that 
+each attribute appears exactly once on each path from the root to a leaf. 
 
-Intuitively, the issue labeling the root of an LP tree is of highest 
-importance. Alternatives with the preferred value of that issue
+Intuitively, the attribute labeling the root of an LP-tree is of highest 
+importance. Alternatives with the preferred value of that attribute
 are preferred over alternatives with the non-preferred one. The two
 subtrees refine that ordering. The left subtree determines the ranking
 of the preferred ``upper half'' and the right subtree determines the 
 ranking of the non-preferred ``lower half.'' In each case, the same 
-principle is used, with the root issue being the most important one. 
-\nop{The issue labeling the root of a subtree is the
+principle is used, with the root attribute being the most important one. 
+\nop{The attribute labeling the root of a subtree is the
 most important among those appearing in the subtree, and the alternatives
 the subtree represents are split into the preferred and non-preferred 
 halves based on their value and on the preference information at the node.}
-We note that the issues labeling the roots of the 
-subtrees need not be the same (the relative importance of issues may 
-depend on values for the issues labeling the nodes on the path to the root).
+We note that the attributes labeling the roots of the 
+subtrees need not be the same (the relative importance of attributes may 
+depend on values for the attributes labeling the nodes on the path to the root).
 
-The precise semantics of an LP tree $T$ captures this intuition. Given 
+The precise semantics of an LP-tree $T$ captures this intuition. Given 
 an alternative $x_1x_2\ldots x_p$, we find its preference ranking in 
 $T$ by traversing the tree from the root to a leaf. When at node $t$ 
-labeled with the issue $X_i$, we follow down to the left subtree if
+labeled with the attribute $X_i$, we follow down to the left subtree if
 $x_i$ is preferred according to the preference information at node
 $t$. Otherwise, we follow down to the right subtree. 
 
@@ -341,34 +357,24 @@ The more to the left the node representing the alternative, the more
 preferred it is, with the one in the leftmost (implicit) node being the 
 most desirable one as left links always correspond to preferred values.
 
-To illustrate these notions, let us consider an example. A group 
-of friends in Lexington want to make vacation plans for the 
-next year. Having brainstormed for a while, the group decided to focus 
-on three binary issues. The \textit{Time} ($X_1$) of the travel could be 
-either \textit{summer} ($s$ or $1_1$) or \textit{winter} ($w$ or $0_1$), 
-the \textit{Destination} ($X_2$) could be either \textit{Chicago} 
-($c$ or $1_2$) or \textit{Miami} ($m$ or $0_2$) and the mode of 
-\textit{Transportation} ($X_3$) could be to \textit{drive} ($d$ or $1_3$)
-or \textit{fly} ($f$ or $0_3$).
-      
-Jane, a member of the group, prefers a summer trip to a winter trip, and 
-this preference on the issue \textit{Time} is the most important one.  
-Then for a summer trip, the next most important issue is \textit{Destination} 
-and she prefers Chicago to Miami, and the least important issue is 
-\textit{Transportation}. Jane prefers driving to flying if they go
-to Chicago, and flying, otherwise.  For a winter trip, the importance of
-the remaining two issues changes with \textit{Transportation} being now
-more important than the destination -- Jane does not like 
-driving in the winter. As for the \textit{Destination}, she prefers to go 
-to Miami to avoid the cold weather. These preferences can be captured by 
-the LP tree $T$ in Figure \ref{fig:LPTree_full}. We note that the 
-trees ordering the vacation plans for summer and for winter are determined 
-by trees with different assignments of issues to nodes. For instance, for 
-the summer trips, the destination is the most important factor while 
-for the winter trips the mode of transportation. The tree shows that
-the preferred vacation plan for Jane is to drive to Chicago in 
-the summer and the next in order of preference is to fly to Chicago in the 
-summer. The least preferred plan is to drive to Chicago in the winter.
+To illustrate these notions, let us consider an example LP-tree
+over the car domain of binary \tit{Capacity}, \tit{Price}, and \tit{Security},
+described as earlier.
+Our agent prefers cars with high capacity to cars with low capacity,
+and this preference on \tit{Capacity} is the most important one.
+Then, for high-capacity cars, the next most important attribute is
+\tit{Security} and she prefers cars with high security level,
+and the least important attribute is \tit{Price}.
+She prefers low-price cars if security is low, and high-price, otherwise.
+For low-capacity cars, the importance of \tit{Security}
+and \tit{Price} changes with \tit{Price} being more important.
+The agent prefers low-price cars among the low-capacity.
+Finally, high-security cars are preferred over low-security cars.
+These preferences are captured by 
+the LP-tree $T$ in Figure \ref{fig:LPTree_full}. The tree shows that
+the most preferred car for our agent has high capacity, security,
+and price, and the next in order of preference has high capacity
+and security but low price.
 
 \begin{figure}
   \small
@@ -376,22 +382,22 @@ summer. The least preferred plan is to drive to Chicago in the winter.
 	\hspace{-1cm}
 	\begin{tikzpicture}[->,>=stealth',
 	  level/.style={sibling distance=4cm/#1}]
-	  \node [main node] (1){Time}
-	    child {node [main node] (2) {Dest}
-	      child {node [main node] (3) {Tran}}
-	      child {node [main node] (4) {Tran}
-					child {node [rectangle,draw] at (6.3,4.5) {$s>w$} edge from parent[draw=none]}
-					child {node [rectangle,draw] at (0.5,3) {$c>m$} edge from parent[draw=none]}
-					child {node [rectangle,draw] at (-0.7,0.6) {$d>f$} edge from parent[draw=none]}
-					child {node [rectangle,draw] at (0,0.6) {$f>d$} edge from parent[draw=none]}
-					child {node [rectangle,draw] at (2.8,3) {$f>d$} edge from parent[draw=none]}
-					child {node [rectangle,draw] at (-0.5,0.6) {$m>c$} edge from parent[draw=none]}
-					child {node [rectangle,draw] at (0,0.6) {$m>c$} edge from parent[draw=none]}
+	  \node [main node,inner sep=7pt] (1){C}
+	    child {node [main node,inner sep=7pt] (2) {S}
+	      child {node [main node,inner sep=7pt] (3) {P}}
+	      child {node [main node,inner sep=7pt] (4) {P}
+					child {node [rectangle,draw] at (6.3,4.5) {$c>\bar{c}$} edge from parent[draw=none]}
+					child {node [rectangle,draw] at (0.5,3) {$s>\bar{s}$} edge from parent[draw=none]}
+					child {node [rectangle,draw] at (-0.7,0.6) {$p>\bar{p}$} edge from parent[draw=none]}
+					child {node [rectangle,draw] at (0,0.6) {$\bar{p}>p$} edge from parent[draw=none]}
+					child {node [rectangle,draw] at (2.8,3) {$\bar{p}>p$} edge from parent[draw=none]}
+					child {node [rectangle,draw] at (-0.5,0.6) {$s>\bar{s}$} edge from parent[draw=none]}
+					child {node [rectangle,draw] at (0,0.6) {$s>\bar{s}$} edge from parent[draw=none]}
 				}
 	    }
-	    child {node [main node] (5) {Tran}
-	    child {node [main node] (6) {Dest}}
-	      child {node [main node] (7) {Dest}}
+	    child {node [main node,inner sep=7pt] (5) {P}
+	    child {node [main node,inner sep=7pt] (6) {S}}
+	      child {node [main node,inner sep=7pt] (7) {S}}
 	    };
 	    \path[every node/.style={font=\sffamily\small}]
 	      (1) edge (2)
@@ -402,62 +408,62 @@ summer. The least preferred plan is to drive to Chicago in the winter.
 	      		edge (7);
 	\end{tikzpicture}
    
-  \caption{An LP tree $T$}
+  \caption{An LP-tree $T$}
   \label{fig:LPTree_full}
 \end{figure}
 
-Sometimes LP trees can be represented in a more concise way. For 
+Sometimes LP-trees can be represented in a more concise way. For 
 instance, if for some node $t$, its two subtrees are identical (that 
-is, the corresponding nodes are assigned the same issue), they can be 
-collapsed to a single subtree, with the same assignment of issues to 
+is, the corresponding nodes are assigned the same attribute), they can be 
+collapsed to a single subtree, with the same assignment of attributes to 
 nodes. To retain preference information, at each node $t'$ of the 
 subtree we place a \emph{conditional preference table},
 and each preference in it specifies 
-the preferred value for the issue labeling that node given the value 
-of the issue labeling $t$. In the extreme case when for every node its
+the preferred value for the attribute labeling that node given the value 
+of the attribute labeling $t$. In the extreme case when for every node its
 two subtrees are identical, the tree can be collapsed to a path. 
 
-Since the preferred issue at a node depends on the values of issues above,
-the conditional preference table for the node $t$ located at distance 
-$i$ from the root has possibly as many as $2^i$ rows (in general, 
-$2^j$ rows, where $j$ is the number of ancestor nodes with one child 
-only), with each row specifying a combination of values for the ancestor 
-issues together with the preferred value for $\Iss(t)$ given that 
-combination. Thus, collapsing subtrees alone does not lead to a smaller 
-representation size. However, it can be achieved if there are nodes whose 
-preferred value depends only on a limited number of issues labeling 
-their single-child ancestor nodes as in such cases the conditional 
-preference table can be simplified.  
+%Since the preferred attribute at a node depends on the values of attributes above,
+%the conditional preference table for the node $t$ located at distance 
+%$i$ from the root has possibly as many as $2^i$ rows (in general, 
+%$2^j$ rows, where $j$ is the number of ancestor nodes with one child 
+%only), with each row specifying a combination of values for the ancestor 
+%attributes together with the preferred value for $\Iss(t)$ given that 
+%combination. Thus, collapsing subtrees alone does not lead to a smaller 
+%representation size. However, it can be achieved if there are nodes whose 
+%preferred value depends only on a limited number of attributes labeling 
+%their single-child ancestor nodes as in such cases the conditional 
+%preference table can be simplified.  
 
-Formally, given an LP tree (possibly with some subtrees collapsed), for 
+Formally, given an LP-tree (possibly with some subtrees collapsed), for 
 a node $t$, let $\ninst(t)$ be the set of ancestor nodes of $t$ whose
 subtrees were collapsed into one, and let $\Inst(t)$ represent the 
 remaining ancestor nodes. A \emph{parent} function $\cP$ assigns to 
 each node $t$ in $T$ a set $\cP(t)\subseteq\ninst(t)$ of \emph{parents}
-of $t$, that is, the nodes whose issues may have influence on the local 
+of $t$, that is, the nodes whose attributes may have influence on the local 
 preference at $\Iss(t)$. Clearly, the conditional preference table at $t$
 requires only $2^{|\cP(t)|}$ rows, possibly many fewer than in the worst 
-case. In the extreme case, when an LP tree is a path and each node has 
+case. In the extreme case, when an LP-tree is a path and each node has 
 a bounded (independent of $p$) number of parents, the tree can be 
 represented in $O(p)$ space.
 
-If for every node $t$ in an LP tree, $\cP(t)=\emptyset$, all (local)
+If for every node $t$ in an LP-tree, $\cP(t)=\emptyset$, all (local)
 preferences are unconditional and conditional preference tables consist
 of a single entry. Such trees are called \emph{unconditional preference}
-LP trees (UP trees, for short). Similarly, LP trees with all non-leaf 
+LP-trees (UP trees, for short). Similarly, LP-trees with all non-leaf 
 nodes having their subtrees collapsed are called an \emph{unconditional
-importance} LP trees (UI trees, for short). This leads to a a natural 
-classification of LP trees into four classes: unconditional importance 
-and unconditional preference LP trees (UI-IP trees), unconditional 
+importance} LP-trees (UI trees, for short). This leads to a a natural 
+classification of LP-trees into four classes: unconditional importance 
+and unconditional preference LP-trees (UI-IP trees), unconditional 
 importance and conditional preference trees (UI-CP trees), etc. The class
-of CI-CP trees comprises all LP trees, the class of UI-UP trees is the 
+of CI-CP trees comprises all LP-trees, the class of UI-UP trees is the 
 most narrow one. 
 
-The LP tree $T$ in Figure \ref{fig:LPTree_full} can be represented more
+The LP-tree $T$ in Figure \ref{fig:LPTree_full} can be represented more
 concisely as a (collapsed) CI-CP tree $v$ in Figure \ref{fig:LPTree}. Nodes
 at depth one have their subtrees collapsed. In the tree in Figure
 \ref{fig:LPTree_full}, the subtrees of the node at depth 1 labeled 
-\textit{Tran} are not only identical but also have the same preference 
+\tit{P} are not only identical but also have the same preference 
 information at every node. Thus, collapsing them does not incur growth in
 the size of the conditional preference table.
       
@@ -467,27 +473,27 @@ the size of the conditional preference table.
 
   \begin{tikzpicture}[->,>=stealth',node distance=2cm,main node/.style={circle,draw,font=\small}]
         
-    \node[main node] (1) {Time};
-    \node[rectangle,draw] at (1.2,0) {$s > w$};
+    \node[main node,inner sep=7pt] (1) {C};
+    \node[rectangle,draw] at (1.2,0) {$c > \bar{c}$};
     
-    \node[main node] (2) [below left of=1] {Dest};
-    \node[rectangle,draw] at (-2.6,-1.4) {$c > m$};
+    \node[main node,inner sep=7pt] (2) [below left of=1] {S};
+    \node[rectangle,draw] at (-2.6,-1.4) {$s>\bar{s}$};
 		%\node[rectangle] at (-2.0,-1.4) {$t'$};
     
-    \node[main node] (3) [below of=2] {Tran};
+    \node[main node,inner sep=7pt] (3) [below of=2] {P};
     \node[rectangle split, rectangle split parts=2, draw, font=\sffamily\small] at (-2.9,-3.5)
         {
-          $c:d>f$
+          $s:p>\bar{p}$
           \nodepart{second}
-          $m:f>d$
+          $\bar{s}:\bar{p}>p$
         };
     %\node[rectangle] at (-2,-3.5) {$t$};
     
-    \node[main node] (4) [below right of=1] {Tran};
-    \node[rectangle,draw] at (2.6,-1.4) {$f > d$};
+    \node[main node,inner sep=7pt] (4) [below right of=1] {P};
+    \node[rectangle,draw] at (2.6,-1.4) {$\bar{p} > p$};
     
-    \node[main node] (5) [below of=4] {Dest};
-    \node[rectangle,draw] at (2.6,-3.4) {$m > c$};
+    \node[main node,inner sep=7pt] (5) [below of=4] {S};
+    \node[rectangle,draw] at (2.6,-3.4) {$s > \bar{s}$};
   
     \path[every node/.style={font=\sffamily\small}]
       (1) edge (2)
@@ -497,67 +503,71 @@ the size of the conditional preference table.
   \end{tikzpicture}
   
 %  \vspace{-0.3cm}
-  \caption{An CI-CP LP tree $T$}
+  \caption{An CI-CP LP-tree $T$}
   \label{fig:LPTree}
 %  \vspace{-0.5cm}
 \end{figure}
 
 \noindent{\textbf{The Model.}}
-An LP tree consisting of $p$ binary issues corresponds to a strict total order over
+An LP-tree consisting of $p$ binary attributes corresponds to a strict total order over
 $2^p$ alternatives.  For the example in \figref{LPTree}, the total order induced
 by $T$ is
 \begin{center}
-	$scd \succ scf \succ smf \succ smd \succ wmf \succ wcf \succ wmd \succ wcd$.
+	$cps \succ c\bar{p}s \succ c\bar{p}\bar{s} \succ cp\bar{s} 
+		\succ \bar{c}\bar{p}s \succ \bar{c}\bar{p}\bar{s} \succ \bar{c}ps \succ \bar{c}p\bar{s}$.
 \end{center}
 
 \noindent{\textbf{Problems and Complexity.}}
-An LP tree orders pairs of alternatives ($M,M'$) by traversing down the tree
-and check the issues accordingly until an issue $X$ is reach such that
-$M(X) \not = M'(X)$.  $M$ and $M'$ are then ordered based on the preference
-information on $X$ \cite{booth:learningLP}.  Thus, we have the following 
-\thmref{LP_DOM}.
-
-\begin{thm}
-\label{thm:LP_DOM}
-	The $\LP$-DOMINANCE problem can be solved in time linear in $p$.
-\end{thm}
-\begin{proof}
-	The linear time algorithm is shown in \algref{LP_dom}.
-
-	\begin{algorithm}[ht]
-	\KwIn{an LP tree $T$, two alternatives $M$ and $M'$ ($M \not = M'$)}
-	\KwOut{$\true$ if $M' \succ_T M$; $\false$, otherwise}
-	Let $T^* = T$\;
-	\For{$i \leftarrow 1$ \KwTo $p$}{
-	  Let $X_j$ be the root of $T^*$ with preference $x_j \succ \bar{x_j}$\;
-	  
-	  \uIf{$M'(X_j) > M(X_j)$}{
-			\Return{$\true$}\;
-	  }
-		\uElseIf{$M'(X_j) < M(X_j)$}
-		{
-			\Return{$\false$}\;
-	  }
-		\Else{
-			$T^* \leftarrow T^*(x_j)$\;
-		}
-	}
-	
-	\caption{Solving the $\LP$-DOMINANCE problem\label{alg:LP_dom}}
-	\end{algorithm}
-\end{proof}
-
-Since an LP tree determines a linear order over alternatives, an optimal
-alternative always exists and the $\LP$-OPTIMALITY-\rom{1} problem
-is trivial.  And it can be solved in time linear in $p$.
-Similarly, the $\LP$-OPTIMALITY-\rom{2} and
+As any LP-tree induces a total order, the $\LP$-L-CONSISTENCE problem is trivial.
+Moreover, an optimal alternative always exists and the $\LP$-OPTIMALITY-\rom{1} problem
+is trivial too.  Similarly, the $\LP$-OPTIMALITY-\rom{2} and
 $\LP$-OPTIMALITY-\rom{3} problems are easy to solve.
+However, once labels in an LP-tree become propositional formulas,
+the $\LP$-OPTIMALITY-\rom{2} and $\LP$-OPTIMALITY-\rom{3} problems are
+no longer easy \cite{conf/adt15/liuT}.
+These are our results and we will discuss it in \chref{PTrees}.
+
+An LP-tree orders pairs of alternatives ($o_1,o_2$) by traversing down the tree
+and check the attributes accordingly until an attribute $X$ is reached such that
+$o_1(X) \not = o_2(X)$.  Alternatives $o_1$ and $o_2$ are then ordered based on the preference
+information on $X$ \cite{booth:learningLP}.
+Therefore, we know that the $\LP$-DOMINANCE problem is in \bP.
+
+%\begin{thm}
+%\label{thm:LP_DOM}
+%	The $\LP$-DOMINANCE problem can be solved in time linear in $p$.
+%\end{thm}
+%\begin{proof}
+%	The linear time algorithm is shown in \algref{LP_dom}.
+%
+%	\begin{algorithm}[ht]
+%	\KwIn{an LP-tree $T$, two alternatives $o_1$ and $o_2$ ($o_1 \not = o_2$)}
+%	\KwOut{$\true$ if $o_2 \succ_T o_1$; $\false$, otherwise}
+%	Let $T^* = T$\;
+%	\For{$i \leftarrow 1$ \KwTo $p$}{
+%	  Let $X_j$ be the root of $T^*$ with preference $x_j \succ \bar{x_j}$\;
+%	  
+%	  \uIf{$o_2(X_j) > o_1(X_j)$}{
+%			\Return{$\true$}\;
+%	  }
+%		\uElseIf{$o_2(X_j) < o_1(X_j)$}
+%		{
+%			\Return{$\false$}\;
+%	  }
+%		\Else{
+%			$T^* \leftarrow T^*(x_j)$\;
+%		}
+%	}
+%	
+%	\caption{Solving the $\LP$-DOMINANCE problem\label{alg:LP_dom}}
+%	\end{algorithm}
+%\end{proof}
 
 Instead of the problems of reasoning about a single
-LP tree, recently researchers have studied
-the problem of aggregating LP trees from multiple
+LP-tree, recently researchers have studied
+the problem of aggregating LP-trees from multiple
 agents to facilitate collaborative decision making.
-LP trees are aggregated
+LP-trees are aggregated
 according to some social choice scheme, such as
 issue-by-issue voting \cite{fargier:ibi},
 sequential majority voting rule \cite{Xia:SMV},
@@ -569,114 +579,47 @@ well as experimental analysis for two computational tools:
 Answer Set Programming (ASP) \cite{aspataglance} and 
 Weighted Partial Maximum Satisfiability (WPM) \cite{papado:b:compcomplexity}.
 
-\subsection{Conditional Preference Theories}
-The formalism of conditional preference theories was proposed by
-Wilson \cite{Wilson04extendingcp-nets}.
-Conditional Preference Theories (\textit{CP theories}) allows
-compact representation of certain kinds of conditional preference
-statements.
-The logic generalizes both CP-net \cite{Wilson04extendingcp-nets} and TCP-net
-\cite{WilsonECAI04}.
 
-\noindent{\textbf{The Language.}}
-In the language of CP-nets, one can express her preferences over cars
-under the semantics of \textit{ceteris paribus} as follows:
-\textit{A Toyota car is preferred to a Ford car, everything else being equal}.
-Such semantics of CP-nets imposes limitation on its expressivity for
-stronger preference statements, such as
-\textit{A Toyota car is preferred to a Ford car, regardless of how they
-evaluate the other variables}.
-CP-nets cannot generally express such statements in a compact way
-\cite{Wilson04extendingcp-nets}, while CP theories can.
+\subsection{Possibilistic Logic}
+Unlike CP-nets and LP-tree that respectively express partial orders and total orders,
+possibilistic logic \cite{DuboisLP91} describes preferences as a set of weighted propositional
+formulas inducing total preorders.
 
-\begin{definition}
-	Let $V$ be a set of variables.  For each $X\in V$, let $\underline{X}$
-	be the set of values of $X$.  For each $U \subset V$, let
-	$\underline{U}=\Pi_{X\in U} \underline{X}$ be the set of assignments to $U$.
-	A conditional preference statement $\varphi$ is of the form
-	\begin{center}
-		$u : x > x' [W]$,
-	\end{center}
-	where $u \in \underline{U}$, $x,x' \in \underline{X}$ ($X \not \in U$),
-	and $W \subseteq V-U-\{W\}$.
-	A conditional preference theory $\Gamma$ is a set of 
-	conditional preference statements.
-\end{definition}
-
-\nop{\mc{
-	Need an example of CPTh here.
-}}
-
-\noindent{\textbf{The Model.}}
-\begin{definition}
-	For $\varphi=u:x>x'[W]$, let $T \subseteq V$ be
-	$V-\{U \cup \{X\} \cup W\}$.
-	Define $\varphi^*$ the set of pairs of outcomes
-	$\{(tuxw,tux'w'):t\in \underline{T}, w,w' \in \underline{W}\}$ induced
-	by $\varphi$.
-\end{definition}
-Each pair $(\alpha,\beta) \in \varphi^*$ represents the preference of
-$\alpha$ over $\beta$.  Informally, $\varphi$ expresses that,
-given $u$, $x$ is preferred to $x'$ regardless of the assignments $w,w'$
-to $W$, everything else (assignments $t$ to $T$) being equal.
-Consider a set of cars over three binary variables \textit{Make}, \textit{Color}
-and \textit{Category}, where $\Dom(Make)=\{Toyota(t),Ford(f)\}$,
-$\Dom(Color)=\{black(b),white(w)\}$, and $\Dom(Category)=\{sedan(s), truck(r)\}$.
-For a preference over cars
-``\textit{For Toyota cars, a sedan is preferred to a truck, regardless of other variables},"
-we have the following preference statement $\varphi$:
+\noindent{\textbf{The Language and the Model.}}
+In possibilistic logic, preferences are stated as a theory of weighted formulas.
+A possibilistic logic theory $\Pi$ over a vocabulary $\cI$ is a set of 
+\emph{preference pairs}
 \begin{center}
-	$\textit{Toyota} : \textit{sedan} > \textit{truck} \, [\{Color\}]$.
+	$\{ (\phi_1,a_1), \ldots, (\phi_m,a_m) \}$,
 \end{center}
-We see that $\varphi$ is a shorthand for the set $\varphi^*$ of four binary relations
-it induces:
-$tbs \succ tbr$, $tbs \succ twr$, $tws \succ tbr$, and $tws \succ twr$.
+where every $\phi_i$ is a Boolean formula over $\cI$, and every $a_i$ is a real number
+such that $1\geq a_1>\ldots>a_m\geq 0$ (if two formulas have the same 
+importance level, they can be replaced by their conjunction).
+Intuitively, $a_i$ represents the importance of $\phi_i$, with larger values
+indicating higher importance.
 
+The \textit{tolerance degree} of outcome $o$ with regard to preference 
+pair $(\phi,a)$, $\TD_{(\phi,a)}(o)$, is defined by
+\[
+ \TD_{(\phi,a)}(o) =
+  \begin{cases}
+   1, & o \models \phi \\
+   1-a, & o \not \models \phi
+  \end{cases}
+\]
+Based on that, the tolerance degree of outcome $o$ with regard to a \emph{set}
+$\Pi$ of preference pairs, $\TD_\Pi(o)$, is defined by 
+\begin{center}
+	$\TD_\Pi(o)=min\{\TD_{(\phi_i,a_i)}(o):1\leq i \leq m\}$.
+\end{center}
+The larger $\TD_\Pi(o)$, the more preferred $o$ is; that is, 
+given two outcomes $o_1$ and $o_2$, we have
+\begin{center}
+	$o_1 \succ_\Pi o_2$ \itiff $\TD_\Pi(o_1) > \TD_\Pi(o_2)$,\\
+	$o_1 \approx_\Pi o_2$ \itiff $\TD_\Pi(o_1) = \TD_\Pi(o_2)$.
+\end{center}
 
-\begin{definition}
-	Let $\Gamma$ be a conditional preference theory, define $\Gamma^*$
-	the union of $\varphi^*$ for all $\varphi$ in $\Gamma$, that is,
-	$\Gamma^* = \bigcup_{\varphi \in \Gamma} \varphi^*$.
-	Assume preference relation is transitive, define $>_{\Gamma}$
-	the transitive closure of $\Gamma^*$.
-\end{definition}
-
-We define models of $\Gamma$ to be strict total orders on $\underline{V}$.
-\begin{definition}
-	Let $>$ be a strict total order on $\underline{V}$.
-	The relation $>$ is a model of $\phi$, $> \models \varphi$ if and only if
-	$> \supseteq \phi^*$.  
-	The relation $>$ is a model of $\Gamma$, $> \models \Gamma$, if and only if 
-	$> \supseteq \Gamma^*$.
-	We say $\Gamma$ is consistent if it has a model, that is, 
-	there exists a strict total order $>$
-	such that $> \models \Gamma$.
-\end{definition}
-
-Indeed, we have $> \models \varphi$ if and only if $\alpha > \beta$ whenever
-$(\alpha,\beta) \in \varphi^*$.  That is, for all $t \in \underline{T}$ and
-$w,w' \in \underline{W}$, $tuxw > tux'w'$.
-
-
-\noindent{\textbf{Problems and Complexity.}}
-Let $\Gamma$ be a CP theory, $G(\Gamma)$ a directed graph with edges
-representing dependency and importance relations.
-Assuming $G(\Gamma)$ is acyclic,
-sufficient and necessary conditions for a CP theory to be consistent
-have been characterized \cite{Wilson04extendingcp-nets}:
-The CP theory $\Gamma$ is consistent if and only if
-$\Gamma$ is locally consistent.
-Under this assumption, the CPTh-CONSISTENCY problem can be solved
-efficiently.  Moreover, computing a model of $\Gamma$ and 
-finding an optimal outcome can also be solved in polynomial time
-by constructing from $\Gamma$ a partial conditional lexicographic order
-which can easily be extended to a total order
-\cite{Wilson04extendingcp-nets}.
-Other sufficient conditions of consistency are discussed too
-\cite{WilsonECAI04}.
-
-In general, the CPTh-DOMINANCE problem is PSPACE-complete
-\cite{Wilson:2006:EUA:1567016.1567119}.
+{\bf [NEED EXAMPLE]}
 
 
 \subsection{Answer Set Optimization}
@@ -693,7 +636,6 @@ Other methods can be found in the latter paper \cite{Brewka04}.
 In more recent works \cite{Faber:QOP,Faber:APF}, 
 the Pareto-based ASO framework is generalized in the setting of
 qualitative optimization problems.
-
 
 \noindent{\textbf{The Language.}}
 \begin{definition}
