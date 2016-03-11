@@ -7,16 +7,18 @@
 	these problems.
 }}
 
-In this section, I will first review some of the preference
-systems in the literature that are designed to represent
+In this section I will present work related to my thesis research.
+I will first review some of the preference
+systems studied in the literature that are designed to represent
 qualitative preferences over combinatorial domains. 
 I will then introduce concepts
-from social choice theory underlying mechanisms to
+from social choice theory underlying methods to
 combine individual preferences to reach a common decision.
 
 \section{Preferences Modeling and Reasoning \label{sec:pref_reasoning}}
-In the following, we recall several preference languages that
-have contributed to the thesis work.
+Researchers have proposed several languages to model preferences.
+I will now discuss those of them that are closely related
+to my work.
 These languages include graphical formalisms:
 \tit{Conditional Preference Networks} (CP-nets) and
 \tit{Lexicographic Preference Trees} (LP-trees);
@@ -24,15 +26,15 @@ and logical formalisms:
 \tit{Possibilistic Logic} and
 \tit{Answer Set Optimization} (ASO).
 They are developed to provide concise and intuitive
-presentations of preferential information in 
+presentations of preferential information for objects from
 combinatorial domains.
 
-
-For either system, I will focus on three aspects \cite{Domshlak20111037}:
-(i) the language in which preferences are specified,
-(ii) the mathematical model captured by the system,
-and (iii) complexity of and algorithms for
-problems about the model (cf. the following definitions).
+For all systems, I will focus on two aspects:
+the language in which preferences are specified,
+and complexity of and algorithms for
+problems about the model.
+The most fundamental of these problems are introduced
+in the following definitions.
 
 \nop{{\bf [THESE DEFINITIONS ARE AT A WRONG PLACE.]}}
 \begin{definition}
@@ -47,8 +49,8 @@ problems about the model (cf. the following definitions).
 \label{def:dom}
   $\cL$-DOMINANCE: given an instance $\cC$ of a preference
 	formalism $\cL$ and its two distinct outcomes
-  $M$ and $M'$, decide whether $M' \succ_\cL M$, that is,
-  whether $M'$ is strictly preferred to $M$ in $\cC$.
+  $o_1$ and $o_2$, decide whether $o_1 \succ_\cL o_2$, that is,
+  whether $o_1$ is strictly preferred to $o_2$ in $\cC$.
 \end{definition}
 
 \begin{definition}
@@ -61,28 +63,30 @@ problems about the model (cf. the following definitions).
 \begin{definition}
 \label{def:opt2}
   $\cL$-OPTIMALITY-\rom{2}: given an instance $\cC$ of a preference
-	formalism $\cL$ and an outcome $M$ of $\cC$,
-  decide whether $M$ is an optimal outcome.
+	formalism $\cL$ and an outcome $o$ of $\cC$,
+  decide whether $o$ is an optimal outcome.
 \end{definition}
 
 \begin{definition}
 \label{def:opt3}
   $\cL$-OPTIMALITY-\rom{3}: given an instance $\cC$ of a preference
-	formalism $\cL$ and some property $l$ expressed as a Boolean formula 
+	formalism $\cL$ and some property $\Phi$ expressed as a Boolean formula 
 	over the alphabet of $\cC$,
-  decide whether there is an optimal outcome $M$ that satisfies $l$.
+  decide whether there is an optimal outcome $o$ that satisfies $\Phi$.
 \end{definition}
-
-
 
 \subsection{Conditional Preference Networks}
 \noindent{\textbf{The Language.}}
 Conditional Preference Networks (CP-nets) define preferential relations between outcomes
-based on the \textit{ceteris paribus}
+based on the \tit{ceteris paribus}
 semantics \cite{bbdh03}.
 \textit{Ceteris paribus} is latin for ``everything else being equal."
 
-Let $\bV$ be a set of binary variables, we denote by $\Asst(\bV)$ the set of
+Let $\bV$ be a set of binary variables\footnote{
+	Focusing on binary variables makes the discussion clearer,
+	and it does not affect the complexity results.
+}
+, we denote by $\Asst(\bV)$ the set of
 all truth assignments to the variables in $\bV$.
 For each variable $X_i \in \bV$, $\Pa(X_i)$ denotes the \tit{parent} variables of
 $X_i$, such that preferences over the domain of $X_i$ depend upon how
@@ -138,7 +142,9 @@ $\Pa(X_i)$ are evaluated.
 \end{definition}
 
 \nop{\mc{Need an example of CP-net here.}}
-We consider the domain of cars.
+We say that a CP-net $N=(G,T)$ is \tit{acyclic} if
+$G$ is acyclic; \tit{cyclic}, otherwise.
+To illustrate, let us consider the domain of cars.
 For simplicity, we take three binary variables
 \tit{Price}, \tit{Safety}, and \tit{Capacity}.
 Variable \tit{Capacity} ($C$) has two values \tit{high} ($c$) 
@@ -149,13 +155,13 @@ Variable \tit{Safety} ($S$) has two values \tit{high} ($s$)
 and \tit{low} ($\bar{s}$).
 An example CP-net $N=(G,T)$ over binary variables $\bV=\{C,P,S\}$
 is shown in \figref{CPN_depend}.
-The directed graph $G$, also called \tit{dependency graph}, expresses
+The directed graph $G$, also called the \tit{dependency graph}, expresses
 dependencies among variables.  An arrow in the dependency graph points
 to a child variable from a parent variable. Thus, we see that,
-the preferences on \tit{Price} (\tit{Security}) depend upon the assignment made
+the preferences on \tit{Price} (\tit{Safety}) depend upon the assignment made
 to \tit{Capacity} (\tit{Price}, respectively).
 
-\noindent{\textbf{The Model.}}
+\nop{\noindent{\textbf{The Model.}}}
 To decide if outcome $o_1$ is preferred to outcome $o_2$ in a CP-net $N$,
 one needs to show that $o_2$ can be improved, ceteris paribus, 
 according to the preference statements in $N$ to reach $o_1$.
@@ -165,11 +171,11 @@ according to the preference statements in $N$ to reach $o_1$.
 	and $\bY=\bV-(\bU \cup \{X_i\})$.
 	Let $\bu x_i \by$ be an outcome, where $x_i\in \Dom(X_i)$,
 	$\bu \in \Asst(\bU)$, and $\by \in \Asst(\bY)$.
-	An \tit{improving flip} of $\bu x_i \by$ wrt $X_i$ is
+	An \tit{improving flip} of $\bu x_i \by$ wrt $X_i$ is an
 	outcome $\bu x_i' \by$ such that $x_i' \succ^i_{\bu} x_i$.
 	A \tit{sequence of improving flips} wrt $N$ is a sequence of
 	outcomes $o_1,\ldots,o_j$ such that, for every $k<j$,
-	$o_{k+1}$ is an improving flip of $o_k$ wrt some variable.
+	$o_{k+1}$ is an improving flip of $o_k$ wrt some variable in $\bV$.
 	We say that outcome $o_1$ is preferred to outcome $o_2$ in $N$,
 	denoted by $o_1 \succ_N o_2$, if there exists a sequence of
 	improving flips from $o_2$ to $o_1$.
@@ -195,19 +201,20 @@ $o' \succ_N o$.
 %	$\succ$ that satisfies $N$.
 %\end{definition}
 
-Consider the CP-net $N$ in \figref{CPN}
-that induces a partial order shown in \figref{CPN_pref},
+Consider the CP-net $N$ in \figref{CPN}.
+It induces a partial order shown in \figref{CPN_pref},
 where each arrow represents an improving flip between two outcomes.
 We see that $c\bar{p}\bar{s} \succ_N \bar{c}ps$
-because of the flipping sequence, the colored path in \figref{CPN_pref}.
-Outcome $cps$ is optimal because not other outcome is
+because of the improving flipping sequence --
+$c\bar{p}\bar{s},\bar{c}\bar{p}\bar{s},\bar{c}\bar{p}s,\bar{c}ps$.
+Outcome $cps$ is optimal because no other outcome is
 better.
 We note that there is no flipping sequence between
 $c\bar{p}s$ and $\bar{c}\bar{p}\bar{s}$.
 In such case, we say that the two outcomes are \tit{incomparable}.
 This CP-net is consistent because there exists a total order
-of outcomes in consent with the preference graph \figref{CPN_pref}.
-There are de facto two such total orders as follows.
+of outcomes that agrees with the preference graph \figref{CPN_pref}.
+There are in fact two such total orders:
 
 \begin{center}
 	$cps \succ cp\bar{s} \succ c\bar{p}\bar{s} 
@@ -247,11 +254,11 @@ There are de facto two such total orders as follows.
 		\centering
 		  \begin{tikzpicture}[->,>=stealth',node distance=1cm,main node/.style={circle,draw,font=\small}]
 		    \node[rectangle,inner sep=0pt] (1)                                         {$\bar{c}p\bar{s}$};
-				\node[rectangle,inner sep=0pt] (2) [below of=1]                            {\bluetext{$\bar{c}ps$}};
-				\node[rectangle,inner sep=0pt] (3) [below of=2]                            {\bluetext{$\bar{c}\bar{p}s$}};
-				\node[rectangle,inner sep=0pt] (4) [left of =3,xshift=-1cm,yshift=-0.5cm]  {\bluetext{$\bar{c}\bar{p}\bar{s}$}};
+				\node[rectangle,inner sep=0pt] (2) [below of=1]                            {$\bar{c}ps$};
+				\node[rectangle,inner sep=0pt] (3) [below of=2]                            {$\bar{c}\bar{p}s$};
+				\node[rectangle,inner sep=0pt] (4) [left of =3,xshift=-1cm,yshift=-0.5cm]  {$\bar{c}\bar{p}\bar{s}$};
 				\node[rectangle,inner sep=0pt] (5) [below of=3]                            {$c\bar{p}s$};
-				\node[rectangle,inner sep=0pt] (6) [left of=5,xshift=-1cm,yshift=-0.5cm]   {\bluetext{$c\bar{p}\bar{s}$}};
+				\node[rectangle,inner sep=0pt] (6) [left of=5,xshift=-1cm,yshift=-0.5cm]   {$c\bar{p}\bar{s}$};
 				\node[rectangle,inner sep=0pt] (7) [below of=6]                            {$cp\bar{s}$};
 				\node[rectangle,inner sep=0pt] (8) [below of=5,yshift=-1cm]                {$cps$};
 		
@@ -275,7 +282,7 @@ There are de facto two such total orders as follows.
   \label{fig:CPN}
 \end{figure}
 
-%Answering the CP-CONSISTENCY problem depends upon whether
+%Answering the CP-CONSISTENCE problem depends upon whether
 %its dependency graph are acyclic and how preference rules
 %in CPTs are specified.
 %Researchers in AI have been working on this problem
@@ -287,18 +294,19 @@ There are de facto two such total orders as follows.
 Boutilier, Brafman, Domshlak, Hoos and Poole \cite{bbdh03} 
 have proved that every acyclic CP-net
 is consistent, whereas Goldsmith, Lang, Truszczynski and Wilson \cite{Goldsmith}
-have shown that the CPN-CONSISTENCY problem is PSPACE-complete.
+have shown that the CPN-CONSISTENCE problem is PSPACE-complete in general.
 
-For the CPN-DOMINANCE problem, its complexity depends.
+For the CPN-DOMINANCE problem, its complexity depends on the structure
+of the dependency graph.
 The CPN-DOMINANCE problem can be solved by
 a polynomial time algorithm for binary-valued tree-structured
 CP-nets, and that the problem is NP-complete for binary-valued
 CP-nets with specially structured dependency graphs 
-(e.g., max-$\delta$-connectedness) \cite{bbdh03}.
+(e.g., max-$\delta$-connected dependency graphs) \cite{bbdh03}.
 However, it is NP-hard for general binary-valued acyclic 
 CP-nets \cite{bbdh03}.
 Furthermore, in the most general case when the dependency graph
-could be cyclic, this problem is proved PSPACE-complete even
+could be cyclic, this problem is PSPACE-complete even
 if the CP-nets are consistent \cite{Goldsmith}.
 
 For acyclic CP-nets, the optimality problems (i.e.,
@@ -309,11 +317,9 @@ CPN-OPTIMALITY-\rom{3}) are easy \cite{bbdh03}.
 
 \subsection{Lexicographic Preference Trees \label{sec:LPT}}
 The language of lexicographic preference trees \cite{booth:learningLP} 
-is a tree-like preference formalism that has arisen from lexicographic
+uses trees to model preferences. It is motivated by lexicographic
 orderings \cite{Kaci:Pref} and lexicographic preferences \cite{10.2307/2296854}.
-My research mostly deals with lexicographic preference trees
-and other preference systems extending lexicographic preference trees,
-such as preference trees and partial lexicographic preference trees.
+This formalism and its variants are the primary focus on my research.
 
 \noindent{\textbf{The Language.}}
 \tit{A lexicographic preference tree} (\emph{LP-tree}) $T$ over a set $\cI$ 
@@ -327,13 +333,13 @@ each attribute appears exactly once on each path from the root to a leaf.
 
 Intuitively, the attribute labeling the root of an LP-tree is of highest 
 importance. Alternatives with the preferred value of that attribute
-are preferred over alternatives with the non-preferred one. The two
+are preferred over outcomes with the non-preferred one. The two
 subtrees refine that ordering. The left subtree determines the ranking
 of the preferred ``upper half'' and the right subtree determines the 
 ranking of the non-preferred ``lower half.'' In each case, the same 
 principle is used, with the root attribute being the most important one. 
 \nop{The attribute labeling the root of a subtree is the
-most important among those appearing in the subtree, and the alternatives
+most important among those appearing in the subtree, and the outcomes
 the subtree represents are split into the preferred and non-preferred 
 halves based on their value and on the preference information at the node.}
 We note that the attributes labeling the roots of the 
@@ -341,7 +347,7 @@ subtrees need not be the same (the relative importance of attributes may
 depend on values for the attributes labeling the nodes on the path to the root).
 
 The precise semantics of an LP-tree $T$ captures this intuition. Given 
-an alternative $x_1x_2\ldots x_p$, we find its preference ranking in 
+an outcome $x_1x_2\ldots x_p$, we find its preference ranking in 
 $T$ by traversing the tree from the root to a leaf. When at node $t$ 
 labeled with the attribute $X_i$, we follow down to the left subtree if
 $x_i$ is preferred according to the preference information at node
@@ -349,24 +355,25 @@ $t$. Otherwise, we follow down to the right subtree.
 
 It is convenient to imagine the existence of yet another level of nodes 
 in the tree, not represented explicitly, with each node in the lowest 
-explicitly represented level ``splitting'' into two of these
-implicit nodes, each representing an alternative. Descending the tree 
-given an alternative in the way described above takes us to an (implicit) 
-node at the lowest level that represents precisely that alternative.
-The more to the left the node representing the alternative, the more 
+level ``splitting'' into two of these
+implicit nodes, each representing an outcome. Descending the tree 
+given an outcome in the way described above takes us to an (implicit) 
+node that represents precisely that outcome's rank.
+The more to the left the node representing the outcome, the more 
 preferred it is, with the one in the leftmost (implicit) node being the 
 most desirable one as left links always correspond to preferred values.
 
 To illustrate these notions, let us consider an example LP-tree
-over the car domain of binary \tit{Capacity}, \tit{Price}, and \tit{Security},
+over the car domain, given by the three binary attributes 
+\tit{Capacity}, \tit{Price}, and \tit{Safety},
 described as earlier.
 Our agent prefers cars with high capacity to cars with low capacity,
 and this preference on \tit{Capacity} is the most important one.
 Then, for high-capacity cars, the next most important attribute is
-\tit{Security} and she prefers cars with high security level,
+\tit{Safety} and she prefers cars with high security level,
 and the least important attribute is \tit{Price}.
 She prefers low-price cars if security is low, and high-price, otherwise.
-For low-capacity cars, the importance of \tit{Security}
+For low-capacity cars, the importance of \tit{Safety}
 and \tit{Price} changes with \tit{Price} being more important.
 The agent prefers low-price cars among the low-capacity.
 Finally, high-security cars are preferred over low-security cars.
@@ -503,14 +510,14 @@ the size of the conditional preference table.
   \end{tikzpicture}
   
 %  \vspace{-0.3cm}
-  \caption{An CI-CP LP-tree $T$}
+  \caption{A CI-CP LP-tree $T$}
   \label{fig:LPTree}
 %  \vspace{-0.5cm}
 \end{figure}
 
-\noindent{\textbf{The Model.}}
-An LP-tree consisting of $p$ binary attributes corresponds to a strict total order over
-$2^p$ alternatives.  For the example in \figref{LPTree}, the total order induced
+\nop{\noindent{\textbf{The Model.}}}
+An LP-tree consisting of $p$ binary attributes corresponds to a total order over
+$2^p$ outcomes.  For the example in \figref{LPTree}, the total order induced
 by $T$ is
 \begin{center}
 	$cps \succ c\bar{p}s \succ c\bar{p}\bar{s} \succ cp\bar{s} 
@@ -518,16 +525,11 @@ by $T$ is
 \end{center}
 
 \noindent{\textbf{Problems and Complexity.}}
-As any LP-tree induces a total order, the $\LP$-L-CONSISTENCE problem is trivial.
-Moreover, an optimal alternative always exists and the $\LP$-OPTIMALITY-\rom{1} problem
+As any LP-tree induces a total order, the $\LP$-CONSISTENCE problem is trivial.
+Moreover, an optimal outcome always exists and the $\LP$-OPTIMALITY-\rom{1} problem
 is trivial too.  Similarly, the $\LP$-OPTIMALITY-\rom{2} and
 $\LP$-OPTIMALITY-\rom{3} problems are easy to solve.
-However, once labels in an LP-tree become propositional formulas,
-the $\LP$-OPTIMALITY-\rom{2} and $\LP$-OPTIMALITY-\rom{3} problems are
-no longer easy \cite{conf/adt15/liuT}.
-These are our results and we will discuss it in \chref{PTrees}.
-
-An LP-tree orders pairs of alternatives ($o_1,o_2$) by traversing down the tree
+Deciding whether outcome $o_1$ dominates outcome $o_2$ is done by traversing the tree
 and check the attributes accordingly until an attribute $X$ is reached such that
 $o_1(X) \not = o_2(X)$.  Alternatives $o_1$ and $o_2$ are then ordered based on the preference
 information on $X$ \cite{booth:learningLP}.
@@ -541,7 +543,7 @@ Therefore, we know that the $\LP$-DOMINANCE problem is in \bP.
 %	The linear time algorithm is shown in \algref{LP_dom}.
 %
 %	\begin{algorithm}[ht]
-%	\KwIn{an LP-tree $T$, two alternatives $o_1$ and $o_2$ ($o_1 \not = o_2$)}
+%	\KwIn{an LP-tree $T$, two outcomes $o_1$ and $o_2$ ($o_1 \not = o_2$)}
 %	\KwOut{$\true$ if $o_2 \succ_T o_1$; $\false$, otherwise}
 %	Let $T^* = T$\;
 %	\For{$i \leftarrow 1$ \KwTo $p$}{
@@ -563,15 +565,16 @@ Therefore, we know that the $\LP$-DOMINANCE problem is in \bP.
 %	\end{algorithm}
 %\end{proof}
 
-Instead of the problems of reasoning about a single
-LP-tree, recently researchers have studied
-the problem of aggregating LP-trees from multiple
-agents to facilitate collaborative decision making.
+In addition to problems of reasoning about a single
+LP-tree, recently researchers have initiated studies of
+the problem of aggregating LP-trees expressing preferences of multiple
+agents. The goal is to facilitate collaborative decision making.
 LP-trees are aggregated
 according to some social choice scheme, such as
 issue-by-issue voting \cite{fargier:ibi},
 sequential majority voting rule \cite{Xia:SMV},
 positional scoring rules (e.g. Borda, $k$-Approval) \cite{lang,LiuT}.
+Basics of social choice are discussed later in this chapter.
 In \chref{aggLP}, I will provide detailed definitions of aggregating
 problems and results I obtained on their complexity 
 according to positional scoring rules, as
@@ -581,7 +584,7 @@ Weighted Partial Maximum Satisfiability (WPM) \cite{papado:b:compcomplexity}.
 
 
 \subsection{Possibilistic Logic}
-Unlike CP-nets and LP-tree that respectively express partial orders and total orders,
+Unlike CP-nets and LP-trees that respectively express partial orders and total orders,
 possibilistic logic \cite{DuboisLP91} describes preferences as a set of weighted propositional
 formulas inducing total preorders.
 
@@ -598,7 +601,7 @@ importance level, they can be replaced by their conjunction).
 Intuitively, $a_i$ represents the importance of $\phi_i$, with larger values
 indicating higher importance.
 
-The \textit{tolerance degree} of outcome $o$ with regard to preference 
+The \textit{tolerance degree} of an outcome $o$ with regard to a preference 
 pair $(\phi,a)$, $\TD_{(\phi,a)}(o)$, is defined by
 \[
  \TD_{(\phi,a)}(o) =
@@ -607,7 +610,7 @@ pair $(\phi,a)$, $\TD_{(\phi,a)}(o)$, is defined by
    1-a, & o \not \models \phi
   \end{cases}
 \]
-Based on that, the tolerance degree of outcome $o$ with regard to a \emph{set}
+Based on that, the tolerance degree of an outcome $o$ with regard to a \emph{set}
 $\Pi$ of preference pairs, $\TD_\Pi(o)$, is defined by 
 \begin{center}
 	$\TD_\Pi(o)=min\{\TD_{(\phi_i,a_i)}(o):1\leq i \leq m\}$.
@@ -660,14 +663,14 @@ qualitative optimization problems.
 	Need to show an example of ASO here.
 }}
 
-\noindent{\textbf{The Model.}} 
-A single ASO preference rule specifies a total preorder over outcomes, while,
-applying the Pareto ordering, a general ASO program with multiple preferences
-describe a partial preorder over the space of answer sets.
+\nop{\noindent{\textbf{The Model.}}}
+A single ASO preference rule specifies a total preorder over outcomes.
+Applying the Pareto method, a general ASO program with multiple ASO rules
+describes a partial preorder over the space of outcomes represented by answer sets.
 
 We say outcome $o$ is \tit{irrelevant} to preference rule $r$ if
-$o \models (\neg \alpha) \vee (\neg \gamma_1 \wedge \ldots \wedge \gamma_k)$,
-that is, $o$ does not satisfy $\alpha$ or $o$ does not satisfy any of
+$o \models (\neg \alpha) \vee (\neg \gamma_1 \wedge \ldots \wedge \gamma_k)$;
+that is, if $o$ does not satisfy $\alpha$ or $o$ does not satisfy any of
 the Boolean combinations. As mentioned in the work by Brewka et al \cite{Brewka03answerset},
 outcomes irrelevant to $r$ are considered as good as the
 best outcomes.
@@ -679,7 +682,7 @@ preference rule.
 \begin{definition}
 	Let $o$ be an outcome generated by $P_{\gen}$,
 	$r$ an ASO preference rule.
-	The satisfaction degree of $o$ on $r$, denoted $d_r(0)$,
+	The satisfaction degree of $o$ on $r$, denoted $d_r(o)$,
 	is defined as follows: $d_r(o)=1$ if $o$ is irrelevant to $r$;
 	$d_r(o)=\min\{i:o \models \gamma_i\}$, otherwise.
 \end{definition}
@@ -687,11 +690,11 @@ preference rule.
 \begin{definition}
 	Let $(P_{\gen}, P_{\PREF})$ be an ASO theory,
 	$o$ and $o'$ two outcomes.
-	$o'$ is weakly Pareto-preferred to $o$, $o' \succeq o$,
-	if $\forall r \in P_{\PREF}, d_r(o') \leq d_r(o)$.
-	$o'$ is strictly Pareto-preferred to $o$, $o' \succ o$,
+	outcome $o'$ is weakly Pareto-preferred to $o$, $o' \succeq o$,
+	if, for every rule $r$ in $P_{\PREF}, d_r(o') \leq d_r(o)$.
+	outcome $o'$ is strictly Pareto-preferred to $o$, $o' \succ o$,
 	if $o' \succeq o$ and $o \not \succeq o'$.
-	$o$ is optimal if there exists no outcome $o''$ such that
+	outcome $o$ is optimal if there exists no outcome $o''$ such that
 	$o'' \succ o$.
 \end{definition}
 
@@ -700,7 +703,7 @@ Consider an ASO theory $P=(P_{\gen}, P_{\PREF})$, where
 	$P_{\gen}=\{$
 	$(a \lor \bar{a}) \land (\neg (a \land \bar{a})). \;$
 	$(b \lor \bar{b}) \land (\neg (b \land \bar{b})). \;$
-	$(c \lor \bar{c}) \land (\neg (c \land \bar{c})). \;$
+	$(c \lor \bar{c}) \land (\neg (c \land \bar{c})). \}$
 	and\\
 	$P_{\PREF}=\{
 		a > \bar{a} \leftarrow b \vee c. \;\;
@@ -729,14 +732,14 @@ above stay unchanged.
 The study of preference aggregation can be traced back to social choice theory,
 which dates back to Condorcet's paradox of voting, noted by the
 Marquis de Condorcet in the 18th century, in which
-the winning ranking of alternatives could be cyclic even 
+the winning ranking of outcomes could be cyclic even 
 given acyclic individual votes \cite{wiki:soc}.
 Kenneth Arrow's work, \textit{Social Choice and Individual Values},
 is recognized as the basis of modern social choice \cite{aarrow:b:socialchoice}.
 In the book, Arrow states that any preference aggregation method for at least three
-alternatives cannot meet some fairly desirable axioms, a result known as
+outcomes cannot meet some fairly desirable axioms, a result known as
 the Arrow's impossibility theorem.
-Extending this result, Gibbard and Satterthwaite showed
+Further extending this result, Gibbard and Satterthwaite showed
 that any social choice function, again meeting some fair properties, is subject
 to manipulation \cite{gib:j:maip-scheme,satt:j:strat-proof}.
 Extending the Gibbard-Satterthwaite theorem, the Duggan-Schwartz theorem deals with 
@@ -761,24 +764,24 @@ of social choice theory \cite{Brandt:COMSOC}.
 
 \subsection{Preference Aggregation}
 One of the most fundamental problems in social choice theory is how to
-aggregate individual preferences over alternatives so that a
+aggregate individual preferences over outcomes so that a
 collaborative preference relation is reached.
-In other settings, people are interested in some optimal alternatives
-rather than a collective preference relation over all alternatives.
+In other settings, people are interested in some optimal outcomes
+rather than a collective preference relation over all outcomes.
 
 \noindent{\textbf{Social Welfare Functions.}}
 \begin{definition}
-	Let $A=\{a_1,\ldots,a_m\}$ be a finite set of alternatives,
+	Let $A=\{a_1,\ldots,a_m\}$ be a finite set of outcomes,
 	$N=\{1,\ldots,n\}$ a finite set of agents (or voters).
 	A preference relation (or a vote) $v_i$ given by agent $i$ 
-	is a strict total order $\succ_i$,
+	is a total order $\succ_i$,
 	that is, a total, transitive and antisymmetric.
 	A preference profile $P$ is a finite set of preference relations
 	$\{\succ_1, \ldots, \succ_n\}$.
 \end{definition}
 
 We denote by $\cL(A)$ the set of all preference relations over
-the space of alternatives $A$, and $\cL(A)^n$, the set of all
+the space of outcomes $A$, and $\cL(A)^n$, the set of all
 preference profiles.
 
 \begin{definition}
@@ -786,18 +789,18 @@ preference profiles.
 	\begin{center}
 		$\cL(A)^n \rightarrow \cL(A)$.
 	\end{center}
-	We call the resulting relation $\succ$ the social preference relation.
+	We call the resulting relation $\succ \in \cL(A)$ the social preference relation.
 \end{definition}
 
-If there are two alternatives $a_1$ and $a_2$,
+If there are two outcomes $a_1$ and $a_2$,
 May's theorem \cite{May52} suggests that $a_1$ should be
 preferred to $a_2$ in the social preference relation
 if and only if more agents prefer $a_1$ to $a_2$ than
 $a_2$ to $a_1$.
 This idea is called the majority voting.
-However, when there are more than two alternatives,
+However, when there are more than two outcomes,
 the majority voting rule can lead to cycles of
-alternatives, which is known as the Condorcet's paradox.
+outcomes, which is known as the Condorcet's paradox.
 For instance, we have three voters with the following
 preference relations:
 \begin{center}
@@ -810,35 +813,35 @@ Based on the pairwise majority rule, we have the following cycle
 	$a_1 \succ a_2$, $a_2 \succ a_3$, $a_3 \succ a_1$. 
 \end{center}
 
-A general result, Arrow's theorem, shows that no social welfare
-functions satisfies some fairness conditions, defined as follows.
-
-\begin{definition}
-	An $\SWF$ satisfies \textit{Pareto efficiency} if 
-	\begin{center}
-		$\forall i \in N, \forall a_j,a_k \in A, (a_j \succ_i a_k \Rightarrow a_j \succ a_k)$.
-	\end{center}
-	Let $N_{(a_j,a_k)}$ be the set of voters where
-	$a_j$ is preferred to $a_k$ ($N_{(a_j,a_k)}=\{i:a_j \succ_i a_k\}$).
-	An $\SWF$ satisfies \textit{independence of irrelevant alternatives} if
-	\begin{center}
-		$\forall P,P' \in \cL(A)^n, \forall a_j,a_k \in A, (N_{(a_j,a_k)}=N'_{(a_j,a_k)}\Rightarrow$\\
-		$a_j,a_k$ are ranked identically in $\succ$ and $\succ')$.
-	\end{center}
-	An $\SWF$ satisfies \textit{non-dictatorship} if there is no agent $i$ such that
-	\begin{center}
-		$\forall P \in \cL(A)^n, \forall a_j,a_k \in A, (a_j \succ_i a_k \rightarrow a_j \succ a_k)$.
-	\end{center}
-\end{definition}
-
-\begin{thm}
-\label{thm:Arrow}
-\emph{(Arrow, 1951)}
-	When there are at least three alternatives,
-	There exists no $\SWF$ that simultaneously satisfies
-	Pareto efficiency, independence of irrelevant alternatives
-	and non-dictatorship.
-\end{thm}
+%A general result, Arrow's theorem, shows that no social welfare
+%functions satisfies some fairness conditions, defined as follows.
+%
+%\begin{definition}
+%	An $\SWF$ satisfies \textit{Pareto efficiency} if 
+%	\begin{center}
+%		$\forall i \in N, \forall a_j,a_k \in A, (a_j \succ_i a_k \Rightarrow a_j \succ a_k)$.
+%	\end{center}
+%	Let $N_{(a_j,a_k)}$ be the set of voters where
+%	$a_j$ is preferred to $a_k$ ($N_{(a_j,a_k)}=\{i:a_j \succ_i a_k\}$).
+%	An $\SWF$ satisfies \textit{independence of irrelevant outcomes} if
+%	\begin{center}
+%		$\forall P,P' \in \cL(A)^n, \forall a_j,a_k \in A, (N_{(a_j,a_k)}=N'_{(a_j,a_k)}\Rightarrow$\\
+%		$a_j,a_k$ are ranked identically in $\succ$ and $\succ')$.
+%	\end{center}
+%	An $\SWF$ satisfies \textit{non-dictatorship} if there is no agent $i$ such that
+%	\begin{center}
+%		$\forall P \in \cL(A)^n, \forall a_j,a_k \in A, (a_j \succ_i a_k \rightarrow a_j \succ a_k)$.
+%	\end{center}
+%\end{definition}
+%
+%\begin{thm}
+%\label{thm:Arrow}
+%\emph{(Arrow, 1951)}
+%	When there are at least three outcomes,
+%	There exists no $\SWF$ that simultaneously satisfies
+%	Pareto efficiency, independence of irrelevant outcomes
+%	and non-dictatorship.
+%\end{thm}
 
 
 
@@ -848,7 +851,7 @@ functions satisfies some fairness conditions, defined as follows.
 	\begin{center}
 		$\cL(A)^n \rightarrow 2^A-\{\emptyset\}$.
 	\end{center}
-	We call the resulting alternative (alternatives)
+	We call the resulting outcome (outcomes)
 	a winner (co-winners, respectively).
 \end{definition}
 
@@ -857,7 +860,7 @@ resolution, anonymity and neutrality.
 Note that the axioms for $\SWF$ may not directly apply here.
 
 \begin{definition}
-	An $\SCF$ $f$ is resolute if it always yields a unique winning alternative, that is,
+	An $\SCF$ $f$ is resolute if it always yields a unique winning outcome, that is,
 	\begin{center}
 		$\forall P \in \cL(A)^n, |f(P)|=1$.
 	\end{center}
@@ -866,8 +869,8 @@ Note that the axioms for $\SWF$ may not directly apply here.
 	\begin{center}
 		$f({v_1,\ldots,v_n}) = f(v_{\pi(1)},\ldots,v_{\pi(n)})$.
 	\end{center}
-	$f$ is neutral if names of the alternatives do not matter, that is,
-	for every profile $P$ and every permutation $\pi$ on alternatives,
+	$f$ is neutral if names of the outcomes do not matter, that is,
+	for every profile $P$ and every permutation $\pi$ on outcomes,
 	\begin{center}
 		$\pi(f(P)) = f(\pi(P))$.
 	\end{center}
@@ -881,7 +884,7 @@ by any $\SCF$. We have the following easy impossibility theorem \cite{Brandt:COM
 	A resolute $\SCF$ cannot satisfy both anonymity and neutrality.
 \end{thm}
 %\begin{proof}
-%	Consider the election with two votes over two alternatives $a$ and $b$:
+%	Consider the election with two votes over two outcomes $a$ and $b$:
 %	\begin{center}
 %		$P=\{a \succ_1 b, b \succ_2 a\}$.
 %	\end{center}
@@ -908,12 +911,12 @@ by any $\SCF$. We have the following easy impossibility theorem \cite{Brandt:COM
 %	\begin{center}
 %		$\forall P \in \cL(A)^n, (a=\topFunc(v_i) \Rightarrow a \in f(P))$,
 %	\end{center}
-%	where $\topFunc(v_i)$ returns the top ranked alternative in vote $v_i$.
+%	where $\topFunc(v_i)$ returns the top ranked outcome in vote $v_i$.
 %\end{definition}
 %
 %\begin{definition}
 %	An $\SCF$ $f$ satisfies \textit{liberalism} if 
-%	for every agent $i \in N$, there are two different alternatives $a,b \in A$ such that
+%	for every agent $i \in N$, there are two different outcomes $a,b \in A$ such that
 %	\begin{center}
 %		$i \in P_{(a,b)} \Rightarrow b \not \in f(P)$ and $i \in P_{(b,a)} \Rightarrow a \not \in f(P)$.
 %	\end{center}
@@ -931,7 +934,7 @@ by any $\SCF$. We have the following easy impossibility theorem \cite{Brandt:COM
 %\end{thm}
 
 Another desirable property of an $\SCF$ is that if the support of a winning
-alternative grows then it stays a winner in the new profile.
+outcome grows then it stays a winner in the new profile.
 This condition is called monotonicity. Formally, we define monotonicity as follows.
 
 \begin{definition}
@@ -943,9 +946,9 @@ This condition is called monotonicity. Formally, we define monotonicity as follo
 \end{definition}
 
 For instance, the majority rule (plurality) does not satisfy monotonicity, but 
-the Condorcet rule does.  Another desired property is that every alternative
+the Condorcet rule does.  Another desired property is that every outcome
 has a chance to win, namely, surjectivity (or non-imposingness).  More formally, 
-an $\SCF$ $f$ is surjective if for every alternative $a \in A$, there exists
+an $\SCF$ $f$ is surjective if for every outcome $a \in A$, there exists
 some profile $P$ such that $a \in f(P)$.
 Regarding the aforementioned two fairness conditions, Muller and Satterthwaite \cite{Mull_Satt}
 proved yet another impossibility theorem for $\SCF$'s.
@@ -953,28 +956,35 @@ proved yet another impossibility theorem for $\SCF$'s.
 \begin{thm}
 \label{thm:Mull_Satt}
 \emph{(Muller and Satterthwaite, 1977)}
-	When there are at least three alternatives,
+	When there are at least three outcomes,
 	any resolute $\SCF$ satisfying monotonicity and surjectivity is dictatorial.
 \end{thm}
 
 
 
 \subsection{Voting Rules}
-We first define voting rules.
+The problem of aggregating individual preferences (or votes) into a single
+collective preference relation or a single group preferred winner is
+one of the key problems in social choice theory.
+Several voting rules and schemas have been proposed over the years.
+While, when there are three or more candidates, none of these
+methods is free of some unexpected properties,
+some of them have gained broad acceptance.
+I will now introduce some of these commonly used voting rules.
 
 \begin{definition}
 	A voting rule $r$ is a specific $\SCF$ proposed for practical use.
 \end{definition}
 
 \noindent{\textbf{Positional Scoring Rules.}}
-For profiles over a set $A$ of alternatives, 
+For profiles over a set $A$ of outcomes, 
 a \emph{scoring vector} is a sequence $w= (w_1,\ldots,
 w_m)$ of integers such that $w_1\geq w_2 \geq \ldots \geq w_m$
 and $w_1 > w_m$. Given a vote
-$v$ with the alternative $a$ in position $i$ ($1 \leq i \leq m$), 
+$v$ with the outcome $a$ in position $i$ ($1 \leq i \leq m$), 
 the score of $a$ in
 $v$ is given
-by $s_w(v,a)=w_i$. Given a profile $P$ of votes and an alternative $a$,
+by $s_w(v,a)=w_i$. Given a profile $P$ of votes and an outcome $a$,
 the score of $a$ in $P$ is given by $s_w(P,a) = \sum_{v\in P} s_w(v,a)$. 
 These scores determine the ranking generated from $P$ by the scoring
 vector $w$ (assuming, as is common, some independent tie breaking rule). 
@@ -997,12 +1007,12 @@ generalizes $k$-approval.
 
 A voting method, that is closely related to positional scoring rules, is
 the approval voting \cite{BraFis}.
-Under approval voting, each voter approves any number of alternatives
+Under approval voting, each voter approves any number of outcomes
 and the winner, or co-winners, are those with the highest score.
 
 \noindent{\textbf{Condorcet Consistent Rules.}}
-A \tit{Condorcet winner} is an alternative that wins every pairwise comparisons
-against each of the other alternatives.
+A \tit{Condorcet winner} is an outcome that wins every pairwise comparisons
+against each of the other outcomes.
 Clearly, a Condorcet winner is unique whenever it exists.
 If a voting rule $r$ always selects the Condorcet winner,
 if it exists, then $r$ is said to be Condorcet consistent.
@@ -1011,24 +1021,24 @@ Positional scoring rules are not Condorcet consistent \cite{Fis}.
 Voting rules that are Condorcet consistent include the following,
 only to list a few \cite{Brandt:COMSOC}.
 \begin{enumerate} \itemsep -4pt
-	\item Copeland's rule: An alternative scores 1 for each pairwise comparison
+	\item Copeland's rule: An outcome scores 1 for each pairwise comparison
 				it wins, and some number between 0 and 1 for each pairwise comparison
 				it ties.  Alternatives with the highest score are the co-winners.
-	\item Maximin: The Maximin score of an alternative $a$ is the minimum number of
+	\item Maximin: The Maximin score of an outcome $a$ is the minimum number of
 				votes for $a$ among all pairwise comparisons.  
 				Alternatives with the highest Maximin score wins.
 	\item Kemeny's rule: It selects linear rankings that maximize the number of agreements 
-				with pairwise preferences of alternatives in the profile of votes, and
-				the top-ranked alternatives in these rankings are the co-winners.
-	\item Dodgson's rule: A winner is an alternative that can be made a Condorcet winner 
-				by a minimal number of swaps of adjacent alternatives in the votes.
+				with pairwise preferences of outcomes in the profile of votes, and
+				the top-ranked outcomes in these rankings are the co-winners.
+	\item Dodgson's rule: A winner is an outcome that can be made a Condorcet winner 
+				by a minimal number of swaps of adjacent outcomes in the votes.
 \end{enumerate}
 
 If it is required that only a single winner is eventually elected,
 we apply some tie-breaking method in case of co-winners.
 Such a tie-breaking method could be that we break ties in favor of
-the lexicographically smallest or largest alternative, or in favor of
-a randomly picked alternative among co-winners.
+the lexicographically smallest or largest outcome, or in favor of
+a randomly picked outcome among co-winners.
 
 
 
@@ -1063,13 +1073,13 @@ manipulable and what are not.
 Surprisingly, as shown in the Gibbard-Satterthwaite
 theorem \cite{gib:j:maip-scheme,satt:j:strat-proof},
 any reasonable voting rule is susceptible to
-manipulation given that the number of alternatives
+manipulation given that the number of outcomes
 is at least three.
 
 \begin{thm}
 \label{thm:Gib_Sat}
 \emph{(Gibbard, 1973; Satterthwaite, 1975).}
-	When there are at least three alternatives,
+	When there are at least three outcomes,
 	every resolute, surjective, strategy-proof voting rule is
 	dictatorial.
 \end{thm}
@@ -1096,7 +1106,7 @@ high computational complexity.
 We first give a definition of the manipulation problem as follows.
 \begin{definition}
 	Let $r$ be a resolute voting rule.  Given a profile $P$ of
-	$n$ votes over $m$ alternatives and an alternative $c$, 
+	$n$ votes over $m$ outcomes and an outcome $c$, 
 	the manipulation problem is to decide whether there exists
 	a single vote $v'$ such that $c=r(P \cup \{v'\})$.
 \end{definition}
