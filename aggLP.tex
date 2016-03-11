@@ -1,4 +1,4 @@
-\paragraph{\bf Abstract.}
+%\paragraph{\bf Abstract.}
 %\keywords{conditionally lexicographic preferences, social choice theory,
 %positional scoring voting rules, answer set programming}
 Aggregating \emph{votes} --- preference orders over \emph{candidates} 
@@ -107,293 +107,6 @@ for the two problems for several positional scoring rules: $k$-approval
 algorithms for the two problems based on their ASP and WPM-SAT encodings 
 and using ASP and WPM-SAT solvers. Finally, we provide an experimental 
 evidence of the effectiveness of the proposed computational methods.
-
-\section{Technical Preliminaries}
-
-A $\mathit{vote}$ over a set $\cX$ of \emph{alternatives} (or 
-\emph{outcomes}) is a \emph{strict total} order $\succ$ on $\cX$.
-In this work, we consider votes over alternatives from \emph{combinatorial
-domains} determined by a set $\cI$ of $p$ binary \emph{issues} $X_1, X_2,
-\ldots,X_p$, with each issue $X_i$ having a binary domain $D(X_i) = 
-\{0_i, 1_i\}$. The combinatorial domain in question is then the set 
-$\cX(\cI)=D(X_1) \times 
-D(X_2) \times \ldots\times D(X_p)$. If $\cI$ is implied by the context, 
-we write $\cX$ instead of $\cX(\cI)$. For instance, let $\cI = \{X_1, X_2, 
-X_3\}$. A 3-tuple $(0_1,1_2,1_3)$ is an alternative from $\cX(\cI)$,
-or simply, an alternative over $\cI$. We 
-often write it as $0_1 1_2 1_3$ or just as $011$. It assigns $0$ to 
-$X_1$, $1$ to $X_2$, and $1$ to $X_3$.  
-
-Clearly, the cardinality of $\cX(\cI)$, which we denote by $m$ throughout 
-the paper, is $2^p$. Thus, even for relatively small values of $p$, 
-eliciting precise orders over all alternatives and representing them 
-directly may be infeasible. Instead, in cases when votes have some 
-structure, they often can be represented compactly by means of
-intuitive ``preference expressions'' in logical or graphical
-formalisms \cite{bbdh03,lang:aggLP,Kaci:Pref}. 
-
-In this work we focus on one such formalism, the language of 
-\emph{lexicographic preference trees} or \emph{LP trees}, for short
-\cite{booth:learningLP}. 
-An \emph{LP tree} $T$ over a set $\cI$ 
-of $p$ binary issues $X_1,\ldots,X_p$ is a \emph{binary tree}. Each
-node $t$ in $T$ is labeled by an issue from $\cI$, denoted by 
-$\mathit{Iss}(t)$, and with \emph{preference information} of the form
-$a>b$ or $b>a$ indicating which of the two values $a$ and $b$  comprising
-the domain of $\Iss(t)$ is preferred (in general the preference may depend
-on the values of issues labeling the ancestor nodes). In addition, we
-require that each issue appears exactly once on each path from the root 
-to a leaf. Figure \ref{fig:LPTree_full}(a) shows an example of an LP tree. 
-
-Intuitively, the issue labeling the root of an LP tree is of highest 
-importance. Alternatives with the more preferred value of that issue
-are preferred over alternatives with the other (less preferred) value.
-The two subtrees further refine that ordering. The left subtree determines 
-the ranking of alternatives in the more preferred ``upper half'' and the 
-right subtree determines the ranking of alternatives in the less 
-preferred ``lower half.'' In each case, the same principle is used 
-recursively, with the issue labeling the root of the subtree being 
-the most important one. We note that the issues labeling the roots of 
-the subtrees need not be the same (the relative importance of issues may 
-depend on values for their ``ancestor'' issues labeling the nodes on the 
-path to the root).
-
-The precise semantics of an LP tree $T$ is based on this intuition. 
-To specify it, it is convenient to imagine that each node at the bottom 
-of the tree has two children, the left one corresponding to the more 
-preferred value of the issue labeling it, and the right one corresponding 
-to the other, less preferred one. The nodes of that level are labeled
-from 1 to $2^p$. To illustrate, in Figure \ref{fig:LPTree_full}(b) we 
-show the tree from Figure \ref{fig:LPTree_full}(a) with the last level 
-present. 
-
-Given an alternative $\bar{x}=x_1x_2\ldots x_p$, we find its 
-preference rank in $T$ by traversing the extended tree from the 
-root to a leaf. When at node $t$ labeled with the issue $X_i$, we follow 
-down to the left subtree if $x_i$ is preferred according to the preference 
-information at $t$. Otherwise, we follow down to the right subtree. In 
-this way, we end up in a unique leaf of the extended tree. Let us 
-denote its label by $l(\bar{x})$. We take $l(\bar{x})$ as the 
-\emph{preference rank} of $\bar{x}$ and say that an alternative $\bar{x}$ 
-is \emph{preferred} (in $T$) to an alternative $\bar{y}$ precisely when 
-$l(\bar{x})\leq l(\bar{y})$ (informally, alternatives with lower ranks
-are preferred to those that are ranked higher). In this way, $T$ defines 
-a vote (a preference order). 
-
-To illustrate these concepts, let us consider an example. A group 
-of friends want to plan a vacation trip for the next year. Having 
-brainstormed for a while, the group decided to focus 
-on three binary issues. The \textit{Time} ($X_1$) of the travel could be 
-either \textit{summer} ($s$ or $1_1$) or \textit{winter} ($w$ or $0_1$), 
-the \textit{Destination} ($X_2$) could be either \textit{Chicago} 
-($c$ or $1_2$) or \textit{Miami} ($m$ or $0_2$), and for 
-\textit{Transportation} ($X_3$) they could chooe to \textit{drive} 
-($d$ or $1_3$) or \textit{fly} ($f$ or $0_3$).
-      
-Jane, a member of the group, prefers a summer vacation to a winter one,
-and \textit{Time} is the most important issue for her. If it is a summer
-trip, the next most important issue for Jane is \textit{Destination} 
-and she prefers Chicago to Miami. The least important issue is 
-\textit{Transportation}. She prefers driving if they go to Chicago, and
-flying, otherwise. For a winter trip, \textit{Transportation} is more
-important than \textit{Destination}. Jane does not like driving in the 
-winter. As for the \textit{Destination}, she prefers Miami to 
-avoid the cold weather. All these preferences can be captured by 
-the LP tree $T$ in \figref{LPTree_full}(a). We note that the 
-trees ordering the vacation plans for summer and for winter are 
-determined by trees with different assignments of issues to nodes (the 
-importance of nodes depends on the time of the trip). In particular,
-for the summer trips, the destination is the most important factor while 
-for the winter trips the mode of transportation. The tree shows that
-the preferred vacation plan for Jane is to drive to Chicago in 
-the summer and the next in order of preference is to fly to Chicago in 
-the summer. The least preferred plan is to drive to Chicago in the winter.
-
-\begin{figure}
-  \small
-	\centering
-	\hspace{-1cm}
-	\begin{tikzpicture}[->,>=stealth',
-	  level/.style={sibling distance=4cm/#1}]
-	  \node [main node] (1){Time}
-	    child {node [main node] (2) {Dest}
-	      child {node [main node] (3) {Tran}}
-	      child {node [main node] (4) {Tran}
-					child {node [rectangle,draw] at (6.3,4.5) {$s>w$} edge from parent[draw=none]}
-					child {node [rectangle,draw] at (0.5,3) {$c>m$} edge from parent[draw=none]}
-					child {node [rectangle,draw] at (-0.7,0.6) {$d>f$} edge from parent[draw=none]}
-					child {node [rectangle,draw] at (0,0.6) {$f>d$} edge from parent[draw=none]}
-					child {node [rectangle,draw] at (2.8,3) {$f>d$} edge from parent[draw=none]}
-					child {node [rectangle,draw] at (-0.5,0.6) {$m>c$} edge from parent[draw=none]}
-					child {node [rectangle,draw] at (0,0.6) {$m>c$} edge from parent[draw=none]}
-				}
-	    }
-	    child {node [main node] (5) {Tran}
-	    child {node [main node] (6) {Dest}}
-	      child {node [main node] (7) {Dest}}
-	    };
-	    \path[every node/.style={font=\sffamily\small}]
-	      (1) edge (2)
-	          edge (5)
-	      (2) edge (3)
-	          edge (4)
-	      (5) edge (6)
-	      		edge (7);
-	\end{tikzpicture}
-   
-  \caption{An LP tree $T$}
-  \label{fig:LPTree_full}
-\end{figure}
-
-A full representation of an LP tree requires as much space as an
-explicit enumeration of the preference order. However, sometimes LP 
-trees can be represented in a much more concise way. For instance, if 
-for some node $t$, its two subtrees are identical (that 
-is, the corresponding nodes are assigned the same issue), they can be 
-collapsed to a single subtree, with the same assignment of issues to 
-nodes. This subtree is now a single child of its parent and it is
-neither left nor right, as it is associated with \emph{each} of the two
-values of its parent node issue. To retain the preference information, 
-at each node $t'$ of the subtree we place a \emph{conditional preference 
-table}, and each preference in it specifies the preferred value for the 
-issue labeling $t'$ given the value of the issue labeling $t$. In the
-extreme case when for every node its two subtrees are identical, the 
-tree can be collapsed to a path. 
-
-We now formally extend the definition of an LP tree to cover the case 
-with collapsed subtrees. From now on, an \emph{LP tree} is a tree in 
-which every node except for the leaves has either two children, the 
-left child and the right child, or a single ``straight down'' child, 
-representing the collapse of the subtrees. The nodes are labeled 
-with issues and, as before, we assume that each issue appears exactly 
-once on each path from the root to a leaf. 
-
-Further, each node in an LP tree is assigned a \emph{conditional 
-preference table} (CPT) compensating for the loss in the structure due
-to applications of collapse higher in the tree. To describe CPTs, we 
-need more terminology. For a node $t$, 
-let $\ninst(t)$ be the set of ancestor nodes of $t$ 
-with just one child, and let $\Inst(t)$ represent the remaining ancestor 
-nodes of $t$. Being at a node $t$ in an LP tree, we know the values of the 
-issues on $t$'s ancestor nodes with two children (in each such node we 
-descend to the the left or to the right based on the value of that 
-issue and the preference information at that node). Thus, the preferred 
-value at $t$ on issue $\iss(t)$ depends only on values of some of 
-(possibly all) issues of the ancestor nodes of $t$ that have only one 
-child (belong to $\ninst(t)$). A \emph{parent} function specifies 
-these nodes. That is, a parent function $\cP$ assigns to each node $t$ 
-in $T$ a set $\cP(t)\subseteq \ninst(t)$ of \emph{parents} of $t$, that
-is, the nodes in $\ninst(t)$ whose issues may have influence on the
-local preference at $t$. For each combination of values of the issues
-of nodes in $\cP(t)$, the CPT for $t$ contains a row specifying both
-that combinaton and the corresponding preferred value on the issue
-of $t$.
-
-Since the preferred value for the issue at a node $t$ may depend on 
-the values of all issues above $t$, the conditional preference table 
-for the node $t$ located at distance $i$ from the root may have as 
-many as $2^i$ rows, (more exactly, $2^j$ rows, where $j$ is the number 
-of ancestor nodes with one child only). Thus, collapsing subtrees does 
-not necessarily lead to smaller representation sizes. Collapsing may 
-drastically reduce the size of the tree (even down to a simple path),
-but potentially at a cost of an exponential increase in the size of preference 
-tables. (EXAMPLE)
-
-Clearly, the conditional preference table at $t$ requires
-$2^{|\cP(t)|}$ rows. In the worst case, this number may be as high
-as $2^i$, where $i$ is the number of ancestors of $t$. But if each 
-node has a bounded (independent of $p$) number of parents, all CPTs
-can be represented in $O(p)$ space. Thus, indeed, LP trees may offer a
-drastic reduction in the size of a representation of a vote over
-the domain $\cX(\cI)$.
-
-(THE LAST THREE PARAs should be illustrated with examples)
-
-We can now introduce a useful classification of LP trees. If for every 
-node $t$ in an LP tree, $\cP(t)=\emptyset$, all (local) preferences are
-unconditional and all CPTs consist of a single entry. Such trees are 
-called \emph{unconditional preference} LP trees (or UP trees, for short). 
-Similarly, LP trees with all non-leaf nodes having exactly one child, 
-are called an \emph{unconditional importance} LP trees (UI trees, for 
-short). Combining these characteristics leads to four classes of LP trees:
-unconditional importance and unconditional preference LP trees (UI-UP 
-trees), unconditional importance and conditional preference trees (UI-CP 
-trees), etc. The class of CI-CP trees comprises all LP trees, the class 
-of UI-UP trees is the most narrow one. 
-
-The LP tree $T$ in \figref{LPTree_full} can be represented more
-concisely as a (collapsed) CI-CP tree $v$ in \figref{LPTree}. Nodes
-at depth one have their subtrees collapsed. In the tree in 
-\figref{LPTree_full}, the subtrees of the node at depth 1 labeled 
-\textit{Tran} are not only identical but also have the same preference 
-information at every node. Thus, collapsing them does not incur any
-growth in
-the size of the conditional preference table.
-      
-\begin{figure}
-   \small
-	\centering
-
-  \begin{tikzpicture}[->,>=stealth',node distance=2cm,main node/.style={circle,draw,font=\small}]
-        
-    \node[main node] (1) {Time};
-    \node[rectangle,draw] at (1.2,0) {$s > w$};
-    
-    \node[main node] (2) [below left of=1] {Dest};
-    \node[rectangle,draw] at (-2.5,-1.4) {$c > m$};
-    
-    \node[main node] (3) [below of=2] {Tran};
-    \node[rectangle split, rectangle split parts=2, draw, font=\sffamily\small] at (-2.8,-3.4)
-        {
-          $c:d>f$
-          \nodepart{second}
-          $m:f>d$
-        };
-    
-    \node[main node] (4) [below right of=1] {Tran};
-    \node[rectangle,draw] at (2.5,-1.4) {$f > d$};
-    
-    \node[main node] (5) [below of=4] {Dest};
-    \node[rectangle,draw] at (2.5,-3.4) {$m > c$};
-  
-    \path[every node/.style={font=\sffamily\small}]
-      (1) edge (2)
-          edge (4)
-      (2) edge (3)
-      (4) edge (5);
-  \end{tikzpicture}
-  
-  \caption{An CI-CP LP tree $v$}
-  \label{fig:LPTree}
-\end{figure}
-      
-Finally, we recall the concept of a profile and of a positional
-scoring rule. A set of votes (collected from, say, $n$ voters) over 
-a domain $\cX$ is 
-called a \emph{profile}. Among many rules proposed to aggregate a profile 
-into a single preference ranking representing the group, positional
-scoring rules have received particular attention. For profiles over a domain
-with $m$ alternatives, a \emph{scoring vector} is a sequence $w= (w_0,\ldots,
-w_{m-1})$ of integers such that $w_0\geq w_1 \geq \ldots \geq w_{m-1}$
-and $w_0 > w_{m-1}$. Given a vote
-$v$ with the alternative $o$ in position $i$ ($0 \leq i \leq m-1$), 
-the score of $o$ in
-$v$ is given
-by $s_w(v,o)=w_i$. Given a profile $\cV$ of votes and an alternative $o$,
-the score of $o$ in $\cV$ is given by 
-$$s_w(\cV,o) = \sum_{v\in \cV} s_w(v,o).$$ 
-These scores determine the ranking generated from $\cV$ by the scoring
-vector $w$ (assuming, as is common, some independent tie breaking rule). 
-In this paper we consider three positional scoring rules:
-\begin{enumerate}
-\item Borda: $(m-1,m-2,\ldots, 1,0)$
-\item $k$-approval: $(1,\ldots 1,0,\ldots 0)$ with $k$ the number of 1's
-\item 2-valued $(k,l)$-approval: $(a,\ldots, a, b,\ldots, b, 0\ldots, 0)$,
-			where $a$ and $b$ are constants ($a>b$)
-			and the numbers of $a$'s and $b$'s equal to $k$ and $l$,
-			respectively.
-\end{enumerate}
-  
 
 \section{The Problems and Their Complexity}
 
@@ -728,24 +441,24 @@ WHY - YOU NEED TO GIVE AN ARGUENT HERE
   \begin{tabular}{c}
   \begin{subfigure}[b]{0.3\textwidth}
   	\centering
-    \begin{tikzpicture}[->,>=stealth',node distance=0.8cm,main node/.style={circle,draw,font=\small}]
+    \begin{tikzpicture}[->,>=stealth',node distance=1.2cm,main node/.style={circle,draw,font=\small}]
       \node[main node,inner sep=1pt] (1) {$X_2$};
-      \node[rectangle,draw] at (1,0) {$1_2 > 0_2$};
+      \node[rectangle,draw] at (1.2,0) {$1_2 > 0_2$};
 
       \node[main node,inner sep=1pt] (2) [below of=1] {$X_4$};
-      \node[rectangle,draw] at (1,-0.8) {$0_4 > 1_4$};
+      \node[rectangle,draw] at (1.2,-1.2) {$0_4 > 1_4$};
 
       \node[main node,inner sep=1pt] (3) [below of=2] {$X_1$};
-      \node[rectangle,draw] at (1,-1.6) {$1_1 > 0_1$};
+      \node[rectangle,draw] at (1.2,-2.4) {$1_1 > 0_1$};
 
       \node[rectangle,inner sep=1pt] (4) [below of=3] {$\vdots$};
-      \node[rectangle,draw] at (1,-2.4) {$1 > 0$};
+      \node[rectangle,draw] at (1.2,-3.6) {$1 > 0$};
 
       \node[main node,inner sep=1pt] (5) [below of=4] {$X_p$};
-      \node[rectangle,draw] at (1,-3.2) {$1_p > 0_p$};
+      \node[rectangle,draw] at (1.2,-4.8) {$1_p > 0_p$};
 
       \node[main node,inner sep=1pt] (6) [below of=5] {$X_q$};
-      \node[rectangle,draw] at (1,-4) {$1_q > 0_q$};
+      \node[rectangle,draw] at (1.2,-6) {$1_q > 0_q$};
 
       \path[]
         (1) edge (2)
@@ -760,24 +473,24 @@ WHY - YOU NEED TO GIVE AN ARGUENT HERE
 
   \begin{subfigure}[b]{0.3\textwidth}
   	\centering
-    \begin{tikzpicture}[->,>=stealth',node distance=0.8cm,main node/.style={circle,draw,font=\small}]
+    \begin{tikzpicture}[->,>=stealth',node distance=1.2cm,main node/.style={circle,draw,font=\small}]
       \node[main node,inner sep=1pt] (1) {$X_2$};
-      \node[rectangle,draw] at (1,0) {$1_2 > 0_2$};
+      \node[rectangle,draw] at (1.2,0) {$1_2 > 0_2$};
 
       \node[main node,inner sep=1pt] (2) [below of=1] {$X_4$};
-      \node[rectangle,draw] at (1,-0.8) {$0_4 > 1_4$};
+      \node[rectangle,draw] at (1.2,-1.2) {$0_4 > 1_4$};
 
       \node[main node,inner sep=1pt] (3) [below of=2] {$X_1$};
-      \node[rectangle,draw] at (1,-1.6) {$0_1 > 1_1$};
+      \node[rectangle,draw] at (1.2,-2.4) {$0_1 > 1_1$};
 
       \node[rectangle,inner sep=1pt] (4) [below of=3] {$\vdots$};
-      \node[rectangle,draw] at (1,-2.4) {$0 > 1$};
+      \node[rectangle,draw] at (1.2,-3.6) {$0 > 1$};
 
       \node[main node,inner sep=1pt] (5) [below of=4] {$X_p$};
-      \node[rectangle,draw] at (1,-3.2) {$0_p > 1_p$};
+      \node[rectangle,draw] at (1.2,-4.8) {$0_p > 1_p$};
 
       \node[main node,inner sep=1pt] (6) [below of=5] {$X_q$};
-      \node[rectangle,draw] at (1,-4) {$1_q > 0_q$};
+      \node[rectangle,draw] at (1.2,-6) {$1_q > 0_q$};
 
       \path[]
         (1) edge (2)
@@ -793,24 +506,24 @@ WHY - YOU NEED TO GIVE AN ARGUENT HERE
 
   \begin{subfigure}[b]{0.3\textwidth}
   	\centering
-    \begin{tikzpicture}[->,>=stealth',node distance=0.8cm,main node/.style={circle,draw,font=\small}]
+    \begin{tikzpicture}[->,>=stealth',node distance=1.2cm,main node/.style={circle,draw,font=\small}]
       \node[main node,inner sep=1pt] (1) {$X_2$};
-      \node[rectangle,draw] at (1,0) {$0_2 > 1_2$};
+      \node[rectangle,draw] at (1.2,0) {$0_2 > 1_2$};
 
       \node[main node,inner sep=1pt] (2) [below of=1] {$X_4$};
-      \node[rectangle,draw] at (1,-0.8) {$1_4 > 0_4$};
+      \node[rectangle,draw] at (1.2,-1.2) {$1_4 > 0_4$};
 
       \node[main node,inner sep=1pt] (3) [below of=2] {$X_1$};
-      \node[rectangle,draw] at (1,-1.6) {$1_1 > 0_1$};
+      \node[rectangle,draw] at (1.2,-2.4) {$1_1 > 0_1$};
 
       \node[rectangle,inner sep=1pt] (4) [below of=3] {$\vdots$};
-      \node[rectangle,draw] at (1,-2.4) {$1 > 0$};
+      \node[rectangle,draw] at (1.2,-3.6) {$1 > 0$};
 
       \node[main node,inner sep=1pt] (5) [below of=4] {$X_p$};
-      \node[rectangle,draw] at (1,-3.2) {$1_p > 0_p$};
+      \node[rectangle,draw] at (1.2,-4.8) {$1_p > 0_p$};
 
       \node[main node,inner sep=1pt] (6) [below of=5] {$X_q$};
-      \node[rectangle,draw] at (1,-4) {$1_q > 0_q$};
+      \node[rectangle,draw] at (1.2,-6) {$1_q > 0_q$};
 
       \path[]
         (1) edge (2)
@@ -825,24 +538,24 @@ WHY - YOU NEED TO GIVE AN ARGUENT HERE
 
   \begin{subfigure}[b]{0.3\textwidth}
   	\centering
-    \begin{tikzpicture}[->,>=stealth',node distance=0.8cm,main node/.style={circle,draw,font=\small}]
+    \begin{tikzpicture}[->,>=stealth',node distance=1.2cm,main node/.style={circle,draw,font=\small}]
       \node[main node,inner sep=1pt] (1) {$X_2$};
-      \node[rectangle,draw] at (1,0) {$0_2 > 1_2$};
+      \node[rectangle,draw] at (1.2,0) {$0_2 > 1_2$};
 
       \node[main node,inner sep=1pt] (2) [below of=1] {$X_4$};
-      \node[rectangle,draw] at (1,-0.8) {$1_4 > 0_4$};
+      \node[rectangle,draw] at (1.2,-1.2) {$1_4 > 0_4$};
 
       \node[main node,inner sep=1pt] (3) [below of=2] {$X_1$};
-      \node[rectangle,draw] at (1,-1.6) {$0_1 > 1_1$};
+      \node[rectangle,draw] at (1.2,-2.4) {$0_1 > 1_1$};
 
       \node[rectangle,inner sep=1pt] (4) [below of=3] {$\vdots$};
-      \node[rectangle,draw] at (1,-2.4) {$0 > 1$};
+      \node[rectangle,draw] at (1.2,-3.6) {$0 > 1$};
 
       \node[main node,inner sep=1pt] (5) [below of=4] {$X_p$};
-      \node[rectangle,draw] at (1,-3.2) {$0_p > 1_p$};
+      \node[rectangle,draw] at (1.2,-4.8) {$0_p > 1_p$};
 
       \node[main node,inner sep=1pt] (6) [below of=5] {$X_q$};
-      \node[rectangle,draw] at (1,-4) {$1_q > 0_q$};
+      \node[rectangle,draw] at (1.2,-6) {$1_q > 0_q$};
 
       \path[]
         (1) edge (2)
@@ -857,24 +570,24 @@ WHY - YOU NEED TO GIVE AN ARGUENT HERE
 
   \begin{subfigure}[b]{0.3\textwidth}
   	\centering
-    \begin{tikzpicture}[->,>=stealth',node distance=0.8cm,main node/.style={circle,draw,font=\small}]
+    \begin{tikzpicture}[->,>=stealth',node distance=1.2cm,main node/.style={circle,draw,font=\small}]
       \node[main node,inner sep=1pt] (1) {$X_4$};
-      \node[rectangle,draw] at (1,0) {$0_4 > 1_4$};
+      \node[rectangle,draw] at (1.2,0) {$0_4 > 1_4$};
 
       \node[main node,inner sep=1pt] (2) [below of=1] {$X_2$};
-      \node[rectangle,draw] at (1,-0.8) {$1_2 > 0_2$};
+      \node[rectangle,draw] at (1.2,-1.2) {$1_2 > 0_2$};
 
       \node[main node,inner sep=1pt] (3) [below of=2] {$X_1$};
-      \node[rectangle,draw] at (1,-1.6) {$1_1 > 0_1$};
+      \node[rectangle,draw] at (1.2,-2.4) {$1_1 > 0_1$};
 
       \node[rectangle,inner sep=1pt] (4) [below of=3] {$\vdots$};
-      \node[rectangle,draw] at (1,-2.4) {$1 > 0$};
+      \node[rectangle,draw] at (1.2,-3.6) {$1 > 0$};
 
       \node[main node,inner sep=1pt] (5) [below of=4] {$X_p$};
-      \node[rectangle,draw] at (1,-3.2) {$1_p > 0_p$};
+      \node[rectangle,draw] at (1.2,-4.8) {$1_p > 0_p$};
 
       \node[main node,inner sep=1pt] (6) [below of=5] {$X_q$};
-      \node[rectangle,draw] at (1,-4) {$1_q > 0_q$};
+      \node[rectangle,draw] at (1.2,-6) {$1_q > 0_q$};
 
       \path[]
         (1) edge (2)
@@ -889,24 +602,24 @@ WHY - YOU NEED TO GIVE AN ARGUENT HERE
 
   \begin{subfigure}[b]{0.3\textwidth}
   	\centering
-    \begin{tikzpicture}[->,>=stealth',node distance=0.8cm,main node/.style={circle,draw,font=\small}]
+    \begin{tikzpicture}[->,>=stealth',node distance=1.2cm,main node/.style={circle,draw,font=\small}]
       \node[main node,inner sep=1pt] (1) {$X_4$};
-      \node[rectangle,draw] at (1,0) {$0_4 > 1_4$};
+      \node[rectangle,draw] at (1.2,0) {$0_4 > 1_4$};
 
       \node[main node,inner sep=1pt] (2) [below of=1] {$X_2$};
-      \node[rectangle,draw] at (1,-0.8) {$1_2 > 0_2$};
+      \node[rectangle,draw] at (1.2,-1.2) {$1_2 > 0_2$};
 
       \node[main node,inner sep=1pt] (3) [below of=2] {$X_1$};
-      \node[rectangle,draw] at (1,-1.6) {$0_1 > 1_1$};
+      \node[rectangle,draw] at (1.2,-2.4) {$0_1 > 1_1$};
 
       \node[rectangle,inner sep=1pt] (4) [below of=3] {$\vdots$};
-      \node[rectangle,draw] at (1,-2.4) {$0 > 1$};
+      \node[rectangle,draw] at (1.2,-3.6) {$0 > 1$};
 
       \node[main node,inner sep=1pt] (5) [below of=4] {$X_p$};
-      \node[rectangle,draw] at (1,-3.2) {$0_p > 1_p$};
+      \node[rectangle,draw] at (1.2,-4.8) {$0_p > 1_p$};
 
       \node[main node,inner sep=1pt] (6) [below of=5] {$X_q$};
-      \node[rectangle,draw] at (1,-4) {$1_q > 0_q$};
+      \node[rectangle,draw] at (1.2,-6) {$1_q > 0_q$};
 
       \path[]
         (1) edge (2)
@@ -1072,10 +785,10 @@ if and only if $l' \geq n-l$.
   \begin{subfigure}[b]{0.25\textwidth}
     \begin{tikzpicture}[->,>=stealth',node distance=1.5cm,main node/.style={circle,draw,font=\small}]
       \node[main node] (1) {$X_2$};
-      \node[rectangle,draw] at (1.2,0) {$1_2 > 0_2$};
+      \node[rectangle,draw] at (1.3,0) {$1_2 > 0_2$};
 
       \node[main node] (2) [below of=1] {$X_4$};
-      \node[rectangle,draw] at (1.2,-1.5) {$0_4 > 1_4$};
+      \node[rectangle,draw] at (1.3,-1.5) {$0_4 > 1_4$};
 
       \path[]
         (1) edge (2);
@@ -1087,10 +800,10 @@ if and only if $l' \geq n-l$.
   \begin{subfigure}[b]{0.25\textwidth}
     \begin{tikzpicture}[->,>=stealth',node distance=1.5cm,main node/.style={circle,draw,font=\small}]
       \node[main node] (1) {$X_4$};
-      \node[rectangle,draw] at (1.2,0) {$1_4 > 0_4$};
+      \node[rectangle,draw] at (1.3,0) {$1_4 > 0_4$};
 
       \node[main node] (2) [below of=1] {$X_2$};
-      \node[rectangle,draw] at (1.2,-1.5) {$0_2 > 1_2$};
+      \node[rectangle,draw] at (1.3,-1.5) {$0_2 > 1_2$};
 
       \path[]
         (1) edge (2);
@@ -1102,10 +815,10 @@ if and only if $l' \geq n-l$.
   \begin{subfigure}[b]{0.25\textwidth}
     \begin{tikzpicture}[->,>=stealth',node distance=1.5cm,main node/.style={circle,draw,font=\small}]
       \node[main node] (1) {$X_4$};
-      \node[rectangle,draw] at (1.2,0) {$0_4 > 1_4$};
+      \node[rectangle,draw] at (1.3,0) {$0_4 > 1_4$};
 
       \node[main node] (2) [below of=1] {$X_2$};
-      \node[rectangle,draw] at (1.2,-1.5) {$0_2 > 1_2$};
+      \node[rectangle,draw] at (1.3,-1.5) {$0_2 > 1_2$};
 
       \path[]
         (1) edge (2);
@@ -1327,11 +1040,11 @@ for $(2^{p-3},2^{p-3})$-approval.
 
 \subsection{Computational Complexity Results}
 Now we summerize known computational complexity results of the evaluation problem
-for $k$-approval \figref{kApp_comp}, $b$-Borda \figref{bBorda_comp} and 
-$(k,l)$-approval \figref{klApp_comp} rules.
-The results for $2^{p-1}$-approval, as well as those in \figref{kApp_comp_b}
-and \figref{bBorda_comp_a} are attributed to Lang et al. \cite{lang:aggLP}.
-\begin{figure}
+for $k$-approval \tblref{kApp_comp}, $b$-Borda \tblref{bBorda_comp} and 
+$(k,l)$-approval \tblref{klApp_comp} rules.
+The results for $2^{p-1}$-approval, as well as those in \tblref{kApp_comp_b}
+and \tblref{bBorda_comp_a} are attributed to Lang et al. \cite{lang:aggLP}.
+\begin{table}
 	\centering
   \begin{subfigure}[b]{0.5\textwidth}
 		\centering
@@ -1345,7 +1058,7 @@ and \figref{bBorda_comp_a} are attributed to Lang et al. \cite{lang:aggLP}.
 		  \hline
 		\end{tabular}
 		\caption{$k=2^{p-1}\pm f(p)$}
-		\label{fig:kApp_comp_a}
+		\label{tbl:kApp_comp_a}
 	\end{subfigure}%
   \begin{subfigure}[b]{0.5\textwidth}
 		\centering
@@ -1359,13 +1072,13 @@ and \figref{bBorda_comp_a} are attributed to Lang et al. \cite{lang:aggLP}.
 		  \hline
 		\end{tabular}
 		\caption{$k=c\cdot 2^{p-M}$ and $k \not = 2^{p-1}$}
-		\label{fig:kApp_comp_b}
+		\label{tbl:kApp_comp_b}
 	\end{subfigure}
 	\caption{$k$-Approval}
-	\label{fig:kApp_comp}
-\end{figure}
+	\label{tbl:kApp_comp}
+\end{table}
 
-\begin{figure}
+\begin{table}
 	\centering
   \begin{subfigure}[b]{0.5\textwidth}
 		\centering
@@ -1379,7 +1092,7 @@ and \figref{bBorda_comp_a} are attributed to Lang et al. \cite{lang:aggLP}.
 		  \hline
 		\end{tabular}
 		\caption{$b=2^p-1$}
-		\label{fig:bBorda_comp_a}
+		\label{tbl:bBorda_comp_a}
 	\end{subfigure}%
   \begin{subfigure}[b]{0.5\textwidth}
 		\centering
@@ -1393,13 +1106,13 @@ and \figref{bBorda_comp_a} are attributed to Lang et al. \cite{lang:aggLP}.
 		  \hline
 		\end{tabular}
 		\caption{$b=2^{p-c}-1$ and $1 \leq c < p$}
-		\label{fig:bBorda_comp_b}
+		\label{tbl:bBorda_comp_b}
 	\end{subfigure}
 	\caption{$b$-Borda}
-	\label{fig:bBorda_comp}
-\end{figure}
+	\label{tbl:bBorda_comp}
+\end{table}
 
-\begin{figure}
+\begin{table}
 	\centering
   \begin{subfigure}[b]{0.5\textwidth}
 		\centering
@@ -1412,7 +1125,7 @@ and \figref{bBorda_comp_a} are attributed to Lang et al. \cite{lang:aggLP}.
 		  CI & P & P \\
 		  \hline
 		\end{tabular}
-		\label{fig:klApp_comp_a}
+		\label{tbl:klApp_comp_a}
 		\caption{$k=l=2^{p-1}$}
 	\end{subfigure}%
   \begin{subfigure}[b]{0.5\textwidth}
@@ -1426,12 +1139,12 @@ and \figref{bBorda_comp_a} are attributed to Lang et al. \cite{lang:aggLP}.
 		  CI & NPC & NPC \\
 		  \hline
 		\end{tabular}
-		\label{fig:klApp_comp_b}
+		\label{tbl:klApp_comp_b}
 		\caption{$k=l=2^{p-c}$ and $1 < c < p$}
 	\end{subfigure}
 	\caption{$(k,l)$-Approval}
-	\label{fig:klApp_comp}
-\end{figure}
+	\label{tbl:klApp_comp}
+\end{table}
 
 
 
@@ -2434,7 +2147,7 @@ for the Borda rule, whereas $\toulbar$ is better for the two approval rules.
 Again, to see this, we refer to Figures \ref{fig:eval}(a), (b) and (c).
 
 
-\section{Conclusions and Future Work}
+\section{Conclusion}
 Aggregating votes expressed as LP trees is a rich source of interesting
 theoretical and practical problems. In particular, the complexity of the
 winner and evaluation problems for scoring rules is far from

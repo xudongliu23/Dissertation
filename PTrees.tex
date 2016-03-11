@@ -1,4 +1,4 @@
-\paragraph{\bf Abstract.}
+%\paragraph{\bf Abstract.}
 %%%%We introduce \emph{preference trees} (\emph{P-trees}, for short) as 
 %%%%a qualitative preference representation formalism. 
 Preference trees, or \emph{P-trees} for short, offer an intuitive and
@@ -14,55 +14,55 @@ of comparing outcomes with respect to orders defined by P-trees, and
 of finding optimal outcomes.
 
 \section{Introduction}
-Preferences are essential in areas such as constraint satisfaction, 
-decision making, multi-agent cooperation, Internet trading, and social
-choice. Consequently, preference representation languages and algorithms 
-for reasoning about preferences have received much 
-attention \cite{Kaci:Pref}. When there 
-are only a few objects (or \textit{outcomes}) to compare, it is both most 
-direct and feasible to represent preference orders by their explicit 
-enumerations. The situation changes when the domain of interest is 
-\emph{combinatorial}, that is, its elements are described in terms of 
-combinations of values of \emph{issues}, say $x_1,\ldots, x_n$ (also 
-called \emph{variables} or \emph{attributes}), with each issue $x_i$ 
-assuming values from some set $D_i$ --- its \emph{domain}. 
+%Preferences are essential in areas such as constraint satisfaction, 
+%decision making, multi-agent cooperation, Internet trading, and social
+%choice. Consequently, preference representation languages and algorithms 
+%for reasoning about preferences have received much 
+%attention \cite{Kaci:Pref}. When there 
+%are only a few objects (or \textit{outcomes}) to compare, it is both most 
+%direct and feasible to represent preference orders by their explicit 
+%enumerations. The situation changes when the domain of interest is 
+%\emph{combinatorial}, that is, its elements are described in terms of 
+%combinations of values of \emph{attributes}, say $x_1,\ldots, x_n$ (also 
+%called \emph{variables} or \emph{attributes}), with each attribute $x_i$ 
+%assuming values from some set $D_i$ --- its \emph{domain}. 
+%
+%Combinatorial domains appear commonly in applications. Since their 
+%size is exponential in the number of attributes, they are often so large 
+%as to make explicit representations of preference orders impractical. 
+%Therefore, designing languages to represent preferences on elements 
+%from combinatorial domains in a concise and intuitive fashion is 
+%important. Several such languages have been proposed including penalty 
+%and possibilistic logics \cite{DuboisLP91}, conditional preference
+%networks (CP-nets) \cite{bbdh03}, lexicographic preference trees 
+%(LP-trees) \cite{booth:learningLP}, and answer-set optimization 
+%(ASO) programs \cite{Brewka:ASO}. 
+%
+%In this paper, we focus our study on combinatorial domains with binary 
+%attributes. We assume that each attribute $x$ has the domain $\{x,\neg x\}$ 
+%(we slightly abuse the notation here, overloading $x$ to 
+%stand both for an attribute and for one of the elements of its domain). 
+%Thus, outcomes in the combinatorial domain determined 
+%by the set $\cI=\{x_1,\ldots,x_n\}$ of binary attributes are simply complete
+%and consistent sets of literals over $\cI$. We denote the set of all 
+%such sets of literals by $\CD(\cI)$. We typically view them as truth 
+%assignments (interpretations) of the propositional language over the 
+%vocabulary $\cI$. This allows us to use propositional formulas over 
+%$\cI$ as concise representations of sets of outcomes over $\cI$. Namely, 
+%each formula $\vph$ represents the set of outcomes that satisfy $\vph$ 
+%(make $\vph$ true).
 
-Combinatorial domains appear commonly in applications. Since their 
-size is exponential in the number of issues, they are often so large 
-as to make explicit representations of preference orders impractical. 
-Therefore, designing languages to represent preferences on elements 
-from combinatorial domains in a concise and intuitive fashion is 
-important. Several such languages have been proposed including penalty 
-and possibilistic logics \cite{DuboisLP91}, conditional preference
-networks (CP-nets) \cite{bbdh03}, lexicographic preference trees 
-(LP-trees) \cite{booth:learningLP}, and answer-set optimization 
-(ASO) programs \cite{Brewka:ASO}. 
-
-In this paper, we focus our study on combinatorial domains with binary 
-issues. We assume that each issue $x$ has the domain $\{x,\neg x\}$ 
-(we slightly abuse the notation here, overloading $x$ to 
-stand both for an issue and for one of the elements of its domain). 
-Thus, outcomes in the combinatorial domain determined 
-by the set $\cI=\{x_1,\ldots,x_n\}$ of binary issues are simply complete
-and consistent sets of literals over $\cI$. We denote the set of all 
-such sets of literals by $\CD(\cI)$. We typically view them as truth 
-assignments (interpretations) of the propositional language over the 
-vocabulary $\cI$. This allows us to use propositional formulas over 
-$\cI$ as concise representations of sets of outcomes over $\cI$. Namely, 
-each formula $\vph$ represents the set of outcomes that satisfy $\vph$ 
-(make $\vph$ true).
-
-For example, let us consider preferences on possible ways to
+Let us consider preferences on possible ways to
 arrange a vacation. We will assume that vacations are described by 
 four binary variables: 
 \begin{enumerate}  %\itemsep -2pt
-\item \textit{activity} ($x_1$) with values \textit{water sports} ($x_1$) and 
+\item \textit{activity} ($X_1$) with values \textit{water sports} ($x_1$) and 
 \textit{hiking} ($\neg x_1$),
-\item \textit{destination} ($x_2$) with \textit{Florida} ($x_2$) and 
+\item \textit{destination} ($X_2$) with \textit{Florida} ($x_2$) and 
 \textit{Colorado} ($\neg x_2$),
-\item \textit{time} ($x_3$) with \textit{summer} ($x_3$) and 
+\item \textit{time} ($X_3$) with \textit{summer} ($x_3$) and 
 \textit{winter} ($\neg x_3$), and
-\item the mode of \textit{travel} ($x_4$) could be \textit{car} ($x_4$)
+\item the mode of \textit{travel} ($X_4$) could be \textit{car} ($x_4$)
 and \textit{plane} ($\neg x_4$).
 \end{enumerate}
 A complete and consistent set of literals $\neg x_1\neg x_2x_3x_4$
@@ -76,7 +76,7 @@ in Colorado ($\neg x_2$) that we travel to by car ($X_4$) by the formula $\neg x
 \wedge x_4$.
 
 Explicitly specifying strict preference orders on $\CD(\cI)$ becomes 
-impractical even for combinatorial domains with as few as 7 or 8 issues. 
+impractical even for combinatorial domains with as few as 7 or 8 attributes. 
 However, 
 the setting introduced above allows us to specify total preorders on
 outcomes in terms of desirable properties outcomes should have. For 
@@ -142,13 +142,13 @@ trees}, or \emph{P-trees}. They were introduced by Fraser
 represent conditional preferences. Despite their intuitive nature they
 have not attracted much interest in the preference research in AI. In
 particular, they were not studied for their relationship to other 
-preference formalisms. The issue of compact representations received 
+preference formalisms. The attribute of compact representations received 
 only an informal treatment by Fraser (P-trees in their full representation
-are often impractically large), and the algorithmic issues of reasoning
+are often impractically large), and the algorithmic attributes of reasoning
 with P-trees were also only touched upon. 
 
 
-In this paper, we propose an alternative definition of preference trees, 
+We propose an alternative definition of preference trees, 
 and formally define their compact representation that exploits occurrences 
 of identical subtrees. P-trees are reminiscent of LP-trees 
 \cite{booth:learningLP}. We discuss the relation between the two concepts 
@@ -159,7 +159,7 @@ We study the complexity of problems of comparing outcomes with respect
 to orders defined by preference trees, and of problems of finding optimal 
 outcomes. 
 
-Our paper is organized as follows. In the next section, we formally 
+This chapter is organized as follows. In the next section, we formally 
 define P-trees and a compact way to represent them. In the following 
 section we present results comparing the language of P-trees with other 
 preference formalisms. We then move on to study the complexity of key 
@@ -170,32 +170,35 @@ conclude by outlining some future research directions.
 \section{Preference Trees}
 
 In this section, we define preference trees and discuss their
-representation. Let $\cI$ be a set of binary issues. A \emph{preference
-tree} (\textit{P-tree}, for short) over $\cI$ is
+representation. Let $\cI$ be a set of binary attributes\footnote{
+	In case of multi-value attributes, $\cI$ is then a set of
+	binary variables representing attribute values.
+}. 
+A \emph{preference tree} (\textit{P-tree}, for short) over $\cI$ is
 a binary tree with all nodes other than 
 leaves labeled with propositional formulas over $\cI$. Each P-tree 
 $T$ defines a natural strict order $\succeq_T$ on the set of its leaves, 
 the order of their enumeration from left to right. 
 
-Given an outcome $M \in \CD(\cI)$, we define the \emph{leaf of $M$ in $T$}
+Given an outcome $o \in \CD(\cI)$, we define the \emph{leaf of $o$ in $T$}
 as the leaf reached by starting at the root of $T$ and proceeding 
-downwards. When at a node $t$ labeled with $\varphi$, if $M\models \varphi$, 
+downwards. When at a node $t$ labeled with $\varphi$, if $o\models \varphi$, 
 we descend to the left child of $t$; otherwise, we descend to the right node 
-of $t$. We denote the leaf of $M$ in $T$ by $l_T(M)$.
+of $t$. We denote the leaf of $o$ in $T$ by $l_T(o)$.
 
-We use the concept of the leaf of an outcome $M$ in a P-tree $T$ to 
+We use the concept of the leaf of an outcome $o$ in a P-tree $T$ to 
 define a total preorder on $\CD(\cI)$. Namely, for outcomes
-$M, M'\in \CD(\cI)$, 
-we set $M\succeq_T M'$, $M$ is \emph{preferred} to $M'$, if $l_T(M) \succeq_T l_T(M')$, and
-$M\succ_T M'$, $M$ is \emph{strictly preferred} to $M'$, 
-if $l_T(M) \succ_T l_T(M')$.
+$o_1, o_2\in \CD(\cI)$, 
+we set $o_1\succeq_T o_2$, $o_1$ is \emph{preferred} to $o_2$, if $l_T(o_1) \succeq_T l_T(o_2)$, and
+$o_1\succ_T o_2$, $o_1$ is \emph{strictly preferred} to $o_2$, 
+if $l_T(o_1) \succ_T l_T(o_2)$.
 (We overload the relations $\succeq_T$ and $\succ_T$ 
 by using it both for the order on the leaves of $T$ 
 and the corresponding preorder on the outcomes from $\CD(\cI)$). 
-We say that $M$ is 
-\emph{equivalent} to $M'$, $M \approx_T M'$, if $l_T(M)=l_T(M')$. 
-Finally, $M$ is \emph{optimal} if there exists no 
-$M'$ such that $M' \succ_T M$.
+We say that $o_1$ is 
+\emph{equivalent} to $o_2$, $o_1 \approx_T o_2$, if $l_T(o_1)=l_T(o_2)$. 
+Finally, $o$ is \emph{optimal} if there exists no 
+$o'$ such that $o' \succ_T o$.
 
 Let us come back to the vacation example and assume that an agent 
 prefers vacations involving water sports in Florida or hiking in Colorado
@@ -245,10 +248,10 @@ preferences at the top level.
   \label{fig:pt_vac}
 \end{figure}
 
-To compare two outcomes, $M=\neg x_1\neg x_2\neg x_3x_4$ 
-and $M'=x_1x_2x_3\neg x_4$,
-we walk down the tree and find that $l_T(M)=l_1$ and $l_T(M')=l_2$. 
-Thus, we have $M \succ_T M'$ since $l_1$ precedes $l_2$.
+To compare two outcomes, $o_1=\neg x_1\neg x_2\neg x_3x_4$ 
+and $o_2=x_1x_2x_3\neg x_4$,
+we walk down the tree and find that $l_T(o_1)=l_1$ and $l_T(o_2)=l_2$. 
+Thus, we have $o_1 \succ_T o_2$ since $l_1$ precedes $l_2$.
 
 
 \ignore{
@@ -328,7 +331,7 @@ $\CD(\cI)$.
 
 \begin{prop}
 \label{prop:1}
-For every set $\cI$ of binary issues, for every set $D\subseteq\CD(\cI)$
+For every set $\cI$ of binary attributes, for every set $D\subseteq\CD(\cI)$
 of outcomes over $\cI$, and for every total preorder $\succeq$ on $D$ into
 no more than $2^n$ clusters of equivalent outcomes, there is a P-tree $T$ 
 of depth at most $n$ such that the preorder determined by $T$ on $\CD(\cI)$ 
@@ -370,7 +373,7 @@ However, preferences over combinatorial domains that arise in practice
 typically have structure that can be elicited from a user and exploited
 when constructing a P-tree representation of the preferences. First,
 decisions at each level are often based on considerations involving
-only very few issues, often just one or two and very rarely more than that.
+only very few attributes, often just one or two and very rarely more than that.
 Moreover, the subtrees of a node that order the ``left'' and the``right''
 outcomes are often identical or similar. 
 
@@ -601,7 +604,7 @@ with other preference languages.
 As stated earlier, P-trees are reminiscent of LP-trees, a preference 
 language that has received significant attention recently 
 \cite{booth:learningLP,lang:aggLP,LiuT}. In fact, LP-trees over a set
-$\cI=\{x_1,\ldots,x_n\}$ of issues are simply special P-trees over $\cI$.
+$\cI=\{x_1,\ldots,x_n\}$ of attributes are simply special P-trees over $\cI$.
 Namely, an LP-tree over $\cI$ can be defined as a P-tree over $\cI$, in
 which all formulas labeling nodes are atoms $x_i$ or their negations $\neg x_i$,
 depending on whether $x_i$ or $\neg x_i$ is the preferred over the other, and every path from 
@@ -670,16 +673,16 @@ where $\varphi=(x_2 \land x_4) \lor (\neg x_2 \land \neg x_4)$.
 	  \begin{tikzpicture}[->,>=stealth',node distance=1.2cm]
 	        
 	    \node[main node] (1) {$x_1$};
-	    \node[rectangle,draw,inner sep=1pt] at (1,0) {$\neg x_1\!\! >\!\! x_1$};
+	    \node[rectangle,draw,inner sep=1pt] at (1.2,0) {$\neg x_1\!\! >\!\! x_1$};
 	
 	    \node[main node] (2) [below of=1] {$x_3$};
-	    \node[rectangle,draw,inner sep=1pt] at (1,-1.2) {$x_3 \!\!>\!\! \neg x_3$};
+	    \node[rectangle,draw,inner sep=1pt] at (1.2,-1.2) {$x_3 \!\!>\!\! \neg x_3$};
 	    
 	    \node[main node] (3) [below left of=2] {$x_2$};
-	    \node[rectangle,draw,inner sep=1pt] at (-1.85,-2.05) {$\neg x_2 \!\!>\!\! x_2$};
+	    \node[rectangle,draw,inner sep=1pt] at (-2,-2.05) {$\neg x_2 \!\!>\!\! x_2$};
 	    
 	    \node[main node] (4) [below of=3] {$x_4$};
-	    \node[rectangle split, rectangle split parts=2, draw,inner sep=1pt,font=\sffamily\small] at (-2.2,-3.3)
+	    \node[rectangle split, rectangle split parts=2, draw,inner sep=1pt,font=\sffamily\small] at (-2.4,-3.3)
 	        {
 	          $x_2\!:\!x_4 \!\!>\!\! \neg x_4$
 	          \nodepart{second}
@@ -687,10 +690,10 @@ where $\varphi=(x_2 \land x_4) \lor (\neg x_2 \land \neg x_4)$.
 	        };
 	    
 	    \node[main node] (5) [below right of=2] {$x_4$};
-	    \node[rectangle,draw,inner sep=1pt] at (1.85,-2.05) {$\neg x_4\!\! > \!\! x_4$};
+	    \node[rectangle,draw,inner sep=1pt] at (2.05,-2.05) {$\neg x_4\!\! > \!\! x_4$};
 	    
 	    \node[main node] (6) [below of=5] {$x_2$};
-	    \node[rectangle,draw,inner sep=1pt] at (1.85,-3.3) {$x_2 \!\!>\!\! \neg x_2$};
+	    \node[rectangle,draw,inner sep=1pt] at (2.05,-3.3) {$x_2 \!\!>\!\! \neg x_2$};
 	  
 	    \path[every node/.style={font=\sffamily\small}]
 	      (1) edge (2)
@@ -708,7 +711,7 @@ where $\varphi=(x_2 \land x_4) \lor (\neg x_2 \land \neg x_4)$.
 		    \node [main node,inner sep=1.5pt] (1){$\neg x_1$}
 		    child {node [main node] (2) {$x_3$}
 		      child {node [main node,inner sep=1.5pt] (3) {$\neg x_2$}
-		        child {node [main node,inner sep=4pt] (4) {$\varphi$}
+		        child {node [main node,inner sep=5pt] (4) {$\varphi$}
 		      		%child {node [rectangle] (5) {} edge from parent[draw=none]}
 						}
 					}
@@ -727,7 +730,7 @@ where $\varphi=(x_2 \land x_4) \lor (\neg x_2 \land \neg x_4)$.
 
 The major drawback of LP-trees is that they can capture only a very small
 fraction of preference orders. One can show that the number, say $G(n)$, 
-of LP-trees over $n$ issues is 
+of LP-trees over $n$ attributes is 
 \begin{equation*}
 G(n)=\prod_{k=0}^{n-1} (n-k)^{2^k} \cdot 2^{2^k}
 \end{equation*}
@@ -751,7 +754,7 @@ We show in \thmref{exp_small_ratio} that
 LP-trees only encode an exponentially small portion of all linear orders.
 \begin{thm}
 \label{thm:exp_small_ratio}
-	Let $L(n)=2^n!$ be the number of linear orders of outcomes over $n$ binary issues,
+	Let $L(n)=2^n!$ be the number of linear orders of outcomes over $n$ binary attributes,
 	$r$ be the ratio of $G(n)$ to $L(n)$.
 	We have
 	\begin{equation}
@@ -1204,7 +1207,7 @@ in linear time (cf. Theorem \ref{thm:dom}).
 	$V=\{X_1,\ldots,X_m\}$, we construct a P-tree $T$ and an outcome $M$
 as follows.
 \begin{enumerate}
-\item We choose $X_1,\ldots,X_m,unsat$ as issues, where $unsat$ is 
+\item We choose $X_1,\ldots,X_m,unsat$ as attributes, where $unsat$ is 
 a new variable;
 \item we define the P-tree $T_\Phi$ (cf. \figref{P_opt_2_comp}) to consist of a 
 single node labeled by $\Psi=\Phi \land \neg unsat$;
@@ -1513,13 +1516,13 @@ where every node is labeled by formula $\Phi \land x_i$, and we set
 %framework of LP-trees.
 
 
-\section{Conclusion and Future Work}
+\section{Conclusion}
 
 We investigated the qualitative preference representation language of 
 \textit{preference trees}, or \textit{P-trees}. This language was 
 introduced in early 1990s (cf. \cite{fraser1993,fraser1994}), but have 
 not received a substantial attention as a formalism for preference 
-representation in AI. We studied formally the issue of compact 
+representation in AI. We studied formally the attribute of compact 
 representations of
 P-trees, established its relationship to other preference languages
 such as lexicographic preference trees, possibilistic logic and
@@ -1534,10 +1537,10 @@ preference formulas in the other two formalisms). This structure allows
 for representations of conditional preferences. P-trees are also more
 expressive than lexicographic preference trees. This is the case even 
 for P-trees in which every node is labeled with a formula involving just
-two issues, as we illustrated with the $00\succ 11\succ 01\succ 01$ 
+two attributes, as we illustrated with the $00\succ 11\succ 01\succ 01$ 
 example. Such P-trees are still simple enough to correspond well to
 the way humans formulate hierarchical models of preferences, with all
-their decision conditions typically restricted to one or two issues. 
+their decision conditions typically restricted to one or two attributes. 
 
 Our paper shows that P-trees form a rich preference formalism that
 deserves further studies. Among the open problems of interest are 

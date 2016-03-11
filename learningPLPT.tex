@@ -1,4 +1,3 @@
-\paragraph{\bf Abstract.}
 We introduce \tit{partial lexicographic preference trees} (PLP-trees) 
 as a formalism for compact representations of preferences over 
 combinatorial domains. Our main results concern the problem of passive 
@@ -11,22 +10,23 @@ We establish complexity of these problems and, in all cases where the
 problem is in the class P, propose polynomial time algorithms.
 
 \section{Introduction}
-Representing and reasoning about preferences are fundamental to decision
-making and so, of significant interest to artificial intelligence. When 
-the choice is among a few \emph{outcomes} (\emph{alternatives}),
-representations in terms of explicit enumerations of the preference order 
-are feasible and lend themselves well to formal analysis. However, in many
-applications outcomes come from \emph{combinatorial domains}. That is,
-outcomes are described as tuples of values of \emph{issues} (also referred 
-to as \emph{variables} or \emph{attributes}), say $X_1,\ldots, X_p$, with 
-each issue $X_i$ assuming values from some set $D_i$ --- its \emph{domain}. 
-Because of the combinatorial size of the space of such outcomes, explicit
-enumerations of their elements are impractical. Instead, we resort to 
-formalisms supporting intuitive and, ideally, concise \emph{implicit}
-descriptions of the order. The language of CP-nets \cite{bbdh03} is a prime
-example of such a formalism. 
+%Representing and reasoning about preferences are fundamental to decision
+%making and so, of significant interest to artificial intelligence. When 
+%the choice is among a few \emph{outcomes} (\emph{alternatives}),
+%representations in terms of explicit enumerations of the preference order 
+%are feasible and lend themselves well to formal analysis. However, in many
+%applications outcomes come from \emph{combinatorial domains}. That is,
+%outcomes are described as tuples of values of \emph{issues} (also 
+%referred to as \emph{variables} or \emph{attributes}), say $X_1,\ldots, 
+%X_p$, with each issue $X_i$ assuming values from some set $D_i$ -- its 
+%\emph{domain}. 
+%Because of the combinatorial size of the space of such outcomes, explicit
+%enumerations of their elements are impractical. Instead, we resort to 
+%formalisms supporting intuitive and, ideally, concise \emph{implicit}
+%descriptions of the order. The language of CP-nets \cite{bbdh03} is a prime
+%example of such a formalism. 
 
-Recently, however, there has been a rising interest in representing
+Recently, there has been a rising interest in representing
 preferences over combinatorial domains by exploiting the notion of
 the lexicographic ordering. For instance, assuming issues are over the  
 binary domain $\{0,1\}$, with the preferred value for each issue being 
@@ -34,7 +34,7 @@ binary domain $\{0,1\}$, with the preferred value for each issue being
 This idea gave rise to the language of \tit{lexicographic preference 
 models} or \tit{lexicographic strategies}, which has been extensively 
 studied in the literature \cite{schmitt2006complexity,dombi2007learning,%
-yaman2008democratic,Wilson14}. The formalism of complete \tit{lexicographic 
+yaman2008democratic}. The formalism of complete \tit{lexicographic 
 preference trees} (LP-trees) \cite{booth:learningLP} generalizes the
 language of lexicographic strategies by arranging issues into 
 decision trees that assign preference ranks to outcomes. An important
@@ -55,7 +55,7 @@ Br\"auning and Eyke \shortcite{brauning2012learning} of CLP-trees.
 
 In this paper, we introduce \emph{partial lexicographic preference trees} (or 
 \emph{PLP-trees}) as means to represent \emph{total preorders} over 
-combinatorial domains. PLP-trees are closely related to LP-trees
+combinatorial domains. PLP-trees are closely related to LP-trees 
 requiring that every path in the tree contains all issues 
 used to describe outcomes. Consequently, LP-trees describe total 
 orders over the outcomes. PLP-trees relax this requirement and allow 
@@ -91,7 +91,7 @@ each issue appears \emph{at most} once.
 To specify the total preorder on outcomes defined by a PLP-tree $T$, let 
 us enumerate leaves of $T$ from left to right, assigning them 
 integers $1,2$, etc. For every outcome $\alpha$ we find its leaf 
-in $T$ by starting at the root of $T$ and proceeding downward.
+in $T$ by starting at the root of $T$ and proceeding downward. 
 When at a node labeled with an issue $X$, we descend to the left or to the 
 right child of that node based on the value $\alpha(X)$ of the issue $X$ 
 in $\alpha$ and on the preference assigned to that node. If $\alpha(X)$ is 
@@ -133,7 +133,7 @@ dessert (and so, the cluster of most preferred dinners has four elements).
 
 \begin{figure}[!ht]
 	\centering
-  \begin{subfigure}[b]{0.23\textwidth}
+  \begin{subfigure}[b]{0.45\textwidth}
 		\centering
 	  \begin{tikzpicture}[->,>=stealth',
 	    level 1/.style={sibling distance=2cm, level distance=25pt},
@@ -157,24 +157,24 @@ dessert (and so, the cluster of most preferred dinners has four elements).
 	  \end{tikzpicture}
 		\caption{Collapsible PLP-tree \label{fig:UICP_PLPT_full}}
 	\end{subfigure}%
-  \begin{subfigure}[b]{0.23\textwidth}
+  \begin{subfigure}[b]{0.45\textwidth}
 		\centering
 	  \begin{tikzpicture}[->,>=stealth',
 	    level/.style={sibling distance=2cm/#1, level distance=25pt}]
 	    \node [main node,inner sep=0.5pt] (1){$X_2$}
 	      child {node [main node,inner sep=0.5pt] (2) {$X_3$}
 	      	child {node [main node,inner sep=0.5pt] (3) {$X_1$} {}
-							child {node [rectangle,draw] (4) at (1.75,2.7) {$\top\!:\!1_2\!\!>\!\!0_2$} edge from parent[draw=none]}
-							child {node [rectangle split, rectangle split parts=2,draw] (5) at (1.2,1.8)
+							child {node [rectangle,draw] (4) at (1.7,2.8) {$1_2\!\!>\!\!0_2$} edge from parent[draw=none]}
+							child {node [rectangle split, rectangle split parts=2,draw] (5) at (1.35,1.8)
 								{$1_2\!:\!1_3\!\!>\!\!0_3$ \nodepart{second} $0_2\!:\!0_3\!\!>\!\!1_3$} edge from parent[draw=none]}
-							child {node [rectangle,draw] (6) at (0.5,0.85) 
+							child {node [rectangle,draw] (6) at (0.65,0.8) 
 								{$0_2\!:\!0_1\!\!>\!\!1_1$} edge from parent[draw=none]}
 					}
 	      };
 	  \end{tikzpicture}
 		\caption{UI-CP PLP-tree \label{fig:UICP_PLPT_compact}}
 	\end{subfigure}\\
-  \begin{subfigure}[b]{0.23\textwidth}
+  \begin{subfigure}[b]{0.45\textwidth}
 		\centering
 	  \begin{tikzpicture}[->,>=stealth',
 	    level 1/.style={sibling distance=1.5cm, level distance=25pt},
@@ -192,36 +192,36 @@ dessert (and so, the cluster of most preferred dinners has four elements).
 		\vspace{-0.1cm}
 		\caption{Collapsible PLP-tree \label{fig:UIUP_PLPT_full}}
 	\end{subfigure}%
-  \begin{subfigure}[b]{0.23\textwidth}
+  \begin{subfigure}[b]{0.45\textwidth}
 		\centering
 	  \begin{tikzpicture}[->,>=stealth',
 	    level/.style={sibling distance=2cm/#1, level distance=25pt}]
 	    \node [main node,inner sep=0.5pt] (1){$X_2$}
 	      child {node [main node,inner sep=0.5pt] (2) {$X_3$}
-							child {node [rectangle,draw] (4) at (1.6,1.8) {$\top\!:\!1_2\!\!>\!\!0_2$} edge from parent[draw=none]}
-							child {node [rectangle,draw] (5) at (0.6,0.9) {$\top\!:\!0_3\!\!>\!\!1_3$} edge from parent[draw=none]}
+							child {node [rectangle,draw] (4) at (1.5,1.8) {$1_2\!\!>\!\!0_2$} edge from parent[draw=none]}
+							child {node [rectangle,draw] (5) at (0.5,0.9) {$0_3\!\!>\!\!1_3$} edge from parent[draw=none]}
 	      };
 	  \end{tikzpicture}
 		\vspace{-0.2cm}
 		\caption{UI-UP PLP-tree \label{fig:UIUP_PLPT_compact}}
 	\end{subfigure}\\
-  \begin{subfigure}[b]{0.23\textwidth}
+  \begin{subfigure}[b]{0.45\textwidth}
 		\centering
 	  \begin{tikzpicture}[->,>=stealth',
 	    level/.style={sibling distance=2cm/#1, level distance=25pt}]
 	    \node [main node,inner sep=0.5pt] (1){$X_1$}
 	      child {node [main node,inner sep=0.5pt] (2) {$X_2$}
 	      	child {node [main node,inner sep=0.5pt] (3) {$X_3$}
-							child {node [rectangle,draw] (4) at (1.75,2.7) {$\top\!:\!1_1\!\!>\!\!0_1$} edge from parent[draw=none]}
-							child {node [rectangle,draw] (5) at (1.1,1.8) {$0_1\!:\!0_2\!\!>\!\!1_2$} edge from parent[draw=none]}
-							child {node [rectangle,draw] (6) at (0.6,0.9) {$1_11_2\!:\!1_3\!\!>\!\!0_3$} edge from parent[draw=none]}
+							child {node [rectangle,draw] (4) at (1.75,2.7) {$1_1\!\!>\!\!0_1$} edge from parent[draw=none]}
+							child {node [rectangle,draw] (5) at (1.3,1.8) {$0_1\!:\!0_2\!\!>\!\!1_2$} edge from parent[draw=none]}
+							child {node [rectangle,draw] (6) at (0.8,0.9) {$1_11_2\!:\!1_3\!\!>\!\!0_3$} edge from parent[draw=none]}
 					}
 	      };
 	  \end{tikzpicture}
 		\vspace{-0.3cm}
 		\caption{Invalid UI-CP PLP-tree \label{fig:invalid_UICP}}
 	\end{subfigure}%
-  \begin{subfigure}[b]{0.23\textwidth}
+  \begin{subfigure}[b]{0.45\textwidth}
 		\centering
 	  \begin{tikzpicture}[->,>=stealth',
 	    level 1/.style={sibling distance=1.7cm, level distance=25pt},
@@ -256,7 +256,7 @@ dessert (and so, the cluster of most preferred dinners has four elements).
 \vspace{-0.1cm}
 In the worst case, the size of a PLP-tree is exponential in the number of 
 issues in $\cI$. However, some PLP-trees have a special structure that
-allows us to ``collapse" them and obtain more compact 
+allows us to ``collapse'' them and obtain more compact 
 representations. This yields a natural classification of PLP-trees, which
 we describe below.
 
@@ -276,7 +276,7 @@ where a node labeled with an issue $X_i$ is also assigned a
 \tit{partial conditional preference table} (PCPT) that specifies 
 preferences on $X_i$, conditioned on values of ancestor issues in the path.
 These tables make up for the lost structure of $T$ as different ways in 
-which ancestor issues evaluate correspond to different locations
+which ancestor issues evaluate correspond to different locations 
 in the original tree $T$. 
 Moreover, missing entries in PCPT of $X_i$ imply equivalence (or indifference) between values of $X_i$
 under conditions that do not appear in the PCPT.
@@ -284,8 +284,8 @@ Clearly, the PLP-tree in \figref{UICP_PLPT_full} is collapsible, and can
 be represented compactly as a single-path tree with nodes labeled by 
 issues in the permutation and PCPTs (cf. \figref{UICP_PLPT_compact}).
 Such a collapsed path labeled by issues is sometimes denoted as
-a sequence of issues in $\hat{R}$ connected by $\tr$, e.g.,
-$X_2\tr X_3\tr X_1$ for the path in \figref{UICP_PLPT_compact}.
+a sequence of issues in $\hat{R}$ connected by $\triangleright$, e.g.,
+$X_2\triangleright X_3\triangleright X_1$ for the path in \figref{UICP_PLPT_compact}.
 
 Collapsible PLP-trees represented by a single path of nodes 
 will be referred to as \emph{unconditional importance} trees or $\UI$ 
@@ -322,105 +322,13 @@ issue depends only on a few higher importance issues say, never more than
 one or two (or, more generally, never more than some fixed bound $b$), 
 the collapsed representation is significantly smaller.
 
-We now show the algorithm to turn a collapsible PLP-tree $T$
-into its compact $\UI$-$\CP$ representation $T'$.
-We would first eliminate the leaves. 
-Since subtrees in $T$ are collapsible as well, we traverse and collapse 
-subtrees of inner roots in a post-order manner.
-When combining preferences for corresponding nodes,
-we will introduce the new condition (upon the root of the subtrees collapsed)
-unless the CPTs of these two nodes are the same.
-See example.
-
 As an aside, we note that not every path of nodes labeled with issues
-and CPTs is a valid $\UI$ tree.
-Before define validity of such paths, we examine two properties of CPT's:
-completeness and consistency.
-
-Let CPT($X_i$) be the CPT of issue $X_i$ consisting of conditional preference
-rules $r_i$'s of form $\cond_i: >_i$.  We define the set of $X_i$'s parent issues
-$\Pa(X_i)=\bigcup_{r_i \in CPT(X_i)} \Iss(\cond_i)$,
-where $\Iss(\cond_i)$ is the set of issues that appear in $\cond_i$,
-and $\Iss(\top)=\emptyset$.
-The CPT of issue $X_i$ is \emph{complete} if for every
-assignment $v \in \Asst(\Pa(X_i))$ there exists a preference rule $r_i$
-such that $v \models \cond_i$.
-CPT's that are not complete are \emph{partial}.
-Another concept before validity is the
-consistency of a CPT. 
-A CPT is \emph{inconsistent} if there exist an outcome
-and two conditional preference rules in this PCPT such that the outcome satisfies
-both conditions but the preference orderings are different.
-A CPT is \emph{consistent} if it is not inconsistent.
-
-We obtain the following complexity results for checking completeness and consistency
-of a CPT.
-The problem of deciding completeness of a CPT is coNP-complete (cf. \thmref{completeness}), and
-checking consistency of a CPT can be done in polynomial time.
-
-\begin{thm}
-\label{thm:completeness}
-	Let PCPT($X$) in a UI-CP PLP-tree $T$ be the PCPT of issue $X$ consisting of conditional preference
-	rules $r$'s of form $\cond: >$.
-	The problem to decide if PCPT($X$) is complete is coNP-complete.
-\end{thm}
-\begin{proof}
-	(Membership) The complement of the problem is to decide if PCPT($X$) is not complete, that is,
-	to decide whether there exists an assignment $w \in \Asst(\Pa(X))$ for every preference rule $r$
-	such that $w \not \models \cond$.  This complement problem is clearly in NP.
-
-	(Hardness) We show the hardness of the above complement problem by a reduction from SAT.
-	Given an instance of SAT $\Phi=\{C_1,\ldots,C_g\}$ over Boolean variables
-	$X_1,\ldots,X_n$, we construct a PCPT as follows.
-
-	1. Introduce a new variable $X_{n+1}$ for which we build the PCPT.
-
-	2. For each clause $C_i \in \Phi$, add into PCPT($X_{n+1}$) a conditional preference
-	rule $r_i$ of form $\cond_i: >_i$, where $\cond_i=\neg C_i$ and $>$ is set arbitrarily.
-
-	Clearly, PCPT($X_{n+1}$) is not complete if and only if $\Phi$ is satisfiable.
-\end{proof}
-
-Now, let $T$ be a path of $n<p$ nodes labeled with issues and consistent CPT's.
-For simplicity, we assume the order of issues is $X_1,\ldots,X_n$.
-We say that $T$ is a \emph{valid} $\UI$ tree if
-there exists a full PLP-tree that can be collapsed into $T$ using
-the algorithm described above.
-
-An example is given in \figref{UICP_PLPT_compact}.
-The condition characterizing paths with nodes labeled with
-issues and PCPTs that are valid $\UI$ trees is the following.
-
-Let $v$ be a partial interpretation over $\cI$, and $S \subseteq \cI$ a subset of $\cI$.
-We denote with $v|_S$ the \tit{projection} of $v$ onto $S$.
-In particular, if $v|_\emptyset=\bot$.
-We now show the conditions for a path to be a valid UI-CP PLP-trees in the following theorem.
-
-\begin{thm}
-\label{thm:valid}
-	Let $T$ be a path of nodes labeled with issues and consistent PCPT's.
-	We have that $T$ is valid if and only if
-	for every node $t \in T$ labeled by $X_i$ and CPT($X_i$),
-	for every preference rule $r_i$ in CPT($X_i$),
-	for every parent issue $X_j \in \Iss(\cond_i)$ with CPT($X_j$),
-	there exists a preference rule $r_j$ in PARTIAL CPT($X_j$)
-	such that 
-	\begin{center}
-		$\cond_i|_{\Iss(\cond_j)} \models \cond_j$.
-	\end{center}
-	%Note that condition $\cond_i$ can be empty; in this case, we have a single
-	%unconditional preference rule $\top:>$ in the PCPT.
-\end{thm}
-\begin{proof}
-Prove by induction. Let $N$, $1\leq N\leq p$, be the number of issues in $T$.
-It is clear when $N$ is one.  Now assuming the theorem holds for UI-CP trees of $1\leq n < p$
-issues, we show it also holds for an arbitrary UI-CP tree $T$ with $N=n+1$.
-
-($\Leftarrow$) Let $T_n$ be the tree obtained from $T$ by removing the bottom node together
-with its issue and PCPT labels.
-Let $T_n'$ be the full tree expanded from $T_n$.  Then, we know that the orderings of issues
-given by the paths in $T_n'$ are consistent.
-\end{proof}
+and PCPTs is a $\UI$ tree. An example is given in \figref{invalid_UICP}.
+Indeed, one can see that there is no PLP-tree that would collapse to 
+it. There is a simple condition 
+characterizing paths with nodes labeled with issues and PCPTs that
+are valid $\UI$ trees. This matter is not essential to our discussion later 
+on and we will not discuss it further here due to the space limit.  
  
 When a PLP-tree is not collapsible, the importance of an issue depends
 on where it is located in the tree. We will refer to such PLP-trees as
@@ -456,8 +364,8 @@ v_i =1\}$.
 In the following, we denote by $p$ and $m$ the number of issues and the number of
 examples, respectively.
 
-For a PLP-tree $T$ in full representation we denote by $|T|$ the size of $T$, that is,
-the number of nodes in $T$. If $T$ stands for a $\UI$ tree, we write $|T|$ for
+For a PLP-tree $T$ in full representation we denote by $|T|$ the size of $T$, 
+that is, the number of nodes in $T$. If $T$ stands for a $\UI$ tree, we write $|T|$ for
 the size of $T$ measured by the total size of preference tables associated
 with issues in $T$. The size of a preference table is the total size of
 preferences in it, each preference measured as the number of values in the condition
@@ -509,8 +417,8 @@ $\UI$-$\CP$ trees.
 %in this work we focus on the other two $\UI$ cases for the \tsc{ConsLearn} problem.
 
 The \tsc{ConsLearn} problem is in the class P for $\UI$-$\FP$ and
-$\UI$-$\UP$ trees. To show it, we present a general 
-template of an algorithm that learns a $\UI$ tree. Next, for each of the classes
+$\UI$-$\UP$ trees. To show it, we present a general template of an 
+algorithm that learns a $\UI$ tree. Next, for each of the classes 
 $\UI$-$\FP$ and $\UI$-$\UP$, we specialize the template to a 
 polynomial-time algorithm.
 
@@ -569,7 +477,8 @@ for every example $(\alpha,\beta,1)$ in $\cE$, $\alpha(X)= \beta(X)$.
 \noindent {\bf Fixed Preferences.}
 For the problem of learning $\UI$-$\FP$ trees, we define $\AI(\cE,S)$ to
 contain every issue $X\notin \NEQ(\cE,S)$ such that\\ 
-(1) \ for every $(\alpha,\beta,1) \in \cE^\succ$, $\alpha(X) \geq \beta(X)$.
+(1) \ for every $(\alpha,\beta,1) \in \cE^\succ$, $\alpha(X) 
+\geq \beta(X)$.
 
 \begin{prop}
 \label{prop:1}
@@ -591,34 +500,12 @@ consistent with all examples in $\cE$ and using only issues from $S$ as
 labels (such a tree exists by assumption). If $X$ labels the top node in 
 $T$, we are done. Otherwise, let $T'$ be a tree obtained from $T$ by 
 adding at the top of $T$ another node, labeling it with $X$ and removing
-from $T$ the node labeled by $X$, if such a node exists. 
-Let $T$ be $X_{j_1} \tr \ldots \tr X_{j_k}$ ($k \leq p$).
-
-\noindent (1). If $X \not \in \{T\}$, we have $T'=X \tr X_{j_1} \tr \ldots \tr X_{j_k}$.
-For any $e=(\alpha,\beta,0) \in \cE^\approx$, we know $\alpha(X)=\beta(X)$ since
-$X\in \AI(\cE,S)$, and $\alpha(X_{j_i})=\beta(X_{j_i})$ for all
-$1 \leq i \leq k$ because $\alpha \approx_T \beta$.
-Thus, we have $\alpha \approx_{T'} \beta$.
-Let $e'=(\alpha',\beta',1) \in \cE^\succ$ be any strict example 
-decided on issue $X_{j_l}$ in $T$.
-That is, we know $\alpha'(X_{j_l})=1$ and $\beta'(X_{j_l})=0$, and
-$\alpha(X_{j_i})=\beta(X_{j_i})$ for all $1 \leq i < l$.
-By the definition of $\AI(\cE,S)$, we have $\alpha'(X) \geq \beta'(X)$.
-If $\alpha'(X) = \beta'(X)$, example $e'$ is still decided on issue $X_{j_l}$ in $T'$.
-Otherwise, we have $\alpha'(X)=1$ and $\beta'(X)=0$, and $e'$ is decided on
-issue $X$ in $T'$. Hence, we have that $\alpha \succ_{T'} \beta$.
-
-\noindent (2). If $X \in \{T\}$, let $j_r$, $1\leq r\leq k$, be the index such that $X=X_{j_r}$.
-Now we have $T'=X \tr X_{j_1} \tr \ldots \tr X_{j_{r-1}} \tr X_{j_{r+1}} \tr \ldots \tr X_{j_k}$.
-Tree $T'$ is consistent with $\cE^\approx$, done in case (1).
-Let $\cE^\succ_{j_l}$ be the set of examples in $\cE^\succ$ that are
-decided on issue $X_{j_l}$ in $T$.
-We have that examples in every $\cE^\succ_{j_l}$, $1\leq l \leq r-1$, are decided in $T'$,
-again done in case (1).
-For $l=r$, examples in $\cE^\succ_{j_l}$ are decided on $X$ in $T'$.
-For $r+1\leq l\leq k$, examples in every $\cE^\succ_{j_l}$ are decided on $X_{j_l}$.
-
-Therefore, tree $T'$ is consistent with $\cE$.
+from $T$ the node labeled by $X$, if such a node exists. By the definition
+of $\AI(\cE,S)$ we have that $X\notin\NEQ(\cE,S)$ and that condition (1) 
+holds for $X$. Using these properties, one can show that $T'$ is also 
+a $\UI$-$\FP$ 
+tree consistent with all examples in $\cE$. Since the top node of $T'$
+is labeled by $X$, the assertion follows. 
 \end{proof}
 
 We now specialize \algref{learnUI} by using in line 3 the 
@@ -671,169 +558,11 @@ The problem is in NP because one can show that if a $\UI$-$\CP$
 tree consistent with $\cE$ exists (\emph{a priori},
 it does not have to have size polynomial in the size of $\cE$), then another
 such tree of size polynomial in the size of $\cE$ exists, as well.
-%We conjecture that the general problem of
-%learning $\UI$-$\CP$ trees is, in fact, NP-complete. 
-%As we have only partial results 
-%for this case, the study of the $\UI$-$\CP$ tree learning will be the subject
-%of future work. 
-We show that the problem is in fact NP-complete.
-
-We first show that the Weak Consistency problem for a special class of 
-acyclic CP-nets is NP-complete.
-A CP-net $N=(G,\CPT)$ contains a directed graph $G$ over $\cI$ determining the
-dependencies between issues, and a set $\CPT$ of conditional preference tables $\CPT(X_i)$ for
-every $X_i \in \cI$. For instance, if $X_i$ has $r$ incoming edges in $G$, then
-$\CPT(X_i)$ is a table of $2^r$ conditional preference orderings on $D_i$ 
-for all assignments to these $r$ parent nodes.
-We say a CP-net $N=(G,\CPT)$ is \emph{total acyclic} if $G$ is acyclic and
-$G=G^+$, where $G^+$ is the transitive closure of $G$.
-
-Let $N$ be a total acyclic CP-net,
-$\succ_N$ be the preference order induced by $N$,
-and $e=(\alpha,\beta,1)$ be a strict example.
-We say that $N$ is consistent with $e$ if there is a completion $\succ$ of 
-$\succ_N$ such that $\alpha \succ \beta$.
-\begin{definition}
-Let $N$ be a total acyclic CP-net over $\cI$, and $\cE^\succ$ be a set of strict examples.
-We say that $N$ is weakly consistent with $\cE^\succ$ if $N$ is consistent 
-with every example in $\cE^\succ$.
-\end{definition}
-
-\begin{thm}
-Let $\cE^\succ$ be a set of strict examples.
-The weak consistency problem, to decide whether there exists
-a total acyclic CP-net $N$ that is weakly consistent with $\cE^\succ$, is NP-complete.
-\end{thm}
-\begin{proof}
-	For the membership, we can guess a directed dependency graph $G$ over $\cI$ and 
-	verify that $G$ is total acyclic in polynomial time. We can show that if there is a total acyclic CP-net
-	$N=(G,\CPT)$ weakly consistent with $\cE^\succ$ (\emph{a priori}, the tables $\CPT$
-	may have size exponential in the size of $\cE^\succ$), 
-	then another such CP-net of polynomial size exists too.
-	The hardness comes from the fact that a special case, the \emph{weak separability 
-	problem} \cite{LangM09}, is NP-complete.
-\end{proof}
-
-\begin{lem}
-\label{lem:cp}
-Let $N=(G,\CPT)$ be a total acyclic CP-net, and $e=(\alpha,\beta,1)$ be a strict example.
-We have that $N$ is consistent with $e$ if and only if there exists an issue $X_i \in \cI$
-such that $\alpha(U_i)=\beta(U_i)$ and $\alpha(X_i) >_i \beta(X_i)$ given $\alpha(U_i)$ 
-(or $\beta(U_i)$),
-where $U_i$ is the set of parent issues of $X_i$ in $G$, and $>_i$ is the total order over
-$D_i$.
-\end{lem}
-\begin{proof}
-	($\Leftarrow$) It is proved in the setting of \emph{ordering queries} \cite{bbdh03}.
-
-	($\Rightarrow$) Assume for every issue $X_j \in \cI$ we have $\alpha(U_j)=\beta(U_j)$ and
-	$\alpha(X_j) \not >_j \beta(X_j)$ given $\alpha(U_j)$ (or $\beta(U_j)$), we need to
-	show that $\beta \succ_N \alpha$, that is, there is a sequence of improving flips
-	from $\alpha$ to $\beta$ in the preference graph $\succ_N$.
-
-	Case 1: Assume for every issue $X_j \in \cI$ we have $\alpha(U_j)=\beta(U_j)$ and 
-	$\alpha(X_j) = \beta(X_j)$ given $\alpha(U_j)$ (or $\beta(U_j)$).
-	Then, it must be that $\alpha=\beta$, which is impossible.
-
-	Case 2: Assume for some issue $X_k$ we have $\alpha(U_k)=\beta(U_k)$ and
-	$\beta(X_k) >_k \alpha(X_k)$ given $\alpha(U_k)$ (or $\beta(U_k)$).
-	Then, it must be that $X_k \in G$ has an out degree of 0.
-	It is easy to see there is a sequence of improving flips from $\alpha$ to $\beta$ in $\succ_N$.
-\end{proof}
-
-\begin{thm}
-	The \tsc{ConsLearn} problem is NP-complete for class $\UI$-$\CP$.
-\end{thm}
-\begin{proof}
-	Membership is clear. We now prove that the problem is NP-hard by showing a polynomial
-	time reduction from the \emph{weak consistency problem}.
-	Let $\cE^\succ$ be a set of strict examples.  We show that there exists a
-	total acyclic CP-net $N$ weakly consistent with $\cE^\succ$ if and only if
-	there exists a UI-CP PLP-tree $T$ consistent with $\cE^\succ$.
-
-	($\Rightarrow$) Assume $N$ is weakly consistent with $\cE^\succ$, we
-	construct $T$, where the order of issues is a linear completion of $G$
-	and the $\PCPT$s are copies of $\CPT$s in $N$ for corresponding issues.
-	Since $e=(\alpha,\beta,1) \in \cE^\succ$ is consistent with $N$, by \lemref{cp}, there is a preference
-	rule $u:>_i \in \CPT(X_i)$ such that $\alpha(U)=\beta(U)=u$ and $\alpha(X_i) >_i \beta(X_i)$.
-	It is clear that $e$ is decided on $X_i$ in tree $T$.
-
-	($\Leftarrow$) Assume $T$ is consistent with $\cE^\succ$, we build $N$, where
-	$G$ is constructed in a way that $G$ is consistent with the dependencies between issues
-	in $T$, and $\CPT$s are copies of $\PCPT$s in $T$ for same issues.
-	If $e=(\alpha,\beta,1) \in \cE^\succ$ is decided on $X_i$ in $T$, on preference rule
-	$u:>_i \in \CPT(X_i)$ in $N$ we have $\alpha(U)=\beta(U)=u$ and $\alpha(X_i) >_i \beta(X_i)$.
-	Thus, by \lemref{cp}, $N$ is weakly consistent with all $e$ in $\cE^\succ$ and hence $\cE^\succ$.
-\end{proof}
-
-%However, we consider class $\UI$-$\CP$-$\Prefix$, a subclass of $\UI$-$\CP$,
-%and show that the \tsc{ConsLearn} problem can be solved by adjusting
-%\algref{learnUI} to the case of learning $\UI$-$\CP$-$\Prefix$ trees.
-%If, for every path in a PLP-tree $T$ from the root to a leaf, 
-%the sequence of issues 
-%that label the nodes on that path is a \tit{prefix} of $\hat{R}$, i.e.,
-%a segment of $\hat{R}$ starting at the top issue in $\hat{R}$,
-%then tree $T$ can be collapsed into a $\UI$ tree with PCPTs labeling
-%issues. The $\UI$-$\CP$ tree in \figref{UICP_PLPT_compact} is also a
-%$\UI$-$\CPsa tree.
-%
-%We define $\AI(\cE,S)$ for class $\UI$-$\CP$-$\Prefix$.
-%Let $P=\cI\backslash S$ be the set of issues that are already learned.
-%Given $\cE$ and the set $P$, we partition $\cE$ into $\{\cE_1,\ldots,\cE_r\}$ 
-%according to $P$ such that the following holds:
-%
-%\noindent (1). $\forall e_i \in \cE_i, \alpha_{e_i}(P) = \beta_{e_i}(P)$; 
-%
-%\noindent (2). $\forall e_i,e_j \in \cE_i, \alpha_{e_i}(P) = \alpha_{e_j}(P)$;
-%
-%\noindent (3). $\forall e_i \in \cE_i, \forall e_j \in \cE_j, \alpha_{e_i}(P)\not = \alpha_{e_j}(P)$.
-%
-%We have $X \in \AI(\cE,S)$ if 
-%for every $\cE_i$, $1 \leq i \leq r$, such that $\cE_i^\succ \not =\emptyset$, the following hold:
-%
-%\noindent (1) for every $(\alpha,\beta,1) \in \cE_i$, $\alpha(X) \geq 
-%\beta(X)$, or for every $(\alpha,\beta,1) \in \cE_i$, $\alpha(X) \leq \beta(X)$.
-%
-%\noindent (2). $X \not \in \NEQ(\cE_i, S)$.
-%
-%\begin{prop}
-%\label{prop:3}
-%	{\it
-%	Let $\cE_i$ be a partition of $\cE$ defined above with $\cE^\succ_i \not = \emptyset$.
-%	If for each such $\cE_i$ there is a UI-CP-Prefix tree consistent with $\cE_i$ and
-%	using only issues from $S$ as labels, and these UI-CP-Prefix trees have the same issue labeling their roots,
-%	then an issue $X \in S$ is a top node of some such tree for every $\cE_i$ if and only if $X \in \AI(\cE,S)$.
-%	}
-%\end{prop}
-%\begin{proof}
-%	It is clear that if for each $\cE_i$ ($\cE^\succ_i \not = \emptyset$) there is a 
-%	$\UI$-$\CP$-$\Prefix$ tree consistent with $\cE_i$ and only using issues from $S$ as labels, 
-%	and these UI-CP trees have the same issue labeling their roots,
-%	then the fact that
-%	$X \in S$ labels the root of some such tree implies $X \in \AI(\cE,S)$.
-%
-%	Now we show the other direction.
-%	Let $T$ be the $\UI$-$\CP$-$\Prefix$ tree over a subset of $S$ consistent with 
-%	an arbitrary $\cE_i$, $1\leq i \leq r$, such that $\cE_i^\succ\not =\emptyset$,
-%	and $X$ be an isssue such that $X \in \AI(\cE,S)$.
-%	Like class $\UI$-$\FP$, if $X$ is the root issue in $T$, we are done.
-%	Otherwise, let $T'$ be a tree obtained from $T$ by (1) adding at the top
-%	of $T$ another node, labeling it with $X$ and, w.l.o.g., $1>0$ as its PCPT,
-%	(2) updating the PCPTs of all nodes below $X$ that are ranked higher in $T$ 
-%	than the one labeled by $X$, if any; otherwise, updating all nodes below $X$,
-%	and (3) removing from $T$ the node labeled by $X$ and its PCPT, if any.
-%\end{proof}
-%
-%\propref{3} clearly infers the correctness of \algref{learnUI} with $\AI(\cE,S)$
-%defined as above for class $\UI$-$\CP$-$\Prefix$ and each $\PCPT(X_l)$ set consistent with
-%the condition aforementioned.
-%
-%\begin{thm}
-%Let $\cE$ be a set of examples over a set $\cI$ of binary issues.
-%\algref{learnUI} adjusted as described above terminates and outputs
-%a $\UI$-$\CP$-$\Prefix$ tree $T$ consistent wit $\cI$ if
-%and only if such a tree exists.
-%\end{thm}
+We conjecture that the general problem of
+learning $\UI$-$\CP$ trees is, in fact, NP-complete. 
+As we have only partial results 
+for this case, the study of the $\UI$-$\CP$ tree learning will be the subject
+of future work. 
 
 
 \vspace{-0.1cm}
@@ -883,7 +612,7 @@ We show that these problems for $\UI$ trees are NP-hard.
 \noindent
 	($\Rightarrow$) Assume $U$ has a hitting set $U'$ of size $k$.
 	Let $U'$ be $\{a_{j_1},\ldots,a_{j_k}\}$.
-	Define a $\UI$-$\FP$ PLP-tree $L=X_{j_1} \tr \ldots \tr X_{j_k}$.
+	Define a $\UI$-$\FP$ PLP-tree $L=X_{j_1} \triangleright \ldots \triangleright X_{j_k}$.
 	We show that $L$ is consistent with $\cE$.
 	Let $e=(\alpha_e,\beta_e,1)$ be an arbitrary example in $\cE$, where
 	$\alpha_e=\tbf{s}_i$ and $\beta_e=\tbf{0}$.
@@ -903,7 +632,7 @@ We show that these problems for $\UI$ trees are NP-hard.
 \noindent
 	($\Leftarrow$) Assume there is a $\UI$-$\FP$ PLP-tree $L$ of $l$ issues in
 	$\cI$ such that $L$ is consistent with $\cE$. Moreover, we assume
-	$L=X_{j_1} \tr \ldots \tr X_{j_l}$.
+	$L=X_{j_1} \triangleright \ldots \triangleright X_{j_l}$.
 	Let $U'=\{a_{j_1}, \ldots,a_{j_l}\}$.
 	We show by means of contradiction.  Assume that $U'$ is not a hitting set.
 	That is, there exists a set $S_i \in C$ such that
@@ -941,8 +670,8 @@ To see this, we consider the following input.
 \end{framed}
 
 For each class of $\{\UI\} \times \{\FP,\UP\}$, \algref{learnUI} in the worst 
-case computes $X_2 \tr X_3 \tr X_4 \tr X_1$,
-whereas the optimal tree is $X_4 \tr X_1$ (with
+case computes $X_2 \triangleright X_3 \triangleright X_4 \triangleright X_1$,
+whereas the optimal tree is $X_4 \triangleright X_1$ (with
 the PCPTs omitted as they contain only one preference and so, they do not
 change the asymptotic size of the tree). This example generalizes to the
 arbitrary number $p$ of issues. Thus, the greedy algorithm to learn small
@@ -995,69 +724,6 @@ such tree of size polynomial in $|\cE|$.
 The hardness part follows from the proof in the setting of learning 
 lexicographic strategies \cite{schmitt2006complexity}, adapted to the case 
 of $\UI$ PLP-trees.
-We now show hardness for the class $\UI$-$\CP$ on top of the construction
-of examples shown by Schmitt and Martignon \shortcite{schmitt2006complexity}.
-
-We first recall the \tit{vertex cover problem} (VCP): 
-given an undirected graph $G=(V,E)$ with
-$n$ vertices and $g$ edges, and a positive integer $k\leq n$, the problem is to
-decide whether there is a vertex cover of cardinality at most $k$, i.e.,
-a subset $V' \subseteq V$ with $|V'|\leq k$ such that for every edge 
-$(v_i,v_j) \in E$ at least one of $v_i$ and $v_j$ belongs to $V'$.
-Given an instance of VCP, we construct an instance of our problem as follows.
-
-\noindent 1. $\cI=\{X_i:v_i \in V\} \cup \{X_{n+1}\}$.
-
-\noindent 2. $\cE=\{(\la \tbf{1}_i,1 \ra, \la \tbf{1},0 \ra, 1): i=1,\ldots,n\}
-\cup \{(\la \tbf{1},0 \ra, \la \tbf{1}_{i,j},1 \ra, 1): (v_i,v_j) \in E\}$,
-where \tbf{1} and $\tbf{1}_i$ ($\tbf{1}_{i,j}$) stand for
-the $n$-bit vector of all $1$'s, the $n$-bit vector of all $1$'s except 
-for position $i$ (respectively, positions $i$ and $j$) where it has a $0$.
-
-\noindent 3. We set $l=k$.
-
-We show that graph $G$ has a vertex cover of size at most $k$ if and only if
-the set $\cE$ over $\cI$ has a $\UI$-$\CP$ PLP-tree that falsifies at
-most $l$ examples in $\cE$.
-
-\noindent ($\Rightarrow$) Assume $G$ has a vertex cover $V'$ of size $k$ such that
-$V'=\{v_{i_1},\ldots,v_{i_k}\}$. We build a $\UI$-$\FP$ tree (a special $\UI$-$\CP$ tree)
-$T=X_{i_1} \tr \ldots \tr X_{i_k} \tr X_{n+1}$ with preference $1>0$ on every issue.
-Since $V'$ is a vertex cover, any edge example $(\la \tbf{1},0 \ra, \la \tbf{1}_{i,j},1 \ra, 1)$
-and any vertex example $(\la \tbf{1}_i,1 \ra, \la \tbf{1},0 \ra, 1)$ with
-$v_i \not \in V'$ are satisfied by $T$, and any vertex example with $v_i \in V'$
-is falsified by $T$.  Thus, the set $\cE$ has a $\UI$-$\CP$ tree falsifying no more than
-$l=k$ examples.
-
-\noindent ($\Leftarrow$) Assume $T$ is a $\UI$-$\CP$ tree that falsifies at most $l$
-examples in $\cE$. Build the set $V'$ as follows.
-
-(1). Let $v_i \in V'$ for every falsified vertex example $(\la \tbf{1}_i,1 \ra, \la \tbf{1},0 \ra, 1)$.
-
-(2). Let one of $v_i, v_j \in V'$ for every falsified edge example 
-$(\la \tbf{1},0 \ra, \la \tbf{1}_{i,j},1 \ra, 1)$.
-
-We assume that $V'$ of size at most $l$ is not a vertex cover. 
-Then, there exists an edge $(v_i,v_j) \in E$ such that its edge example and
-two vertex examples are satisfied by $T$.
-Let $T'$ be the full representation of $T$.
-Since the edge example $e=(\la \tbf{1},0 \ra, \la \tbf{1}_{i,j},1 \ra, 1)$ is
-satisfied by $T'$, there exists a path in $T'$ from root to a node labeled by
-the issue that decides $e$. This issue, say $X$, must be either $X_i$, $X_j$ or $X_{n+1}$.
-
-\noindent ($1^\circ$). If $e$ is decided on $X_i$, the preference on $X_i$ must be
-$1_i>0_i$. Then, the vertex example $(\la \tbf{1}_i,1 \ra, \la \tbf{1},0 \ra, 1)$ is
-falsified by $T'$, contradiction.
-
-\noindent ($2^\circ$). If $e$ is decided on $X_j$, the preference on $X_j$ must be
-$1_j>0_j$. Then, the vertex example $(\la \tbf{1}_j,1 \ra, \la \tbf{1},0 \ra, 1)$ is
-falsified by $T'$, contradiction.
-
-\noindent ($3^\circ$). If $e$ is decided on $X_{n+1}$, the preference on
-$X_{n+1}$ must be $0_{n+1}>1_{n+1}$. Then, both vertex examples are falsified
-by $T'$, contradiction.
-
-Thus, the set $V'$ is a vertex cover. Therefore, the theorem holds.
 \end{proof}
 
 \begin{cor}
@@ -1314,21 +980,21 @@ by Schmitt and Martignon \shortcite{schmitt2006complexity}.
 %\end{enumerate}
 
 
-\section{Conclusions and Future Work}
+\section{Conclusions}
 We proposed a preference language, \tit{partial lexicographic preference 
 trees}, \tit{PLP-trees}, as a way to represent preferences over combinatorial 
 domains. For several natural classes of PLP-trees, we studied passive learning 
 problems: \tsc{ConsLearn}, \tsc{SmallLearn} and \tsc{MaxLearn}. All complexity
-results we obtained are summarized in tables in \figref{comp_results}. The
+results we obtained are summarized in tables in \tblref{comp_results}. The
 \tsc{ConsLearn} problem for $\UI$-$\CP$ trees is as of now unsettled. While we are aware 
 of subclasses of $\UI$-$\CP$ trees for which polynomial-time algorithms are 
 possible, we conjecture that in general, the problem is NP-complete.
 
-\begin{figure}[!ht]
+\begin{table}[!ht]
 	\centering
-  \begin{subfigure}[b]{0.25\textwidth}
+  \begin{subfigure}[b]{0.45\textwidth}
 		\centering
-		\begin{tabular}[0.25\textwidth]{ | c | c | c | c | }
+		\begin{tabular}[0.45\textwidth]{ | c | c | c | c | }
 		  \hline
 		     & FP & UP & CP \\
 		  \hline
@@ -1338,11 +1004,11 @@ possible, we conjecture that in general, the problem is NP-complete.
 		  \hline
 		\end{tabular}
 		\caption{\tsc{ConsLearn}}
-		\label{fig:cons_learn}
-	\end{subfigure}\\
-  \begin{subfigure}[b]{0.25\textwidth}
+		\label{tbl:cons_learn}
+	\end{subfigure}%
+  \begin{subfigure}[b]{0.45\textwidth}
 		\centering
-		\begin{tabular}[0.25\textwidth]{ | c | c | c | c | }
+		\begin{tabular}[0.45\textwidth]{ | c | c | c | c | }
 		  \hline
 		     & FP & UP & CP \\
 		  \hline
@@ -1352,11 +1018,11 @@ possible, we conjecture that in general, the problem is NP-complete.
 		  \hline
 		\end{tabular}
 		\caption{\tsc{SmallLearn} \& \tsc{MaxLearn}}
-		\label{fig:small_max_learn}
+		\label{tbl:small_max_learn}
 	\end{subfigure}
 	\caption{Complexity results for passive learning problems}
-	\label{fig:comp_results}
-\end{figure}
+	\label{tbl:comp_results}
+\end{table}
 
 For the future research, we will develop good heuristics for our learning algorithms.
 We will implement these algorithms handling issues of, in general, finite domains
