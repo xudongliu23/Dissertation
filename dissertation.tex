@@ -19,7 +19,7 @@
 \usepackage{fancyhdr}
 \pagestyle{fancy}
 \fancyhf{}
-\rhead{\leftmark}
+%\rhead{\leftmark}
 \cfoot{\thepage}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -47,7 +47,9 @@
 \begin{dedication}
 	\input{dedication}
 \end{dedication}
+\rhead{}
 \tableofcontents\clearpage
+\rhead{\leftmark}
 \listoffigures\clearpage
 \listoftables\clearpage
 %----------------------------------------------

@@ -356,7 +356,7 @@ We denote by $\Sigma^*$ the set of all strings of elements in $\Sigma$.
 	Let $f$ be a TM.
 	A \tit{decision problem} (or a \textit{language}) is a set 
 	$L_f$ of strings ($L_f \subseteq \Sigma^*$) such that $f$ accepts
-	any string in $L_f$; that is, we have $L_f=\{x:f(X)=1\}$.
+	any string in $L_f$; that is, we have $L_f=\{x \in \Sigma^*:f(x)=1\}$.
 \end{definition}
 For instance, the SAT problem is the set of all finite propositional
 formulas that have a satisfying truth assignment (assuming some natural
@@ -477,6 +477,9 @@ to an oracle that decides $L$.
 For example, $\sigmap{2}$ is the class of decision problems solvable by a nondeterministic
 TM in polynomial time with an oracle for some $\bNP$-complete problem.
 We denote by $\bPH$ the collection of all classes in the polynomial hierarchy.
+The \tit{polynomial hierarchy}, denoted by $\bPH$, is a hierarchy of these
+complexity classes (i.e., $\deltap{i}$, $\sigmap{i}$, and $\pip{i}$)
+that generalize the classes $\bP$, $\bNP$ and $\bCoNP$ to oracles.
 
 The relation between any classes in the hierarchy is of interest.
 One may notice that the classes $\sigmap{i}$ and $\pip{i}$ consist
