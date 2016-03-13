@@ -299,17 +299,19 @@ For example, if $X$ and $Y$ are formulas, we have that $X \land (X \rar \neg Y)$
 
 A \tit{truth assignments} is a mapping $v$ from variables to \tit{T}
 and \tit{F} values.
-We now defines what it means for a truth assignment to \tit{satisfies} 
-a formula.
+We now defines what it means for a truth assignment to \tit{satisfy} 
+and \tit{falsify} a formula.
 Let $v$ be a truth assignment, $X$ a variable, and $\varphi$ and $\psi$
 propositional formulas.
-We say $v$ satisfies $X$, denoted by $v \models X$, if $v$ has value \tit{T} on $X$.
+First, we define that $v$ satisfies $X$, denoted by $v \models X$,
+if $v$ has value \tit{T} on $X$; and that $v$ falsifies $X$, denoted 
+by $v \not\models X$, if $v$ has value \tit{F} on $X$.
 Then, we have $v \models \neg \varphi$
-if  $v \models \varphi$ does not hold, $v \models \varphi \land \psi$
+if  $v \not\models \varphi$ holds, $v \models \varphi \land \psi$
 if $v \models \varphi$ and $v \models \psi$ hold, $v \models \varphi \lor \psi$
 if $v \models \varphi$ or $v \models \psi$ holds, $v \models \varphi \rar \psi$
-if $v \models \varphi$ does not hold or $v \models \psi$ holds.
-We always have $v \models \top$ and $v \not \models \bot$.
+if $v \not\models \varphi$ holds or $v \models \psi$ holds.
+We always have $v \models \top$ and $v \not\models \bot$.
 
 A truth assignment can then be viewed an outcome in a combinatorial domain.
 We see that the values in the attribute domains are variables.
@@ -327,10 +329,14 @@ is represented as a truth assignment over $10$ variables, because
 there are $10$ attribute values.
 We denote these variables by $L_P$, $M_P$, $H_P$, $V_P$,
 $L_S$, $M_S$, $H_S$, $T_C$, $F_C$, and $S_C$, in order of the
-values in attributes \tit{Price}, \tit{Safety}, and \tit{Capacity}.
+values in attributes \tit{Capacity}, \tit{Price}, and \tit{Safety}.
 This truth assignment sets \tit{True} on variables $M_P$,
-$H_S$, and $S_C$.
-Moreover, formula $(H_P \land S_C) \lor (M_P \land M_S)$ precisely
+$H_S$ and $S_C$, and \tit{False} on the others.
+We see that not all truth assignments are legal.
+Thus, we need a constraint that, for every attribute domain,
+exactly one variable is true.  Such a constraint can be
+expressed as a propositional formula $\Phi$.
+Now it is clear that formula $\Phi \land ((H_P \land S_C) \lor (M_P \land M_S))$ precisely
 and concisely represents the set of cars that have high price and
 capacity of 7 or more, and cars that have medium price and medium
 security.
@@ -362,16 +368,18 @@ Let $\Sigma$ be a finite set of elements. A \tit{string} over alphabet $\Sigma$
 is an ordered tuple of finite elements from $\Sigma$. In complexity theory,
 $\Sigma$ is typically binary, that is, $\Sigma=\{0,1\}$.
 We denote by $\Sigma^*$ the set of all strings of elements in $\Sigma$.
-
-\begin{definition}
-	Let $f$ be a TM.
-	A \tit{decision problem} (or a \textit{language}) is a set 
-	$L_f$ of strings ($L_f \subseteq \Sigma^*$) such that $f$ accepts
-	any string in $L_f$; that is, we have $L_f=\{x \in \Sigma^*:f(x)=1\}$.
-\end{definition}
+A \tit{decision problem} (or a \textit{language}) is a set 
+$L$ of strings such that $L \subseteq \Sigma^*$.
 For instance, the SAT problem is the set of all finite propositional
 formulas that have a satisfying truth assignment (assuming some natural
 representation of propositional formulas as strings over a finite alphabet).
+
+%\begin{definition}
+%	Let $f$ be a TM.
+%	A \tit{decision problem} (or a \textit{language}) is a set 
+%	$L_f$ of strings ($L_f \subseteq \Sigma^*$) such that $f$ accepts
+%	any string in $L_f$; that is, we have $L_f=\{x \in \Sigma^*:f(x)=1\}$.
+%\end{definition}
 
 Studying decision problems on preferences involves designing algorithms and
 proving complexity results.  Hence, it is important to review complexity classes

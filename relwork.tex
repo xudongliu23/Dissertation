@@ -82,18 +82,20 @@ based on the \tit{ceteris paribus}
 semantics \cite{bbdh03}.
 \textit{Ceteris paribus} is latin for ``everything else being equal."
 
-Let $\bV$ be a set of binary variables\footnote{
-	Focusing on binary variables makes the discussion clearer,
-	and it does not affect the complexity results.
+Let $\bV$ be a set of binary attributes\footnote{
+	Attributes in CP-nets can be multi-valued. However,
+	as my research mostly deals with preference models over
+	binary attributes, it suffices to discuss CP-nets
+	in such a setting.
 }
 , we denote by $\Asst(\bV)$ the set of
-all truth assignments to the variables in $\bV$.
-For each variable $X_i \in \bV$, $\Pa(X_i)$ denotes the \tit{parent} variables of
+all truth assignments to the attributes in $\bV$.
+For each attribute $X_i \in \bV$, $\Pa(X_i)$ denotes the \tit{parent} attributes of
 $X_i$, such that preferences over the domain of $X_i$ depend upon how
 $\Pa(X_i)$ are evaluated.
 %\begin{definition}
 %\label{def:pi}
-%	A set of variables $\bX$ is \tit{preferentially independent}
+%	A set of attributes $\bX$ is \tit{preferentially independent}
 %	of $\bY=\bV-\bX$ if $\forall \bx_1,\bx_2 \in \Asst(\bX)$ and
 %	$\forall \by_1,\by_2 \in \Asst(\bY)$,
 %	\begin{center}
@@ -115,23 +117,23 @@ $\Pa(X_i)$ are evaluated.
 %\end{definition}
 %
 %\begin{definition}
-%	For each variable $X_i$, $\Pa(X_i)$ denotes its parent variables such that,
+%	For each attribute $X_i$, $\Pa(X_i)$ denotes its parent attributes such that,
 %	given an assignment to $\Pa(X_i)$, $X_i$ is conditionally preferentially independent
 %	of $\bV-(\Pa(X_i) \cup \{X_i\})$.
 %\end{definition}
 
 \begin{definition}
 \label{def:cpn}
-	Let $\bV$ be a set of binary variables $\bV=\{X_1,\ldots,X_n\}$.
+	Let $\bV$ be a set of binary attributes $\bV=\{X_1,\ldots,X_n\}$.
 	A CP-net over $\bV$ is a tuple ($G$,$T$), where
 	\begin{enumerate} \itemsep -4pt
 		\item $G$ is a directed graph ($V,E$) specifying
-					dependencies among variables,
+					dependencies among attributes,
 					where for every $X_i \in V$ we have
 					$\Pa(X_i)=\{X_j:(X_j,X_i) \in E\}$,
 		\item $T$ is a collection of 
 					conditional preference tables (CPTs) for
-					all variables.  A $\CPT(X_i)$ consists of preference
+					all attributes.  A $\CPT(X_i)$ consists of preference
 					statements of the form
 					\begin{center}
 						$\bu : \succ^i_{\bu}$,
@@ -145,19 +147,19 @@ $\Pa(X_i)$ are evaluated.
 We say that a CP-net $N=(G,T)$ is \tit{acyclic} if
 $G$ is acyclic; \tit{cyclic}, otherwise.
 To illustrate, let us consider the domain of cars.
-For simplicity, we take three binary variables
+For simplicity, we take three binary attributes
 \tit{Price}, \tit{Safety}, and \tit{Capacity}.
-Variable \tit{Capacity} ($C$) has two values \tit{high} ($c$) 
+Attribute \tit{Capacity} ($C$) has two values \tit{high} ($c$) 
 and \tit{low} ($\bar{c}$).
-Variable \tit{Price} ($P$) has two values \tit{high} ($p$) 
+Attribute \tit{Price} ($P$) has two values \tit{high} ($p$) 
 and \tit{low} ($\bar{p}$).
-Variable \tit{Safety} ($S$) has two values \tit{high} ($s$) 
+Attribute \tit{Safety} ($S$) has two values \tit{high} ($s$) 
 and \tit{low} ($\bar{s}$).
-An example CP-net $N=(G,T)$ over binary variables $\bV=\{C,P,S\}$
+An example CP-net $N=(G,T)$ over binary attributes $\bV=\{C,P,S\}$
 is shown in \figref{CPN_depend}.
 The directed graph $G$, also called the \tit{dependency graph}, expresses
-dependencies among variables.  An arrow in the dependency graph points
-to a child variable from a parent variable. Thus, we see that,
+dependencies among attributes.  An arrow in the dependency graph points
+to a child attribute from a parent attribute. Thus, we see that,
 the preferences on \tit{Price} (\tit{Safety}) depend upon the assignment made
 to \tit{Capacity} (\tit{Price}, respectively).
 
@@ -175,7 +177,7 @@ according to the preference statements in $N$ to reach $o_1$.
 	outcome $\bu x_i' \by$ such that $x_i' \succ^i_{\bu} x_i$.
 	A \tit{sequence of improving flips} wrt $N$ is a sequence of
 	outcomes $o_1,\ldots,o_j$ such that, for every $k<j$,
-	$o_{k+1}$ is an improving flip of $o_k$ wrt some variable in $\bV$.
+	$o_{k+1}$ is an improving flip of $o_k$ wrt some attribute in $\bV$.
 	We say that outcome $o_1$ is preferred to outcome $o_2$ in $N$,
 	denoted by $o_1 \succ_N o_2$, if there exists a sequence of
 	improving flips from $o_2$ to $o_1$.
@@ -717,6 +719,9 @@ Brewka et al \cite{Brewka03answerset} proved that
 the ASO-DOMINANCE problem is in P, ASO-OPTIMALITY-\rom{1}
 is NP-complete, ASO-OPTIMALITY-\rom{2} is coNP-complete,
 and ASO-OPTIMALITY-\rom{3} is $\sigmap{2}$-complete.
+More recently, Ying and Truszczynski \cite{ZhuT13,}
+presented results on problems of computing similar and
+diverse optimal outcomes in the setting of ASO.
 
 Moreover, an extended paradigm of ranked ASO programs has
 been introduced in the same work \cite{Brewka03answerset}.
