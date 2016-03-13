@@ -266,39 +266,50 @@ We first define the syntax of the language, that is, how formulas are constructe
 Then, we show its semantics, i.e., what it means for a formula to be true or false.
 
 Propositions are represented as \tit{well-formed formulas}, or simply \tit{formulas} when no ambiguity.
-Formulas are built from an alphabet of truth values ($T$ for \tit{True} and $F$ for \tit{False}),
+Formulas are built from an alphabet of truth symbols ($\top$ and $\bot$),
 variables (uppercase letters), connectives ($\neg$, $\land$, $\lor$, and $\rar$), and parantheses.
 A \tit{formula} is either a truth symbol, a variable, or, if $\varphi$ and $\psi$ are formulas,
-$\neg \varphi$, $\neg \psi$, $\varphi \lor \psi$, $\varphi \land \psi$, 
-$ \varphi \rar \psi$, $ \psi \rar \varphi$, $(\varphi)$, and $(\psi)$.
+$(\neg \varphi)$, $(\varphi \lor \psi)$, $(\varphi \land \psi)$, and
+$(\varphi \rar \psi)$.
 For example, if $X$ and $Y$ are formulas, we have that $X \land (X \rar \neg Y)$ is a formula.
 
-The meaning of any formula is its \tit{truth table}.
-The truth table enumerates \tit{truth assignments} to variables appearing in a formula to determine
-whether the formula is true or not.
-We have that the meaning of $T$ is true, and that of $F$ is false.
-We say that truth assignment $v$ \tit{satisfies} formula $\varphi$ if
-$\varphi$ is true under $v$, and $v$ \tit{falsifies} $\varphi$ if
-it is false under $v$.
-For instance, the semantics of several formulas is given as a true table in \tblref{truth}.
+%The meaning of any formula is its \tit{truth table}.
+%The truth table enumerates \tit{truth assignments} to variables appearing in a formula to determine
+%whether the formula is true or not.
+%We have that the meaning of $T$ is true, and that of $F$ is false.
+%For instance, the semantics of several formulas is given as a true table in \tblref{truth}.
+%
+%\begin{table}[ht]
+%\centering
+%	\begin{tabular}{ |c c|c c c c| }
+%	  \hline
+%	  $X$ & $Y$ & $\neg X$ & $X \land Y$ & $X \lor Y$ & $X \rar Y$ \\
+%	  \hline
+%		$T$ & $T$ & $F$ & $T$ & $T$ & $T$ \\
+%	  \hline                            
+%		$T$ & $F$ & $F$ & $F$ & $T$ & $F$ \\
+%	  \hline                            
+%		$F$ & $T$ & $T$ & $F$ & $T$ & $T$ \\
+%	  \hline                            
+%		$F$ & $F$ & $T$ & $F$ & $F$ & $T$ \\
+%	  \hline
+%	\end{tabular}
+%	\caption{Truth table\label{tbl:truth}}
+%\end{table}
 
-\begin{table}[ht]
-\centering
-	\begin{tabular}{ |c c|c c c c| }
-	  \hline
-	  $X$ & $Y$ & $\neg X$ & $X \land Y$ & $X \lor Y$ & $X \rar Y$ \\
-	  \hline
-		$T$ & $T$ & $F$ & $T$ & $T$ & $T$ \\
-	  \hline                            
-		$T$ & $F$ & $F$ & $F$ & $T$ & $F$ \\
-	  \hline                            
-		$F$ & $T$ & $T$ & $F$ & $T$ & $T$ \\
-	  \hline                            
-		$F$ & $F$ & $T$ & $F$ & $F$ & $T$ \\
-	  \hline
-	\end{tabular}
-	\caption{Truth table\label{tbl:truth}}
-\end{table}
+A \tit{truth assignments} is a mapping $v$ from variables to \tit{T}
+and \tit{F} values.
+We now defines what it means for a truth assignment to \tit{satisfies} 
+a formula.
+Let $v$ be a truth assignment, $X$ a variable, and $\varphi$ and $\psi$
+propositional formulas.
+We say $v$ satisfies $X$, denoted by $v \models X$, if $v$ has value \tit{T} on $X$.
+Then, we have $v \models \neg \varphi$
+if  $v \models \varphi$ does not hold, $v \models \varphi \land \psi$
+if $v \models \varphi$ and $v \models \psi$ hold, $v \models \varphi \lor \psi$
+if $v \models \varphi$ or $v \models \psi$ holds, $v \models \varphi \rar \psi$
+if $v \models \varphi$ does not hold or $v \models \psi$ holds.
+We always have $v \models \top$ and $v \not \models \bot$.
 
 A truth assignment can then be viewed an outcome in a combinatorial domain.
 We see that the values in the attribute domains are variables.
@@ -311,7 +322,7 @@ possibly exponentially many, outcomes.
 Formula $\varphi$ represents the set of outcomes whose counterpart
 truth assignments satisfy $\varphi$.
 We consider the domain of cars as discussed in \secref{comb_domains}.
-The car $\la$ \tit{med,high,7m} $\ra$ in the combinatorial domain
+The car $\la$\tit{med,high,7m}$\ra$ in the combinatorial domain
 is represented as a truth assignment over $10$ variables, because
 there are $10$ attribute values.
 We denote these variables by $L_P$, $M_P$, $H_P$, $V_P$,
