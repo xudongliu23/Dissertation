@@ -625,10 +625,52 @@ given two outcomes $o_1$ and $o_2$, we have
 \end{center}
 
 \nop{{\bf [NEED EXAMPLE]}}
+Let us look at the combinatorial domain of cars 
+over three binary attributes
+\tit{Price}, \tit{Safety}, and \tit{Capacity}.
+with values \tit{high} ($c$) and \tit{low} ($\bar{c}$),
+\tit{high} ($p$) and \tit{low} ($\bar{p}$), and
+\tit{high} ($s$) and \tit{low} ($\bar{s}$), respectively.
+Consider the following possibilistic theory $P$ with
+two preference pairs.
 \begin{center}
-	$\{ (s\land c,0.8), (s \Leftrightarrow p,0.6) \}$,
+	$P = \{ (s\land c,0.8), (s \Leftrightarrow p,0.6) \}$.
+\end{center}
+We now compute the tolerance degrees of outcomes with regard to $P$
+and show the results in \tblref{poss_ex}.
+The theory $P$, thus, induces a total preorder:
+\begin{center}
+	$cps \succ cp\bar{s} \succ cp\bar{s} \approx c\bar{p}\bar{s} \approx 
+		\bar{c} ps \approx \bar{c} p\bar{s} \approx \bar{c} \bar{p} s \approx \bar{c} \bar{p} \bar{s}$.
 \end{center}
 
+\begin{table}
+  \centering
+  \small
+  \begin{tabular}{ |c||c|c|c| }
+    \hline
+    Outcomes                 & $\TD_{(\phi_1,a_1)}(o)$  & $\TD_{(\phi_2,a_2)}(o)$ & $\TD_P(o)$ \\
+    \hline \hline
+    $cps$    								 & 1    & 1     & 1 \\
+    \hline
+    $cp\bar{s}$               & 0.2  & 0.4   & 0.2 \\
+    \hline
+    $c\bar{p} s$              & 1    & 0.4   & 0.4 \\
+    \hline
+    $c\bar{p}\bar{s}$          & 0.2  & 1     & 0.2 \\
+    \hline
+    $\bar{c} ps$              & 0.2  & 1     & 0.2 \\
+    \hline
+    $\bar{c} p\bar{s}$         & 0.2  & 0.4   & 0.2 \\
+    \hline
+    $\bar{c} \bar{p} s$        & 0.2  & 0.4   & 0.2 \\
+    \hline
+    $\bar{c} \bar{p} \bar{s}$   & 0.2  & 1     & 0.2 \\
+    \hline
+  \end{tabular}
+  \caption{Tolerance degrees with respect to $P$}
+  \label{tbl:poss_ex}
+\end{table}
 
 
 \subsection{Answer Set Optimization}
@@ -704,26 +746,62 @@ preference rule.
 	$o'' \succ o$.
 \end{definition}
 
-Consider an ASO theory $P=(P_{\gen}, P_{\PREF})$, where
+Consider an ASO theory $P=(P_{\gen}, P_{\PREF})$ over the domain 
+of cars, where
 \begin{center}
 	$P_{\gen}=\{$
-	$(a \lor \bar{a}) \land (\neg (a \land \bar{a})). \;$
-	$(b \lor \bar{b}) \land (\neg (b \land \bar{b})). \;$
-	$(c \lor \bar{c}) \land (\neg (c \land \bar{c})). \}$
+	$(c \lor \bar{c}) \land (\neg (c \land \bar{c})). \;$
+	$(p \lor \bar{p}) \land (\neg (p \land \bar{p})). \;$
+	$(s \lor \bar{s}) \land (\neg (s \land \bar{s})). \}$
 	and\\
-	$P_{\PREF}=\{
-		a > \bar{a} \leftarrow b \vee c. \;\;
-		b \wedge \bar{c} > \bar{b} \wedge c.
-	\}$.
+	$P_{\PREF}=\{r, r'\}$,
 \end{center}
-An optimal outcome is $ab\bar{c}$ and it is the only optimal one.
+where rule $r$ is $s > \bar{s} \leftarrow c \land p$, 
+and rule $r'$ is $\bar{p} \land s > p \land s > \bar{s}$.
+We now compute the satisfaction degrees of outcomes with regard to $P$
+and show the results in \tblref{aso_ex}.
+The theory $P$, thus, induces a total preorder:
+\begin{center}
+	$c\bar{p}s \approx \bar{c}\bar{p}s \succ cps \approx \bar{c}ps \succ
+		c\bar{p}\bar{s} \approx \bar{c}p\bar{s} \approx \bar{c}\bar{p}\bar{s} \succ
+		cp\bar{s}$.
+\end{center}
+In this case, we have two optimal outcomes: $c\bar{p}s$ and $\bar{c}\bar{p}s$.
+
+\begin{table}
+  \centering
+  \small
+  \begin{tabular}{ |c||c|c|c| }
+    \hline
+    Outcomes                 & $d_r(o)$  & $d_{r'}(o)$ \\
+    \hline \hline
+    $cps$    								 & 1    & 2   \\
+    \hline
+    $cp\bar{s}$               & 2  & 3  \\
+    \hline
+    $c\bar{p} s$              & 1    & 1  \\
+    \hline
+    $c\bar{p}\bar{s}$          & 1  & 3    \\
+    \hline
+    $\bar{c} ps$              & 1  & 2    \\
+    \hline
+    $\bar{c} p\bar{s}$         & 1  & 3  \\
+    \hline
+    $\bar{c} \bar{p} s$        & 1 & 1 \\
+    \hline
+    $\bar{c} \bar{p} \bar{s}$   & 1  & 3   \\
+    \hline
+  \end{tabular}
+  \caption{Satisfaction degrees with respect to $P$}
+  \label{tbl:aso_ex}
+\end{table}
 
 \noindent{\textbf{Problems and Complexity.}}
 Brewka et al \cite{Brewka03answerset} proved that
 the ASO-DOMINANCE problem is in P, ASO-OPTIMALITY-\rom{1}
 is NP-complete, ASO-OPTIMALITY-\rom{2} is coNP-complete,
 and ASO-OPTIMALITY-\rom{3} is $\sigmap{2}$-complete.
-More recently, Ying and Truszczynski \cite{ZhuT13,}
+More recently, Ying and Truszczynski \cite{ZhuT13}
 presented results on problems of computing similar and
 diverse optimal outcomes in the setting of ASO.
 
