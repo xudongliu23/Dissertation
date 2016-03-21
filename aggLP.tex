@@ -108,15 +108,70 @@ algorithms for the two problems based on their ASP and WPM-SAT encodings
 and using ASP and WPM-SAT solvers. Finally, we provide an experimental 
 evidence of the effectiveness of the proposed computational methods.
 
+
+\section{Computing Ranks}
+We now show how the \tit{rank} of an outcome in an LP-tree is computed.
+As we consider positional scoring rules, the scores of an outcome
+in an LP-tree or an LP-profile under these rules follow directly
+from its rank in the tree.
+
+Given an LP-tree $T$ and an outcome $o\in \CD(\cI)$,
+the computation of the rank $r(T,o)$ of $o$ in $T$
+is given in \algref{rank}, where $T'(x_j)$ is the 
+left (more-preferred) subtree of $T'$, and
+$T'(\obar{x_j})$ is the right (less-preferred)
+subtree of $T'$. Note that in each case we need to
+update the CPT's in the subtrees accordingly.
+Clearly, \algref{rank} takes $O(p)$.
+Conversely, it is also easy to compute the outcome
+at a given rank in a tree.
+
+\begin{algorithm}
+\KwIn{LP-tree $T$ and outcome $o$}
+\KwOut{the rank $r$ of $o$ in $T$}
+	$r \lar 0$\;
+	$T' \lar T$\;
+	\For{$i \lar 1$ \KwTo $p$}{
+		Let $X_j$ be the root attribute of $T'$ with preference $x_j > \obar{x_j}$\;
+		\uIf{$o(X_j) = x_j$}{
+			$T' \lar T'(x_j)$\;
+		}
+		\Else{
+			$r \lar r + 2^{p-i}$\;
+			$T' \lar T'(\obar{x_j})$\;
+		}
+	}
+	\Return{$r$}
+\caption{Compute the rank of an outcome in an LP-tree\label{alg:rank}}
+\end{algorithm}
+
+Now computing the scores of an outcome for the rules
+$k$-approval, $(k,l)$-approval and Borda is straightforward.
+We have the following.
+\begin{enumerate}
+	\item $k$-approval: $s_\kApp(T,o)=1$, if $r(T,o)<k$; $0$, otherwise.
+	\item $(k,l)$-approval: $s_\klApp(T,o)=a$, if $r(T,o)<k$; $b$, if $k\leq r(T,o)<k+l$;
+				$0$, otherwise.
+	\item Borda: $s_\Borda(T,o)=m-r(T,o)-1$.
+\end{enumerate}
+
+
 \section{The Problems and Their Complexity}
 
 We consider only \emph{effective implicit} positional scoring rules, 
 that is, rules defined by an algorithm that given $m$ (the number of 
 alternatives and, at the same time, the size of the scoring vector) 
-and an index $i$, $0\leq i\leq m-1$, (1) returns the value $w_i$ of 
+and a rank $r$, $0\leq r\leq m-1$, (1) returns the value $w_r$ of 
 the scoring vector, and (2) works in time polynomial in the sizes of 
-$i$ and $m$. Borda, $k$-approval and $(k,l)$-approval are examples 
-of effective implicit positional scoring rules. 
+$r$ and $m$. The rules $k$-approval, $(k,l)$-approval and Borda are examples 
+of effective implicit positional scoring rules:
+
+\begin{enumerate}
+	\item $k$-approval: $w_\kApp(r,m)=1$, if $r<k$; $0$, otherwise.
+	\item $(k,l)$-approval: $w_\klApp(r,m)=a$, if $r<k$; $b$, if $k\leq r<k+l$;
+				$0$, otherwise.
+	\item Borda: $w_\Borda(r,m)=m-r-1$.
+\end{enumerate}
 
 Let us fix an effective implicit positional scoring rule $\cD$ with the
 scoring vector $w$. Given an LP profile $\cV$, the \emph{winner} problem for
@@ -799,10 +854,9 @@ where $p$ is the number of attributes in $\cI$.
 We have the following theorem on half-Borda.
 
 \begin{thm}
-\label{thm5}
-	The evaluation 
-	and the winner problems under half-Borda for profiles consisting of 
-	UI-UP LP-trees are NP-complete and NP-hard, respectively.
+\label{thm:thm5}
+	The evaluation and the winner problems under half-Borda for UIUP-profiles are 
+	NP-complete and NP-hard, respectively.
 \end{thm}
 \begin{proof}
 We show that the evaluation problem is NP-complete. The membership
@@ -813,8 +867,8 @@ Given a 2-MINSAT instance $(\Phi,l)$, where $\Phi$ consists of 2-clauses
 $C_1,\ldots,C_m$ over variables $X_1,\ldots,X_p$, we construct an 
 instance of our problem as follows.
 	
-First, we introduce a new binary variable $X_{p+1}$ and define the set of
-attributes $\cI$ by setting $\cI=\{X_1,\ldots, X_p,X_{p+1}\}$. 
+First, we introduce a new binary variable $X_q$ and define the set of
+attributes $\cI$ by setting $\cI=\{X_1,\ldots, X_p,X_q\}$. 
 
 Second, for each $C_i \in \Phi$, we now build a set $P_i$ of 12 UI-UP 
 LP-trees over $\cI$.
@@ -824,8 +878,6 @@ As an example, let $C_i$ be $\neg X_2 \lor X_4$\footnote{
 	the two atoms in $C_i$ are the labels of the top two levels of trees,
 	and whether the atom is negated affects the preference on that atom.
 }.
-
-
 The fragment of the profile determined by $C_i$ is given by the multi-set 
 \[
 P_i= \{ B_{i_1},B_{i_2},B_{i_1},B_{i_2},B_{i_1},B_{i_2}, 
@@ -850,12 +902,52 @@ Let $B$ be a UIUP tree over $\cI$, $X_j$ the most important attribute of $B$.
 We define the half-borda score of $o$ in tree $B$, denoted by $s_\HB(B,o)$,
 to be $0$ if outcome $o$ has the non-preferred value on $X_j$; 
 $s_\Borda(B_{|_{\cI\backslash \{X_j\}}},o_{|_{\cI\backslash \{X_j\}}})$, otherwise.
-(NEED TO DEFINE BORDA SCORE AHEAD.)
-We have $s_{\HB}(P_i,o)=15a$, if $o \models X_{p+1} \land \neg C_i$; 
-$s_{\HB}(P_i,o)=3a$, if $o \models X_{p+1} \land C_i$;
-$s_{\HB}(P_i,o)<15a$, if $o \models \neg X_{p+1} \land \neg C_i$; and
-$s_{\HB}(P_i,o)<3a$, if $o \models \neg X_{p+1} \land C_i$.
-(EXPLAIN WHY; OTHERWISE, YOU ARE NOT MAKING ANY USE OF THE TREE NOTATION ABOVE)
+%(NEED TO DEFINE BORDA SCORE AHEAD.)
+%We have $s_{\HB}(P_i,o)=15a$, if $o \models X_q \land \neg C_i$; 
+%$s_{\HB}(P_i,o)=3a$, if $o \models X_q \land C_i$;
+%$s_{\HB}(P_i,o)<15a$, if $o \models \neg X_q \land \neg C_i$; and
+%$s_{\HB}(P_i,o)<3a$, if $o \models \neg X_q \land C_i$.
+%(EXPLAIN WHY; OTHERWISE, YOU ARE NOT MAKING ANY USE OF THE TREE NOTATION ABOVE)
+We now compute the half-Borda score of $o$ according to whether it satisfies
+$X_q$ and $C_i$.
+If $o \models X_q \land \neg C_i$, that is, $o \models X_q \land X_2 \land \neg X_4$, we have
+\begin{align*}
+	s_{\HB}(P_i,o)&=\underbrace{(2^p-1+2^{p-1}+1)*3}_{\text{three copys of }B_{i_1}\text{ and }B_{i_2}}+
+								  \underbrace{(0)}_{B'_{i_1}\text{ and }B'_{i_2}}+
+									\underbrace{(2^p-1+2^{p-1}+1)*2}_{\text{two copys of }B''_{i_1}\text{ and }B''_{i_2}} \\
+								&=15a.
+\end{align*}
+
+If $o \models X_q \land C_i$, we need to consider three cases:
+
+(1). If $o \models X_q \land \neg X_2 \land X_4$, we have
+\begin{align*}
+	s_{\HB}(P_i,o)&=\underbrace{(0)*3}_{\text{three copys of }B_{i_1}\text{ and }B_{i_2}}+
+								  \underbrace{(2^p-1+2^{p-1}+1)}_{B'_{i_1}\text{ and }B'_{i_2}}+
+									\underbrace{(0)*2}_{\text{two copys of }B''_{i_1}\text{ and }B''_{i_2}} \\
+								&=3a.
+\end{align*}
+
+(2). If $o \models X_q \land \neg X_2 \land \neg X_4$, we have
+\begin{align*}
+	s_{\HB}(P_i,o)&=\underbrace{(0)*3}_{\text{three copys of }B_{i_1}\text{ and }B_{i_2}}+
+								  \underbrace{(2^{p-1}-1+1)}_{B'_{i_1}\text{ and }B'_{i_2}}+
+									\underbrace{(2^{p-1}-1+1)*2}_{\text{two copys of }B''_{i_1}\text{ and }B''_{i_2}} \\
+								&=3a.
+\end{align*}
+
+(3). If $o \models X_q \land X_2 \land X_4$, we have
+\begin{align*}
+	s_{\HB}(P_i,o)&=\underbrace{(2^{p-1}-1+1)*3}_{\text{three copys of }B_{i_1}\text{ and }B_{i_2}}+
+								  \underbrace{(0)}_{B'_{i_1}\text{ and }B'_{i_2}}+
+									\underbrace{(0)}_{\text{two copys of }B''_{i_1}\text{ and }B''_{i_2}} \\
+								&=3a.
+\end{align*}
+Thus, for $o \models X_q \land C_i$, we have $s_{\HB}(P_i,o)=3a$.
+
+Similary, we can compute that
+$s_{\HB}(P_i,o)<15a$, if $o \models \neg X_q \land \neg C_i$; and
+$s_{\HB}(P_i,o)<3a$, if $o \models \neg X_q \land C_i$.
 
 We now show that there exists an outcome over $\cI$ with score at least 
 $R$ if and only if there exists an assignment over $I$ that satisfies at 
@@ -864,27 +956,30 @@ most $l$ clauses in $\Phi$.
 \smallskip
 \noindent
 ($\Leftarrow$) We assume there is an assignment $v$ over $I$ satisfying at 
-most $l$ clauses in $\Phi$. Define an outcome $o=(v,1_{p+1})$. It is clear 
+most $l$ clauses in $\Phi$. Define an outcome $o=(v,1_q)$. It is clear 
 that $s_{\HB}(P,o)\geq R$.
 
 \smallskip
 \noindent
 ($\Rightarrow$) We assume there is an outcome $o$ over $\cI$ such that 
-$s_{\HB}(P,o)\geq R$. If $o \models \neg X_{p+1}$, we could flip the value 
-on $X_{p+1}$ from $0_{p+1}$ to $1_{p+1}$, and obtain $o'$ such that 
+$s_{\HB}(P,o)\geq R$. If $o \models \neg X_q$, we could flip the value 
+on $X_q$ from $0_q$ to $1_q$, and obtain $o'$ such that 
 $s_{\HB}(P,o')>s_{\HB}(P,o)\geq R$. Assuming $o'|_I$ satisfies $l'$ 
 ($l'>l$) clauses in $\Phi$, we have that 
 $s_{\HB}(P,o')=15a\cdot (m-l')+3a\cdot l'> R$; thus, $l'<l$. A contradiction!
-Otherwise, if $o \models X_{p+1}$, we are done.
-(YOU ARE USING SYMOBOLS $\models$ AND CONCEPTS SUCH AS SATISFY, BUT THEY NEED
-TO BE EXPLAINED.) 
+Otherwise, if $o \models X_q$, we are done.
+%(YOU ARE USING SYMOBOLS $\models$ AND CONCEPTS SUCH AS SATISFY, BUT THEY NEED
+%TO BE EXPLAINED.) 
 \end{proof}
 
 \begin{cor}
-	Theorem \ref{thm5} holds for $b$-Borda when 
+\label{cor:confusing}
+	Theorem \thmref{thm5} holds for $b$-Borda when 
 	$b=2^{p-c}-1$, where $c$ is a constant and $1 \leq c < p$.
 \end{cor}
-WHY - YOU NEED TO GIVE AN ARGUENT HERE
+%WHY - YOU NEED TO GIVE AN ARGUENT HERE
+\corref{confusing} holds because we can construct $c$ to be $1$ and then
+the proof of \thmref{thm5} follows.
 
 \begin{figure*}[!ht]
   \centering
