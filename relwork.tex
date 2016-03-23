@@ -87,8 +87,8 @@ Let $\bV$ be a set of binary attributes\footnote{
 	as my research mostly deals with preference models over
 	binary attributes, it suffices to discuss CP-nets
 	in such a setting.
-}
-, we denote by $\Asst(\bV)$ the set of
+}.
+We denote by $\Asst(\bV)$ the set of
 all truth assignments to the attributes in $\bV$.
 For each attribute $X_i \in \bV$, $\Pa(X_i)$ denotes the \tit{parent} attributes of
 $X_i$, such that preferences over the domain of $X_i$ depend upon how
@@ -1190,24 +1190,23 @@ Another approach to work around the impossibility theorem is
 to protect voting rules against manipulation by showing
 high computational complexity.
 
-We first give a definition of the manipulation problem as follows.
-\begin{definition}
-	Let $r$ be a resolute voting rule.  Given a profile $P$ of
-	$n$ votes over $m$ outcomes and an outcome $c$, 
-	the manipulation problem is to decide whether there exists
-	a single vote $v'$ such that $c=r(P \cup \{v'\})$.
-\end{definition}
-
-The manipulation problem is proved to be NP-hard for several
-rules, such as second-order Copeland (SOC) \cite{bartholdi:j:compdiff}, and
-single transferable vote (STV) \cite{Bartholdi:STV}.
-A variant of the manipulation problem is
-called coalitional manipulation problem, where 
-manipulative voters jointly make $c$ a winner.
-Since the manipulation problem defined above is
-a special case of this variant, both SOC and STV
-are NP-hard.  Additionally, the variant is
-also NP-hard for Copeland \cite{Faliszewski:Copeland},
-maximin \cite{xia2009complexity} and Borda 
-\cite{betzler2011unweighted,davies2011complexity}.
-
+%We first give a definition of the manipulation problem as follows.
+%\begin{definition}
+%	Let $r$ be a resolute voting rule.  Given a profile $P$ of
+%	$n$ votes over $m$ outcomes and an outcome $c$, 
+%	the manipulation problem is to decide whether there exists
+%	a single vote $v'$ such that $c=r(P \cup \{v'\})$.
+%\end{definition}
+%
+%The manipulation problem is proved to be NP-hard for several
+%rules, such as second-order Copeland (SOC) \cite{bartholdi:j:compdiff}, and
+%single transferable vote (STV) \cite{Bartholdi:STV}.
+%A variant of the manipulation problem is
+%called coalitional manipulation problem, where 
+%manipulative voters jointly make $c$ a winner.
+%Since the manipulation problem defined above is
+%a special case of this variant, both SOC and STV
+%are NP-hard.  Additionally, the variant is
+%also NP-hard for Copeland \cite{Faliszewski:Copeland},
+%maximin \cite{xia2009complexity} and Borda 
+%\cite{betzler2011unweighted,davies2011complexity}.

@@ -270,7 +270,7 @@ Formulas are built from an alphabet of truth symbols ($\top$ and $\bot$),
 variables (uppercase letters), connectives ($\neg$, $\land$, $\lor$, and $\rar$), and parantheses.
 A \tit{formula} is either a truth symbol, a variable, or, if $\varphi$ and $\psi$ are formulas,
 $(\neg \varphi)$, $(\varphi \lor \psi)$, $(\varphi \land \psi)$, and
-$(\varphi \rar \psi)$.
+$(\varphi \rar \psi)$. (Outside pair of parentheses are often left out.)
 For example, if $X$ and $Y$ are formulas, we have that $X \land (X \rar \neg Y)$ is a formula.
 
 %The meaning of any formula is its \tit{truth table}.
@@ -314,7 +314,7 @@ if $v \not\models \varphi$ holds or $v \models \psi$ holds.
 We always have $v \models \top$ and $v \not\models \bot$.
 
 A truth assignment can then be viewed an outcome in a combinatorial domain.
-We see that the values in the attribute domains are variables.
+We view the values in the attribute domains as variables in propositional logic.
 Any truth assignment $M$ over these variables represents an outcome $o$
 in the following way.
 A variable assigned \tit{True} (\tit{False}) in $M$ means corresponding 
