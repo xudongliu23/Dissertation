@@ -13,10 +13,10 @@
 %% end of comments
 Preferences are ubiquitous.
 They arise when we select ice-cream flavors, vote for candidates for an office,
-buy cars, etc.
+and buy cars.
 Preferences have spurred research in areas such as 
 artificial intelligence, psychology, economics, and operations research.
-Specifically, there have been growing interest in research problems on
+Specifically, there has been growing interest in research problems on
 preferences in contexts such as knowledge representation and reasoning, constraint 
 satisfaction, decision making, and social choice theory. 
 My research focuses on problems in preference modeling, 
@@ -30,15 +30,15 @@ of objects
 Specifying preferences as value functions on alternatives
 is feasible for humans in some situations, e.g., 
 when the number of alternatives is limited.
-In other circumstances, particularly when the number of alternatives is large, however,
+In other circumstances, particularly when the number of alternatives is large,
 people often cannot express their 
 preferences directly and accurately as value 
 functions \cite{Domshlak20111037}.
 %due to the burden of deciding the value function for
 %a large number of alternatives \cite{Domshlak20111037}.
 
-Assume an agent is given three flavors of ice-cream 
-$strawberry$, $chocolate$ and $vanilla$, and asked to describe 
+Assume an agent is given three flavors of ice-cream:
+$strawberry$, $chocolate$ and $vanilla$, and is asked to describe 
 her preference among them.
 The agent could think of a value function that
 assigns quantities (\textit{utilities}) to each outcome
@@ -48,13 +48,13 @@ For instance, the agent could give the following value function:
 	$strawberry \mapsto 6$, $chocolate \mapsto 9$ and $vanilla \mapsto 3$.
 \end{center}
 This function shows that the favorite alternative to the agent is
-$chocolate$ with the highest utility, and
+$chocolate$ (it has the highest utility), and
 $strawberry$ is preferred over $vanilla$.
 
 Instead of rating alternatives quantitatively, it is
 often easier and more intuitive to give preferential information
-in small pieces in a qualitative way,
-e.g., to specify binary preference relations.
+in a qualitative way,
+so that to specify a binary preference relation.
 Thus, the same agent could rank the flavors as the following
 preference order:
 \begin{center}
@@ -62,12 +62,12 @@ preference order:
 \end{center}
 Note that one can obtain the qualitative preferences from
 the value function, but not vice versa.
-My research, however, mostly deals with qualitative preference relations.
+My research deals with qualitative preference relations.
 
 %Provided with preferences learned and presented in a formalism,
 %what can we say about the agent's preferences over outcomes?
 Preferences play an essential role in areas that involve making
-decision, such as decision theory and social choice thoery.
+decision, such as decision theory and social choice theory.
 Once we have preferences of a user or users, we can reason about
 the preferences to support decision making.
 In general, preference reasoning problems can be classified
@@ -80,14 +80,14 @@ In case $n=1$, we focus on optimization of the agent's preferences and
 help her make a better decision by, for example, computing an optimal
 alternative or comparing two given alternatives.  For the case
 where $n>1$, it is important to calculate
-a collective decision (e.g., a winning outcome or ranking)
-among the group of agents.
+a consensus (e.g., a winning outcome or ranking)
+of the group of agents.
 
 One of the problems in preference reasoning is to
 aggregate preferences of a group of
-agents, which is central to collective decision making and has been studied
+agents. The problem is central to collective decision making and has been studied
 extensively in social choice theory. 
-Let us consider such a scenario, where we are
+Let us consider a scenario, where we are
 given a set of alternatives $X = \{ a,b,c,d,e \}$ and a set $P_X$ of 10 
 preferences (called \tit{votes}) as follows.
 	\begin{center}
@@ -103,48 +103,49 @@ Plurality, veto and Borda are examples of commonly used voting rules.
 For instance, Borda rule assigns score $m-i$ to the $i$th ranked 
 alternative, where $m$ is the number of alternatives.
 Thus, the winner is the alternative with the highest score.
-We compute that the Borda winner for $P_X$ is $a$ since its 
-score, $31$, is the highest.
+We compute that the Borda winner for $P_X$ is $a$, since its 
+score $31$ is the highest, followed by candidates $b$ and $c$
+with the second highest score $26$.
 
 While in the cases when the
 number of alternatives is small the preference-aggregating 
 problems (dominance testing, winner determination,
 etc) have received wide attention in the literature,
 the problems concerning preferences over \tit{combinatorial
-domains} have not been investigated as much.
+domains}, which typically contain large numbers of outcomes, 
+have not been investigated as much.
 
-For example, a committee in a taxi company plan to purchase a fleet of
-cars.
-Each vehicle consists of attributes \tit{BodyType}, \tit{Capacity},
-\tit{Make}, \tit{Price}, \tit{Safety}, etc.  
+For example, a taxi company plans to purchase a fleet of cars.
+The features (or, as we will say, attributes) that will be
+taken into account are \tit{BodyType}, \tit{Capacity},
+\tit{Make}, \tit{Price}, and \tit{Safety}.  
 Each attribute has a domain of values that it can take, e.g.,
 \tit{BodyType} may have four values \tit{minivan}, \tit{sedan}, \tit{sport}, and \tit{suv}.
-There could be hundreds or thousands of cars even for
-a relatively small number of attributes, and
+There could be hundreds or thousands of cars,
+described by different combinations of values on these five attributes, 
+even for a relatively small number of attributes, and
 the agents will soon find it impossible to enumerate all of
 them from the most preferred to the least.
 
-Consequently, an expressive yet concise representation is needed in which
-preferences over combinatorial alternatives are specified
-in a compact way.
+Consequently, an expressive yet concise representation is needed to specify
+preferences over combinatorial alternatives.
 Such preference formalisms are often categorized into \tit{logical models} and
 \tit{graphical models}.
 Logical models include penalty logic (\tit{Pen-logic}) \cite{haddawy1992representations}, 
 possibilistic logic (\tit{Poss-logic}) \cite{DuboisLP91},
 qualitative choice logic (\tit{Qual-logic}) \cite{brewka2004qualitative},
 conditional preference theories (\tit{CP-theories}) \cite{Wilson04extendingcp-nets},
-and answer set optimization theories (\tit{ASO-theories}) \cite{Brewka:ASO},
-whereas graphical models found in the literature are
+and answer set optimization (\tit{ASO}) \cite{Brewka:ASO},
+whereas graphical models found in the literature include
 generalized additive independence networks (GAI-nets) \cite{BacchusG95,LIP61766},
 lexicographic preference trees (\tit{LP-trees}) \cite{booth:learningLP,conf/adt13/LiuT},
 conditional preference networks (\tit{CP-nets}) \cite{Kaci:Pref},
 conditional preference networks with tradeoffs (\tit{TCP-nets}) \cite{BrafmanD02:TCP},
-conditional importance networks (\tit{CI-nets}) \cite{Kaci:Pref},
-to list a few.
+and conditional importance networks (\tit{CI-nets}) \cite{Kaci:Pref}.
 
 Once we fix a preference formalism, say $\cF$, in which preferences of agents
-are specified, learning preferences expressed in $\cF$ from agents
-becomes a problem that has engaged attention from many AI researchers.
+are specified, eliciting and learning preference expressions in $\cF$ from agents
+becomes a fundamental problem.
 Different techniques have been proposed to preference learning
 in $\cF$
 such as \tit{active learning} (or \tit{preference elicitation}) and 
@@ -157,11 +158,11 @@ For passive learning, the learning algorithm assumes that a set of
 pairwise preferences are obtained over a period of time and builds an instance
 of $\cF$ with no more information from the user.
 
-My research has considered the language of LP-trees.
+My research has centered around the language of LP-trees.
 Extending LP-trees, I have proposed two new tree-like preference formalisms:
 partial lexicographic preference trees (\tit{PLP-trees}) \cite{conf/aaai15/LiuT}
 and preference trees (\tit{P-trees}) \cite{fraser1994,liu2014preference,conf/adt15/liuT}.
-For example, the language of P-trees exploits a natural way that humans apply to
+For example, the language of P-trees exploits a natural way humans apply to
 express preference information in the setting of combinatorial domains.
 Often a human agent would first consider the most desired \tit{criterion},
 possibly represented by a propositional formula $\varphi$.
@@ -180,38 +181,40 @@ PLP-trees \cite{conf/aaai15/LiuT} and P-trees \cite{liu2014preference,conf/adt15
 In particular, I studied
 the relationship between P-trees and other existing preference languages, and
 showed that P-trees extend
-LP-trees, possibilistic logic, and ASO-rules.
+LP-trees, possibilistic logic, and ASO rules.
 Moreover, my work established computational complexity results of commonly considered decision
 problems in the setting of P-trees, such as \textit{dominance testing} 
 \textit{optimality testing}, and
 \textit{optimality testing w.r.t a property}.
 
 \smallskip \noindent \textbf{Preference Learning \ }
-Given a set of pairwise preferences between alternatives, called \textit{examples}, from the user,
-my work \cite{conf/aaai15/LiuT} studied problems of how to learn (i) a PLP-tree, 
+Given a set of pairwise preferences between alternatives, 
+called \textit{examples}, acquired from the user,
+it is important to learn (i) a PLP-tree, 
 preferably of a small size, 
 consistent with a dataset of examples, and (ii) a PLP-tree correctly
 ordering as many of the examples as possible in case
-of inconsistency. Furthermore, I established complexity results
-of these problems and, in each case where the problem
+of inconsistency. In my work, I stuied both these problems \cite{conf/aaai15/LiuT}. 
+I established complexity results
+for them and, in each case where the problem
 is in the class P, proposed a polynomial time algorithm.
 On the experimentation side,
-I have designed and implemented algorithms, for both exact method using
-Answer-Set Programming (ASP) and approximation heuristics, to learn PLP-trees 
+I have designed and implemented algorithms, using both
+Answer-Set Programming (ASP) and approximation methods, to learn PLP-trees 
 and forests of these trees in the passive learning setting.
-To facilitate the learning process, we developed datasets
-from various sources such as \tit{Library for Preferences},
+To facilitate experimentation, I developed several datasets
+based on classification datasets such as \tit{Library for Preferences},
 \tit{Preference Learning Site}, and \tit{UCI Machine Learning Repository}.
-To evaluate the effectiveness and feasibility of our own models, we 
+To evaluate the effectiveness and feasibility of our own models, I 
 compared them with machine learning models, such as 
 decision trees and random forests.
 
 \smallskip \noindent \textbf{Preference Aggregation  \ }
-My research investigated two preference-aggregation 
+In this area, I investigated two preference-aggregation 
 problems, the \emph{winner} problem and the \emph{evaluation} problem,
 based on \textit{positional scoring rules} (such as $k$-approval and Borda) 
 when votes in elections are given as LP-trees \cite{abs/ijcai13dc/Liu,conf/adt13/LiuT}. 
-My work presented new computational complexity results of these problems, and
+My work brought new computational complexity results of these problems, and
 provided computational methods to model and solve the problems using
 \tit{answer set programming} (ASP) and \tit{weighted partial maximum satisfiability} (WPM).
 %%%%%%%% FUTURE WORK
@@ -244,14 +247,13 @@ provided computational methods to model and solve the problems using
 %data science, automated planning and scheduling, and database systems.
 %%%%%%%% FUTURE WORK
 
-The outline of the rest of this thesis is the following. 
+The outline of the remainder of this thesis is the following. 
 In \chref{preliminary}, I present necessary technical preliminaries
 including binary relations, order theory, and computational complexity theory.
-In \chref{relwork}, I will go through related work that proposed
+In \chref{relwork}, I go through related work that proposed
 approaches to preference modeling and reasoning
 in artificial intelligence and social choice theory.
-In \chref{PTrees},  \chref{learningPLPT}, \chref{PLPTF}, and \chref{aggLP},
-formal problems and results obtained in my research work are discussed
-in modeling, learning and reasoning about preferences over combinatorial domains.
-I will conclude with a brief note in \chref{summary} on my ongoing research,
-as well as possible directions of future work.
+In Chapters 4 to 7, I discuss results of my work on
+modeling, learning and reasoning about preferences over combinatorial domains.
+I conclude with a brief note in \chref{summary} on my ongoing research,
+as well as on possible directions of future work.
