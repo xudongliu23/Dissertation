@@ -2,20 +2,20 @@
 
 In this section I will give an overview of
 mathematical and computational concepts
-that we will use throughout the rest of this document. 
-First, since we consider preference relations that are modeled
+that I will use throughout the rest of this document. 
+First, since I consider preference relations that are modeled
 as binary relations,
-we recall the definition of binary relations and their
+I recall the definitions of binary relations and their key
 properties.
-We then define several types of preference relations in terms of
-their properties.
-Second, we review combinatorial domains because we focus on
-problems concerning preferences over combinatorial domains.
-Third, we introduce propositional logic to show how propositional
+I then define several types of preference relations in terms of
+these properties.
+Second, I review combinatorial domains as I am interested in
+preferences over combinatorial domains.
+Third, I introduce propositional logic to show how propositional
 formulas are used to compactly represent outcomes.
-Finally, we review concepts in computational complexity theory,
+Finally, I review concepts in computational complexity theory,
 as they are useful in describing the hardness of problems
-involving reasoning about preference.
+involving reasoning about preferences.
 
 \section{Relations and Orders \label{sec:relations}}
 
@@ -32,7 +32,7 @@ involving reasoning about preference.
 The following properties of binary relations are particularly relevant for modeling preferences.
 \begin{definition}
 	Let $R$ be a binary relation over a set $O$ of objects ($R \subseteq O \times O$).
-	We say that $R$ is
+	I say that $R$ is
 	\begin{enumerate} \itemsep -4pt
 		\item reflexive if for every $o \in O$, $(o,o) \in R$.
 		\item irreflexive if for every $o \in O$, $(o,o) \not \in R$.
@@ -45,7 +45,7 @@ The following properties of binary relations are particularly relevant for model
 	\end{enumerate}
 \end{definition}
 
-For instance, assuming $\bbN=\{1,2,\ldots\}$ is the set of positive integers,
+For instance, assuming that $\bbN=\{1,2,\ldots\}$ is the set of positive integers,
 the \tit{less-than-or-equal-to} relation $\leq$ over $\bbN$ is reflexive,
 total, transitive and antisymmetric, while the \tit{less-than} relation
 $<$ over $\bbN$ is irreflexive, transitive and antisymmetric.
@@ -54,40 +54,35 @@ $<$ over $\bbN$ is irreflexive, transitive and antisymmetric.
 \begin{definition}
 \label{def:orders}
 	A binary relation over $O$ is a \textit{partial preorder} if it is reflexive and transitive,
-	a \textit{total preorder} if it is a partial preorder and total,
-	a \textit{partial order} if it is a partial preorder and antisymmetric,
-	and a \textit{total order} if it is a partial order and total.
+	a \textit{total preorder} if it is a partial preorder that is total,
+	a \textit{partial order} if it is a partial preorder that is antisymmetric,
+	and a \textit{total order} if it is a partial order that is total.
 \end{definition}
 
-We use preorders to model preference relations.
-Thus, when we describe a preference order, we have in mind a relation
+I use preorders to model preference relations.
+Thus, when I describe a preference order, I have in mind a relation
 that is a partial preorder.
 Given two objects $o$ and $o'$,
-we sometimes need to say that $o'$ is at least as good as $o$ or,
+I sometimes need to say that $o'$ is at least as good as $o$ or,
 that $o'$ is strictly preferred over $o$.
-In some situations we need to speak about the fact that $o'$ is
-as good as $o'$, whereas in some other situations, due to some reasons
-(e.g., lack of informations about the two objects at hand), we
+In some situations, due to 
+lack of information about the two objects at hand, we
 cannot determine which object is preferred over the other, and
 speak about the objects being incomparable.
-Formally, we have the following definitions.
+Formally, I have the following definitions.
 \begin{definition}
-	Let $O$ be a set of objects, $o$ and $o'$ two objects in $O$.
-	Let $\succeq$ be a preference relation that is a preorder\footnote{
-		We only show the most general case where a preference relation is
-		a partial preorder.  Other cases will be defined accordingly.
-	}
-	over $O$.
-	We say that $o'$ is weakly preferred to $o$ if $o' \succeq o$.
+	Let $O$ be a set of objects, and $o$ and $o'$ two objects in $O$.
+	Let $\succeq$ be a preference relation that is a partial preorder	over $O$.
+	I say that $o'$ is weakly preferred to $o$ if $o' \succeq o$.
 	Object $o'$ is strictly preferred to $o$, $o' \succ o$, if $o' \succeq o$ and $o \not \succeq o'$.
 	Object $o'$ is equivalent with $o$, $o' \approx o$, if $o' \succeq o$ and $o \succeq o'$.
-	Object $o'$ is incomparable with $o$, $o' \sim o$, if $o' \not \succeq o$ and $o \not \succeq o'$.
+	Object $o'$ is incomparable with $o$, $o' \bowtie o$, if $o' \not \succeq o$ and $o \not \succeq o'$.
 \end{definition}
 
 \nop{\tc{Examples of these orders.}}
-We illustrate these notions with several examples of preorders (preference orders)
+I illustrate these notions with several examples of preorders (preference orders)
 in \figref{relations}.
-We assume that a directed edge is from a less preferred object to
+I assume that a directed edge is from a less preferred object to
 a more preferred one.
 It is clear that the relation in \figref{partpre} is a partial 
 preorder, \figref{totalpre} a total preorder, \figref{partord} a partial
@@ -193,9 +188,9 @@ order, and \figref{totalord} a total order.
 	$R'$ \textit{extends} $R$ if $R \subseteq R'$.
 \end{definition}
 
-As an example of relation extensions, we consider the partial order $\succeq$ 
+As an example of relation extensions, I consider the partial order $\succeq$ 
 in \figref{partord}.
-Since $o_2 \sim o_3$, we have in total two extensions:
+Since $o_2 \bowtie o_3$, I have in total two extensions:
 \begin{center}
 	$o_1 \succeq o_2 \succeq o_3 \succeq o_4$,\\
 	$o_1 \succeq o_3 \succeq o_2 \succeq o_4$.
@@ -213,27 +208,26 @@ shown in \figref{partpre}.
 
 \section{Combinatorial Domains \label{sec:comb_domains}}
 One scenario when decision problems involving preferences are difficult is when outcomes
-are usually not represented directly as a given set of objects; instead,
-they appear as combinations of attribute values from finite domains.
-Take the domain of cars as an example where the attributes we care about are
+are described as combinations of attribute values from finite domains.
+Take the domain of cars as an example, where the attributes I care about are
 \tit{Price}, \tit{Safety}, and \tit{Capacity}.
 Every attribute has a finite domain of values:
 \tit{Price} with domain $\{$\tit{low,med,high,vhigh}$\}$,
 \tit{Safety} with domain $\{$\tit{low,med,high}$\}$, and
 \tit{Capacity} with domain $\{$\tit{2,5,7m}$\}$.
-Then, a car can be described as a vector of values from these domains.
+Since these are the only aspects of a car we care about, cars can be
+described as vectors of values from these domains.
 For instance, vector $\la$\tit{med,high,7m}$\ra$ represents
 a car that is medium priced, medium level of safety, and can carry seven
 or more people.
 Even in this simple example, there are already 36 configurations describing
-different cars.
+different types of cars.
 
 \begin{definition}
-	Let $\cI$ be a set of attributes $\{X_1,\ldots,X_p\}$,
-	associated with a set of finite domains $\{\Dom(X_1),\ldots,\Dom(X_p)\}$ for each
-	attribute $X_i$.
-	A \textit{combinatorial domain} $\CD(\cI)$ is a set of outcomes 
-	that are combinations of values from $\Dom(X_i)$:
+	Let $\cI$ be a set of attributes $\{X_1,\ldots,X_p\}$, each attribute $X_i$
+	associated with a finite domain $\Dom(X_i)$.
+	A \textit{combinatorial domain} $\CD(\cI)$ is a set of 
+	combinations of values from $\Dom(X_i)$:
 	\begin{center}
 		$\CD(\cI) = \prod_{X_i \in \bV} \Dom(X_i)$.
 	\end{center}
@@ -247,12 +241,14 @@ different cars.
 %It is not hard to see that
 %the set $\bT$ of tuples is exactly the space $\bS$ of subsets of $\bV$.
 
+We call the elements of $\CD(\cI)$ outcomes.
 Clearly, the size of $\CD(\cI)$ is exponential in $p$, the number of attributes.
 The exponential growth of $|\CD(\cI)|$ makes it hard, if not impossible, for agents
 to directly assess their preferences, even when each domain is binary and
 there are as few as 6-7 attributes.
-In many practical cases, hard constraints (e.g., propositional
-formulas) are identified to eliminate the infeasible outcomes.
+In many practical cases, hard constraints that can be modeled, for instance, 
+by propositional formulas, are identified and imposed 
+to eliminate the infeasible outcomes.
 
 
 
@@ -260,10 +256,10 @@ formulas) are identified to eliminate the infeasible outcomes.
 In this work, \tit{propositional logic} plays an important role in compactly representing
 preferences over combinatorial domains.
 Propositional logic \cite{heindiscrete}, or propositional calculus, is a logic language concerning
-propositions (e.g., statements that are true or false) that are built upon other propositions
-connected by logical connectives.
-We first define the syntax of the language, that is, how formulas are constructed.
-Then, we show its semantics, i.e., what it means for a formula to be true or false.
+propositions (e.g., statements that are true or false) that are built upon atomic propositions
+by means of logical connectives.
+I first define the syntax of the language, that is, how formulas are constructed.
+Then, I show its semantics, i.e., what it means for a formula to be true or false.
 
 Propositions are represented as \tit{well-formed formulas}, or simply \tit{formulas} when no ambiguity.
 Formulas are built from an alphabet of truth symbols ($\top$ and $\bot$),
@@ -271,12 +267,12 @@ variables (uppercase letters), connectives ($\neg$, $\land$, $\lor$, and $\rar$)
 A \tit{formula} is either a truth symbol, a variable, or, if $\varphi$ and $\psi$ are formulas,
 $(\neg \varphi)$, $(\varphi \lor \psi)$, $(\varphi \land \psi)$, and
 $(\varphi \rar \psi)$. (Outside pair of parentheses are often left out.)
-For example, if $X$ and $Y$ are formulas, we have that $X \land (X \rar \neg Y)$ is a formula.
+For example, if $X$ and $Y$ are formulas, I have that $X \land (X \rar \neg Y)$ is a formula.
 
 %The meaning of any formula is its \tit{truth table}.
 %The truth table enumerates \tit{truth assignments} to variables appearing in a formula to determine
 %whether the formula is true or not.
-%We have that the meaning of $T$ is true, and that of $F$ is false.
+%I have that the meaning of $T$ is true, and that of $F$ is false.
 %For instance, the semantics of several formulas is given as a true table in \tblref{truth}.
 %
 %\begin{table}[ht]
@@ -299,22 +295,22 @@ For example, if $X$ and $Y$ are formulas, we have that $X \land (X \rar \neg Y)$
 
 A \tit{truth assignments} is a mapping $v$ from variables to \tit{T}
 and \tit{F} values.
-We now defines what it means for a truth assignment to \tit{satisfy} 
+I now defines what it means for a truth assignment to \tit{satisfy} 
 and \tit{falsify} a formula.
 Let $v$ be a truth assignment, $X$ a variable, and $\varphi$ and $\psi$
 propositional formulas.
-First, we define that $v$ satisfies $X$, denoted by $v \models X$,
+First, I define that $v$ satisfies $X$, denoted by $v \models X$,
 if $v$ has value \tit{T} on $X$; and that $v$ falsifies $X$, denoted 
 by $v \not\models X$, if $v$ has value \tit{F} on $X$.
-Then, we have $v \models \neg \varphi$
+Then, I have $v \models \neg \varphi$
 if  $v \not\models \varphi$ holds, $v \models \varphi \land \psi$
 if $v \models \varphi$ and $v \models \psi$ hold, $v \models \varphi \lor \psi$
 if $v \models \varphi$ or $v \models \psi$ holds, $v \models \varphi \rar \psi$
 if $v \not\models \varphi$ holds or $v \models \psi$ holds.
-We always have $v \models \top$ and $v \not\models \bot$.
+I always have $v \models \top$ and $v \not\models \bot$.
 
 A truth assignment can then be viewed an outcome in a combinatorial domain.
-We view the values in the attribute domains as variables in propositional logic.
+I view the values in the attribute domains as variables in propositional logic.
 Any truth assignment $M$ over these variables represents an outcome $o$
 in the following way.
 A variable assigned \tit{True} (\tit{False}) in $M$ means corresponding 
@@ -323,17 +319,17 @@ As a result, a formula provides a compact way of representing a set of,
 possibly exponentially many, outcomes.
 Formula $\varphi$ represents the set of outcomes whose counterpart
 truth assignments satisfy $\varphi$.
-We consider the domain of cars as discussed in \secref{comb_domains}.
+I consider the domain of cars as discussed in \secref{comb_domains}.
 The car $\la$\tit{med,high,7m}$\ra$ in the combinatorial domain
 is represented as a truth assignment over $10$ variables, because
 there are $10$ attribute values.
-We denote these variables by $L_P$, $M_P$, $H_P$, $V_P$,
+I denote these variables by $L_P$, $M_P$, $H_P$, $V_P$,
 $L_S$, $M_S$, $H_S$, $T_C$, $F_C$, and $S_C$, in order of the
 values in attributes \tit{Capacity}, \tit{Price}, and \tit{Safety}.
 This truth assignment sets \tit{True} on variables $M_P$,
 $H_S$ and $S_C$, and \tit{False} on the others.
-We see that not all truth assignments are legal.
-Thus, we need a constraint that, for every attribute domain,
+I see that not all truth assignments are legal.
+Thus, I need a constraint that, for every attribute domain,
 exactly one variable is true.  Such a constraint can be
 expressed as a propositional formula $\Phi$.
 Now it is clear that formula $\Phi \land ((H_P \land S_C) \lor (M_P \land M_S))$ precisely
@@ -355,7 +351,7 @@ in terms of time (the number of instructions needed to solve the problem)
 or space (the size of memory needed to solve the problem).
 In this section, I define classes of computational
 complexity used for such classification.
-We assume familiarity with the concept of the \textit{Turing machine} (TM).
+I assume familiarity with the concept of the \textit{Turing machine} (TM).
 The definition of this notion and other definitions discussed 
 below can be found in complexity
 books by Garey and Johnson \cite{gar-joh:b:int}; Lewis and Papadimitriou
@@ -367,7 +363,7 @@ books by Garey and Johnson \cite{gar-joh:b:int}; Lewis and Papadimitriou
 Let $\Sigma$ be a finite set of elements. A \tit{string} over alphabet $\Sigma$
 is an ordered tuple of finite elements from $\Sigma$. In complexity theory,
 $\Sigma$ is typically binary, that is, $\Sigma=\{0,1\}$.
-We denote by $\Sigma^*$ the set of all strings of elements in $\Sigma$.
+I denote by $\Sigma^*$ the set of all strings of elements in $\Sigma$.
 A \tit{decision problem} (or a \textit{language}) is a set 
 $L$ of strings such that $L \subseteq \Sigma^*$.
 For instance, the SAT problem is the set of all finite propositional
@@ -378,7 +374,7 @@ representation of propositional formulas as strings over a finite alphabet).
 %	Let $f$ be a TM.
 %	A \tit{decision problem} (or a \textit{language}) is a set 
 %	$L_f$ of strings ($L_f \subseteq \Sigma^*$) such that $f$ accepts
-%	any string in $L_f$; that is, we have $L_f=\{x \in \Sigma^*:f(x)=1\}$.
+%	any string in $L_f$; that is, I have $L_f=\{x \in \Sigma^*:f(x)=1\}$.
 %\end{definition}
 
 Studying decision problems on preferences involves designing algorithms and
@@ -397,22 +393,22 @@ can be solved by a deterministic or a nondeterministic TM. \cite{Arora:Comput}
 %(1). guess about the solution which is in a nondeterministic way,
 %and (2). verifies or rejects the guess as a valid solution to the problem.
 
-%In general, we classify complexity classes with regard to computational resources
+%In general, I classify complexity classes with regard to computational resources
 %needed in the process of solving the problem, i.e., time and space.
-%We focus on complexity classes with respect to ``time," although
-%we will discuss about the class of PSPACE with respect to ``space" in a
+%I focus on complexity classes with respect to ``time," although
+%I will discuss about the class of PSPACE with respect to ``space" in a
 %later section.
 Let $f(n)$ be the computation time to solve a problem of input size $n$.
-We denote by $\bDTIME(f(n))$ ($\bNTIME(f(n))$) a set of decision problems 
+I denote by $\bDTIME(f(n))$ ($\bNTIME(f(n))$) a set of decision problems 
 for which there exists a deterministic (nondeterministic, respectively) TM
 that solves any instance of the problem in time $f(n)$.
-We now define the two classes as follows.
+I now define the two classes as follows.
 
 \begin{definition}
 	[Garey and Johnson, 1979]
 	The class $\bP$ ($\bNP$) consists of the decision problems that can be solved using a 
 	deterministic (nondeterministic, respectively) TM 
-	in time polynomial in the size of the input.  Formally, we have
+	in time polynomial in the size of the input.  Formally, I have
 	\begin{center}
 		$\bP = \bigcup_{d \in \bbN} \bDTIME(n^d)$,\\
 		$\bNP = \bigcup_{d \in \bbN} \bNTIME(n^d)$,
@@ -433,9 +429,9 @@ However, it is strongly believed that $\bP \not = \bNP$ \cite{gasarch2002p}.
 One of the many complexity classes related to $\bP$ and $\bNP$ \cite{gasarch2002p}
 is the class $\bCoNP$, which contains problems that are complements of 
 the problems in $\bNP$.
-Let $L \subseteq \{0,1\}^*$ be a decision problem, we denote by $\overline{L}$ the
+Let $L \subseteq \{0,1\}^*$ be a decision problem, I denote by $\overline{L}$ the
 complement of $L$, that is, $\overline{L} = \{0,1\}^*-L$.
-We have the following definition of the class $\bCoNP$.
+I have the following definition of the class $\bCoNP$.
 
 \begin{definition}
 	$\bCoNP = \{L : \overline{L} \in \bNP\}$.
@@ -451,7 +447,7 @@ idea of $C$-hardness.
 	a decision problem $L' \subseteq \{0,1\}^*$, $L \leq_p L'$, if there is a
 	polynomial-time computable function $g : \{0,1\}^* \rightarrow \{0,1\}^*$
 	such that for every instance $x \in L$ $\itiff$ $f(x) \in L'$.
-	We say that $L'$ is $C$-\textit{hard} if $L \leq_p L'$ for every $L$ in class $C$.
+	I say that $L'$ is $C$-\textit{hard} if $L \leq_p L'$ for every $L$ in class $C$.
 \end{definition}
 
 %This hardness expresses the idea that problem $L'$ is at least at hard as
@@ -481,11 +477,11 @@ to an oracle that decides $L$.
 	\begin{center}
 		$\deltap{0} = \sigmap{0} = \pip{0} = \bP$,
 	\end{center}
-	Then for $i \geq 0$, we denote by $\deltap{i+1}$ ($\sigmap{i+1}$) 
+	Then for $i \geq 0$, I denote by $\deltap{i+1}$ ($\sigmap{i+1}$) 
 	the set of decision problems solvable
 	by a deterministic (nondeterministic, respectively) TM 
 	in polynomial time with an oracle for some $\sigmap{i}$-complete problem.
-	We denote by $\pip{i+1}$ the set of decision problems that are complement
+	I denote by $\pip{i+1}$ the set of decision problems that are complement
 	of problems in $\sigmap{i+1}$.
 %	\begin{center}
 %		$\deltap{i+1} = \bP^{\sigmap{i}}$, \\
@@ -495,7 +491,7 @@ to an oracle that decides $L$.
 \end{definition}
 For example, $\sigmap{2}$ is the class of decision problems solvable by a nondeterministic
 TM in polynomial time with an oracle for some $\bNP$-complete problem.
-We denote by $\bPH$ the collection of all classes in the polynomial hierarchy.
+I denote by $\bPH$ the collection of all classes in the polynomial hierarchy.
 The \tit{polynomial hierarchy}, denoted by $\bPH$, is a hierarchy of these
 complexity classes (i.e., $\deltap{i}$, $\sigmap{i}$, and $\pip{i}$)
 that generalize the classes $\bP$, $\bNP$ and $\bCoNP$ to oracles.
@@ -503,7 +499,7 @@ that generalize the classes $\bP$, $\bNP$ and $\bCoNP$ to oracles.
 The relation between any classes in the hierarchy is of interest.
 One may notice that the classes $\sigmap{i}$ and $\pip{i}$ consist
 of problems that are complements to each other.
-Moreover, we have the relations of these classes as shown in \figref{ph_diagram}.
+Moreover, I have the relations of these classes as shown in \figref{ph_diagram}.
 
 \begin{figure}[h!]
   \centering
@@ -512,7 +508,7 @@ Moreover, we have the relations of these classes as shown in \figref{ph_diagram}
 \end{figure}
 
 \subsection{$\bPSPACE$}
-In this work, we consider yet another complexity class called $\bPSPACE$ that
+In this work, I consider yet another complexity class called $\bPSPACE$ that
 concerns the complexity of space.
 It consists of problems that can be decided in polynomial space.
 
@@ -525,7 +521,7 @@ It is not hard to see the following relation hold.
 	$\bPH \subseteq \bPSPACE$.
 \end{center}
 
-We illustrate the relationship among the complexity classes in
+I illustrate the relationship among the complexity classes in
 \figref{comp_diagram}. Many classes are omitted in our diagram
 that are not in our focus.
 
