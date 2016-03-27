@@ -759,8 +759,8 @@ preference rule.
 	Outcome $o'$ is weakly Pareto-preferred to $o$, $o' \succeq o$,
 	if, for every rule $r$ in $P_{\PREF}, d_r(o') \leq d_r(o)$.
 	outcome $o'$ is strictly Pareto-preferred to $o$, $o' \succ o$,
-	if $o' \succeq o$ and $o \not \succeq o'$.
-	outcome $o$ is optimal if there exists no outcome $o''$ such that
+	if $o' \succeq o$ and $d_r(o') < d_r(o)$ for some $r \in P_\PREF$.
+	Outcome $o$ is optimal if there exists no outcome $o''$ such that
 	$o'' \succ o$.
 \end{definition}
 
@@ -842,10 +842,9 @@ consisting
 of ASO-rules of rank $d_i$ so that $d_1 < d_2<\ldots d_g$. We assume that
 a lower rank of a preference
 rule indicates its higher importance.
-We define $M 
-\succeq^{rk}_P M'$ w.r.t $P$ if for every $i$, $1\leq i\leq g$,
-$M \approx^u_{P_i} M'$, or if there exists a rank $i$ such that
-$M \approx^u_{P_j} M'$ for every $j$, $j< i$, and $M \succ^u_{P_i} M'$.
+We define $o' \succeq^{rk} o$ w.r.t $P$ if for every $i$, $1\leq i\leq g$,
+$o' \approx_{P_i} o$, or if there exists a rank $i$ such that
+$o' \approx_{P_j} o$ for every $j$, $j< i$, and $o' \succ_{P_i} o$.
 
 Complexity results discussed above stay unchanged, when we move from
 unranked to ranked ASO programs.

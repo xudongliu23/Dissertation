@@ -953,28 +953,28 @@ exponential) growth in the size of the representation. However, any
 P-tree can be represented as a set of \emph{ranked} ASO-rules, 
 or an RASO-theory \cite{Brewka:ASO}, aggregated by the Pareto method.
 
-\nop{Introduce RASO and Pareto method}
-We first show how Pareto method is used to order outcomes with regard
-to a set of \emph{unranked} ASO-rules. Let $M$ and $M'$ be two outcomes.  
-Given a set $P$ of unranked ASO-rules, $M$ is weakly preferred to $M'$ 
-with respect to $P$, $M \succeq^u_P M'$, if $\SD_r(M) \leq \SD_r(M')$ 
-for every $r \in P$. Moreover, $M$ is strictly preferred to $M'$, $M 
-\succ^u_P M'$, if $M \succeq^u_P M'$ and $\SD_r(M) < \SD_r(M')$ for some 
-$r \in P$, and $M$ is equivalent to $M'$, $M \approx^u_P M'$,
-if $\SD_r(M) = \SD_r(M')$ for every $r \in P$.
-
-In general, the resulting preference relation is not total. However, by 
-ranking rules according to their importance in some cases, total preorders
-can be obtained. Let us assume $P=\{P_1,\ldots,P_g\}$ is a collection of 
-ranked ASO preferences divided into $g$ sets $P_i$, with each set $P_i$ 
-consisting 
-of ASO-rules of rank $d_i$ so that $d_1 < d_2<\ldots d_g$. We assume that 
-a lower rank of a preference
-rule indicates its higher importance.
-We define $M 
-\succeq^{rk}_P M'$ w.r.t $P$ if for every $i$, $1\leq i\leq g$, 
-$M \approx^u_{P_i} M'$, or if there exists a rank $i$ such that 
-$M \approx^u_{P_j} M'$ for every $j$, $j< i$, and $M \succ^u_{P_i} M'$.
+%\nop{Introduce RASO and Pareto method}
+%We first show how Pareto method is used to order outcomes with regard
+%to a set of \emph{unranked} ASO-rules. Let $M$ and $M'$ be two outcomes.  
+%Given a set $P$ of unranked ASO-rules, $M$ is weakly preferred to $M'$ 
+%with respect to $P$, $M \succeq^u_P M'$, if $\SD_r(M) \leq \SD_r(M')$ 
+%for every $r \in P$. Moreover, $M$ is strictly preferred to $M'$, $M 
+%\succ^u_P M'$, if $M \succeq^u_P M'$ and $\SD_r(M) < \SD_r(M')$ for some 
+%$r \in P$, and $M$ is equivalent to $M'$, $M \approx^u_P M'$,
+%if $\SD_r(M) = \SD_r(M')$ for every $r \in P$.
+%
+%In general, the resulting preference relation is not total. However, by 
+%ranking rules according to their importance in some cases, total preorders
+%can be obtained. Let us assume $P=\{P_1,\ldots,P_g\}$ is a collection of 
+%ranked ASO preferences divided into $g$ sets $P_i$, with each set $P_i$ 
+%consisting 
+%of ASO-rules of rank $d_i$ so that $d_1 < d_2<\ldots d_g$. We assume that 
+%a lower rank of a preference
+%rule indicates its higher importance.
+%We define $M 
+%\succeq^{rk}_P M'$ w.r.t $P$ if for every $i$, $1\leq i\leq g$, 
+%$M \approx^u_{P_i} M'$, or if there exists a rank $i$ such that 
+%$M \approx^u_{P_j} M'$ for every $j$, $j< i$, and $M \succ^u_{P_i} M'$.
 
 Given a P-tree $T$, we construct an RASO-theory $\Phi_T$ as follows.
 We start with $\Phi_T=\emptyset$.
@@ -1055,39 +1055,39 @@ could be exponential, and the orders represented by ranked ASO theories
 
 \nop{\comm{DEFINE THE SEMANTICS OF POSS LOG}}
 
-A possibilistic logic theory $\Pi$ over a vocabulary $\cI$ is a set of 
-\emph{preference pairs}
-\begin{center}
-	$\{ (\phi_1,a_1), \ldots, (\phi_m,a_m) \}$,
-\end{center}
-where every $\phi_i$ is a Boolean formula over $\cI$, and every $a_i$ is a real number
-such that $1\geq a_1>\ldots>a_m\geq 0$ (if two formulas have the same 
-importance level, they can be replaced by their conjunction).
-Intuitively, $a_i$ represents the importance of $\phi_i$, with larger values
-indicating higher importance.
-
-The \textit{tolerance degree} of outcome $M$ with regard to preference 
-pair $(\phi,a)$, $\TD_{(\phi,a)}(M)$, is defined by
-\[
- \TD_{(\phi,a)}(M) =
-  \begin{cases}
-   1, & M \models \phi \\
-   1-a, & M \not \models \phi
-  \end{cases}
-\]
-Based on that, the tolerance degree of outcome $M$ with regard to a \emph{set}
-$\Pi$ of preference pairs, $\TD_\Pi(M)$, is defined by 
-\begin{center}
-	$\TD_\Pi(M)=min\{\TD_{(\phi_i,a_i)}(M):1\leq i \leq m\}$.
-\end{center}
-The larger $\TD_\Pi(M)$, the more preferred $M$ is.
-
-For example, for the domain of vacations, we might have the following
-set of preference pairs $\{(\neg x_1 \wedge x_3,0.8), (x_2 \wedge x_4,0.5)\}$.
-According to the possibilistic logic interpretation, vacations satisfying 
-both preferences are the most preferred, those satisfying $\neg x_1 \wedge x_3$ 
-but falsifying $x_2 \wedge x_4$ are the next
-preferred, and those falsifying $\neg x_1 \wedge x_3$ are the worst.
+%A possibilistic logic theory $\Pi$ over a vocabulary $\cI$ is a set of 
+%\emph{preference pairs}
+%\begin{center}
+%	$\{ (\phi_1,a_1), \ldots, (\phi_m,a_m) \}$,
+%\end{center}
+%where every $\phi_i$ is a Boolean formula over $\cI$, and every $a_i$ is a real number
+%such that $1\geq a_1>\ldots>a_m\geq 0$ (if two formulas have the same 
+%importance level, they can be replaced by their conjunction).
+%Intuitively, $a_i$ represents the importance of $\phi_i$, with larger values
+%indicating higher importance.
+%
+%The \textit{tolerance degree} of outcome $M$ with regard to preference 
+%pair $(\phi,a)$, $\TD_{(\phi,a)}(M)$, is defined by
+%\[
+% \TD_{(\phi,a)}(M) =
+%  \begin{cases}
+%   1, & M \models \phi \\
+%   1-a, & M \not \models \phi
+%  \end{cases}
+%\]
+%Based on that, the tolerance degree of outcome $M$ with regard to a \emph{set}
+%$\Pi$ of preference pairs, $\TD_\Pi(M)$, is defined by 
+%\begin{center}
+%	$\TD_\Pi(M)=min\{\TD_{(\phi_i,a_i)}(M):1\leq i \leq m\}$.
+%\end{center}
+%The larger $\TD_\Pi(M)$, the more preferred $M$ is.
+%
+%For example, for the domain of vacations, we might have the following
+%set of preference pairs $\{(\neg x_1 \wedge x_3,0.8), (x_2 \wedge x_4,0.5)\}$.
+%According to the possibilistic logic interpretation, vacations satisfying 
+%both preferences are the most preferred, those satisfying $\neg x_1 \wedge x_3$ 
+%but falsifying $x_2 \wedge x_4$ are the next
+%preferred, and those falsifying $\neg x_1 \wedge x_3$ are the worst.
 
 Similarly as for ASO-rules, we can apply different methods to encode 
 a possibilistic logic theories in P-trees. Here we discuss one of them.
