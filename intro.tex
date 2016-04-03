@@ -109,13 +109,14 @@ with the second highest score $26$.
 
 While in the cases when the
 number of alternatives is small the preference-aggregating 
-problems (dominance testing, winner determination,
-etc) have received wide attention in the literature,
+problems, such as dominance testing and winner determination,
+have received wide attention in the literature,
 the problems concerning preferences over \tit{combinatorial
 domains}, which typically contain large numbers of outcomes, 
 have not been investigated as much.
 
-For example, a taxi company plans to purchase a fleet of cars.
+To illustrate the setting of combinatorial domains, let us consider
+a taxi company plans to purchase a fleet of cars.
 The features (or, as we will say, attributes) that will be
 taken into account are \tit{BodyType}, \tit{Capacity},
 \tit{Make}, \tit{Price}, and \tit{Safety}.  
@@ -124,7 +125,7 @@ Each attribute has a domain of values that it can take, e.g.,
 There could be hundreds or thousands of cars,
 described by different combinations of values on these five attributes, 
 even for a relatively small number of attributes, and
-the agents will soon find it impossible to enumerate all of
+the decision makers will soon find it impossible to enumerate all of
 them from the most preferred to the least.
 
 Consequently, an expressive yet concise representation is needed to specify
@@ -162,18 +163,19 @@ My research has centered around the language of LP-trees.
 Extending LP-trees, I have proposed two new tree-like preference formalisms:
 partial lexicographic preference trees (\tit{PLP-trees}) \cite{conf/aaai15/LiuT}
 and preference trees (\tit{P-trees}) \cite{fraser1994,liu2014preference,conf/adt15/liuT}.
-For example, the language of P-trees exploits a natural way humans apply to
+The language of P-trees exploits a natural way humans apply to
 express preference information in the setting of combinatorial domains.
 Often a human agent would first consider the most desired \tit{criterion},
 possibly represented by a propositional formula $\varphi$.
 Outcomes that agree with it are preferred to those that do not.  
-Then, the same mechanism is applied recursively to further discriminate the 
-outcomes that satisfy $\varphi$ and those that falsify $\varphi$.
+Then, the same mechanism is applied recursively to further discriminate 
+among the outcomes that satisfy $\varphi$ and among those that falsify $\varphi$.
 This process ends up with a structured preference system that always
 induces a total preorder.
 
 My research on tree-like preference formalisms can be categorized into
-three main directions -- preference modeling, learning and reasoning.
+three main directions: preference modeling, preference learning and 
+reasoning about preferences.
 
 \smallskip \noindent \textbf{Preference Modeling \ }
 \noindent My research formally proposed 
@@ -194,7 +196,7 @@ it is important to learn (i) a PLP-tree,
 preferably of a small size, 
 consistent with a dataset of examples, and (ii) a PLP-tree correctly
 ordering as many of the examples as possible in case
-of inconsistency. In my work, I stuied both these problems \cite{conf/aaai15/LiuT}. 
+of inconsistency. In my work, I studied both these problems \cite{conf/aaai15/LiuT}. 
 I established complexity results
 for them and, in each case where the problem
 is in the class P, proposed a polynomial time algorithm.
