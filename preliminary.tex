@@ -87,7 +87,8 @@ a more preferred one.
 It is clear that the relation in \figref{partpre} is a partial 
 preorder, \figref{totalpre} a total preorder, \figref{partord} a partial
 order, and \figref{totalord} a total order.
-
+Note that in these figures,
+each node represents a set of distinct but equivalent outcomes.
 
 \begin{figure}[ht]
    \small
@@ -211,17 +212,19 @@ One scenario when decision problems involving preferences are difficult is when 
 are described as combinations of attribute values from finite domains.
 Take the domain of cars as an example, where the attributes we care about are
 \tit{Price}, \tit{Safety}, and \tit{Capacity}.
-Every attribute has a finite domain of values:
-\tit{Price} with domain $\{$\tit{low,med,high,vhigh}$\}$,
-\tit{Safety} with domain $\{$\tit{low,med,high}$\}$, and
-\tit{Capacity} with domain $\{$\tit{2,5,7m}$\}$.
+Every attribute has a binary domain of values:
+\tit{Capacity} with domain $\{$\tit{low,high}$\}$,
+\tit{Price} with domain $\{$\tit{low,high}$\}$, and
+\tit{Safety} with domain $\{$\tit{low,high}$\}$.
+Note that, although we mostly use binary attributes in the thesis,
+the results and algorithms we have obtained can easily be adjusted
+to general non-binary cases.
 Since these are the only aspects of a car we care about, cars can be
 described as vectors of values from these domains.
-For instance, vector $\la$\tit{med,high,7m}$\ra$ represents
-a car that is medium priced, medium level of safety, and can carry seven
-or more people.
-Even in this simple example, there are already 36 configurations describing
-different types of cars.
+For instance, vector $\la$\tit{high,low,high}$\ra$ represents
+a car that has high capacity, low price and high safety.
+We clearly see that the number of cars grows exponentially as
+there are more attributes.
 
 \begin{definition}
 	Let $\cI$ be a set of attributes $\{X_1,\ldots,X_p\}$, each attribute $X_i$
@@ -295,7 +298,7 @@ For example, if $X$ and $Y$ are formulas, we have that $X \land (X \rar \neg Y)$
 %	\caption{Truth table\label{tbl:truth}}
 %\end{table}
 
-A \tit{truth assignments} is a mapping $v$ from variables to logical
+A \tit{truth assignment} is a mapping $v$ from variables to logical
 values $T$ (true) and $F$ (false).
 We now define what it means for a truth assignment to \tit{satisfy} 
 and \tit{falsify} a formula.
@@ -311,33 +314,58 @@ if $v \models \varphi$ or $v \models \psi$ holds, $v \models \varphi \rar \psi$
 if $v \not\models \varphi$ holds or $v \models \psi$ holds.
 We always have $v \models \top$ and $v \not\models \bot$.
 
-A truth assignment can then be viewed an outcome in a combinatorial domain.
-We view the values in the attribute domains as variables in propositional logic.
-Any truth assignment $M$ over these variables represents an outcome $o$
-in the following way.
+A truth assignment can then be viewed as an outcome in a combinatorial domain.
+We consider two types of combinatorial domains: those of \tit{binary} attributes
+and those of \tit{non-binary} attributes.
+
+For a combinatorial domain of binary attributes, such attributes correspond
+to variables in a language of propositional logic, and the outcomes
+from such a combinatorial domain correspond to truth assignments for that
+language. To establish the correpondence, it suffices to select one
+value in the domain of each attribute as \tit{True} and the other one
+as \tit{False}.
+Thus, propositional formulas provide a convenient way of representing
+sets of, possibly exponentially many, outcomes from the corresponding 
+combinatorial domain.
+We consider the domain of cars as discussed in \secref{comb_domains}.
+We write variables $C$, $P$ and $S$ in propositional logic, 
+corresponding to attributes
+\tit{Capacity}, \tit{Price}, and \tit{Safety}.
+We then set that the variables $C$, $P$ and $S$ being \tit{True} represent \tit{high} in
+the attributes \tit{Capacity}, \tit{Price} and \tit{Safety}, repectively.
+Immediately, the variables being \tit{False} means \tit{low} in the attributes.
+As a consequence, formula $C\land \neg P$ is a shorthand for the set of
+cars that have high capacities and low prices.
+
+When the attributes in the combinatorial domain become in general non-binary,
+we now view the \tit{values} in the attribute domains, not the attributes, 
+as variables in propositional logic.
 A variable assigned \tit{True} (\tit{False}) in $M$ means corresponding 
 attribute value is in $o$ (is not in $o$, respectively).
-As a result, a formula provides a compact way of representing a set of, 
-possibly exponentially many, outcomes.
-Formula $\varphi$ represents the set of outcomes whose counterpart
-truth assignments satisfy $\varphi$.
-We consider the domain of cars as discussed in \secref{comb_domains}.
-The car $\la$\tit{med,high,7m}$\ra$ in the combinatorial domain
-is represented as a truth assignment over $10$ variables, because
-there are $10$ attribute values.
-We denote these variables by $L_P$, $M_P$, $H_P$, $V_P$,
-$L_S$, $M_S$, $H_S$, $T_C$, $F_C$, and $S_C$, in order of the
+Then, a formula $\varphi$ represents the set of outcomes whose counterpart
+truth assignments satisfying $\varphi$.
+We look at the domain of cars of non-binary attributes:
+\tit{Capacity} with domain $\{$\tit{2,5,7m}$\}$,
+\tit{Price} with domain $\{$\tit{low,med,high,vhigh}$\}$, and
+\tit{Safety} with domain $\{$\tit{low,med,high}$\}$.
+This domain corresponds to a language of propositional logic of $10$ 
+variables, because there are $10$ attribute values.
+We denote these variables by $T_C$, $F_C$, $S_C$, $L_P$, $M_P$, $H_P$, $V_P$,
+$L_S$, $M_S$ and $H_S$, in order of the
 values in attributes \tit{Capacity}, \tit{Price}, and \tit{Safety}.
-This truth assignment sets \tit{True} on variables $M_P$,
-$H_S$ and $S_C$, and \tit{False} on the others.
+A truth assignment, that sets \tit{True} on variables $S_C$, $M_P$, and
+$H_S$, and \tit{False} on the others,
+models a car that has small capacity, medium price and high safety.
 We see that not all truth assignments are legal.
-Thus, we need a constraint that, for every attribute domain,
+Therefore, we need a constraint that, for every attribute domain,
 exactly one variable is true.  Such a constraint can be
 expressed as a propositional formula $\Phi$.
 Now it is clear that formula $\Phi \land ((H_P \land S_C) \lor (M_P \land M_S))$ precisely
 and concisely represents the set of cars that have high price and
 capacity of 7 or more, and cars that have medium price and medium
 security.
+Thus, all results we have obtained for combinatorial domains over
+binary attributes apply to the general case, too.
 
 
 \section{Computational Complexity Theory \label{sec:comp_theory}}
@@ -449,7 +477,7 @@ idea of $C$-hardness.
 	A decision problem $L \subseteq \{0,1\}^*$  is \tit{polynomial-time reducible} to
 	a decision problem $L' \subseteq \{0,1\}^*$, $L \leq_p L'$, if there is a
 	polynomial-time computable function $g : \{0,1\}^* \rightarrow \{0,1\}^*$
-	such that for every instance $x \in L$ $\itiff$ $f(x) \in L'$.
+	such that for every instance $x \in L$ $\itiff$ $g(x) \in L'$.
 	If $C$ is a class of decision problems, we say that 
 	$L'$ is $C$-\tit{hard} if $L \leq_p L'$ for 
 	every $L$ in class $C$.
@@ -500,7 +528,7 @@ TM in polynomial time with an oracle for some $\bNP$-complete problem.
 
 One may notice that the classes $\sigmap{i}$ and $\pip{i}$ consist
 of problems that are complements to each other.
-Moreover, we have the inclusion of these classes as shown in \figref{ph_diagram}.
+Moreover, we have the inclusion between these classes as shown in \figref{ph_diagram}.
 
 \begin{figure}[h!]
   \centering
