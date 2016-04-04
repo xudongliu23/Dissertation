@@ -71,8 +71,7 @@ in the following definitions.
 \begin{definition}
 \label{def:opt3}
   $\cL$-OPTIMALITY-\rom{3}: given an instance $\cC$ of a preference
-	formalism $\cL$ and some property $\Phi$ expressed as a Boolean formula 
-	over the alphabet of $\cC$,
+	formalism $\cL$ and some property $\Phi$,
   decide whether there is an optimal outcome $o$ that satisfies $\Phi$.
 \end{definition}
 
@@ -168,7 +167,8 @@ to \tit{Capacity} (\tit{Price}, respectively).
 
 \nop{\noindent{\tbf{The Model.}}}
 To decide if outcome $o_1$ is preferred to outcome $o_2$ in a CP-net $N$,
-one needs to show that $o_2$ can be improved, ceteris paribus, 
+one needs to show that $o_2$ can be successively improved, 
+in a ``ceteris paribus " way, 
 according to the preference statements in $N$ to reach $o_1$.
 
 \begin{definition}
@@ -298,7 +298,7 @@ There are in fact two such total orders:
 \noindent{\tbf{Problems and Complexity.}}
 Boutilier, Brafman, Domshlak, Hoos and Poole \cite{bbdh03} 
 have proved that every acyclic CP-net
-is consistent, whereas Goldsmith, Lang, Truszczynski and Wilson \cite{Goldsmith}
+is consistent, whereas Goldsmith et al. \cite{Goldsmith}
 have shown that the CPN-CONSISTENCE problem is PSPACE-complete in general.
 
 For the CPN-DOMINANCE problem, its complexity depends on the structure
@@ -316,7 +316,8 @@ if the CP-nets are consistent \cite{Goldsmith}.
 
 For acyclic CP-nets, the optimality problems (i.e.,
 CPN-OPTIMALITY-\rom{1}, CPN-OPTIMALITY-\rom{2}, and
-CPN-OPTIMALITY-\rom{3}) are easy \cite{bbdh03}.
+CPN-OPTIMALITY-\rom{3}) are easy, that is, they are
+in the class P \cite{bbdh03}.
 
 
 
@@ -371,7 +372,7 @@ most desirable one as left links always correspond to preferred values.
 To illustrate these notions, let us consider an example LP-tree
 over the car domain, given by the three binary attributes 
 \tit{Capacity}, \tit{Price}, and \tit{Safety},
-described as earlier.
+described earlier.
 Our agent prefers cars with high capacity to cars with low capacity,
 and this preference on \tit{Capacity} is the most important one.
 Then, for high-capacity cars, the next most important attribute is
@@ -574,7 +575,8 @@ we know that the $\LP$-DOMINANCE problem is in \bP.
 In addition to problems of reasoning about a single
 LP-tree, recently researchers have initiated studies of
 the problem of aggregating LP-trees expressing preferences of multiple
-agents. The goal is to facilitate collaborative decision making.
+agents. The goal is to facilitate collaborative decision making
+when all agents express their preferences by means of LP-trees.
 LP-trees are aggregated
 according to some social choice scheme, such as
 issue-by-issue voting \cite{fargier:ibi},
@@ -768,7 +770,7 @@ Consider an ASO theory $P=(P_{\gen}, P_{\PREF})$ over the domain
 of cars, where
 \begin{center}
 	$P_{\gen}=\{$
-	$1\{c,\bar{c}\}1.1\{p,\bar{p}\}1.1\{s,\bar{s}\}1.$
+	$1\{c,\bar{c}\}1.\;\; 1\{p,\bar{p}\}1.\;\; 1\{s,\bar{s}\}1.$
 	%$(c \lor \bar{c}) \land (\neg (c \land \bar{c})). \;$
 	%$(p \lor \bar{p}) \land (\neg (p \land \bar{p})). \;$
 	%$(s \lor \bar{s}) \land (\neg (s \land \bar{s})). \}$
@@ -1180,62 +1182,62 @@ a randomly picked outcome among co-winners.
 
 
 
-\subsection{Manipulation \label{sec:manip}}
-In practice, preference relations, or votes, are collected from voters
-who could report preferences that are not truthful.
-The reason why any agent would do so is that
-casting an untruthful vote, under certain circumstances,
-may benefit the agent in that she could end up with
-a better result, compared to the result of the election
-with her true preferences.
-In cases when an agent can be better off misreporting her
-true preferences, we say that she can perform manipulation.
-Assuming a voting rule is resolute,
-we define manipulability as follows.
-
-\begin{definition}
-	A resolute voting rule $f$ is manipulable if there exist
-	a voter $i \in N$ and preference profiles $P,P' \in \cL(A)^n$
-	such that $P-v_i=P'-v_i'$ and $f(P) \succ_i f(P')$.
-	A voting rule is strategy-proof if not manipulable.
-\end{definition}
-
-Since manipulation seems undesirable, researchers are
-interested in determining what voting rules are
-manipulable and what are not.
-Surprisingly, as shown in the Gibbard-Satterthwaite
-theorem \cite{gib:j:maip-scheme,satt:j:strat-proof},
-any reasonable voting rule is susceptible to
-manipulation given that the number of outcomes
-is at least three.
-
-\begin{thm}
-\label{thm:Gib_Sat}
-\emph{(Gibbard, 1973; Satterthwaite, 1975).}
-	When there are at least three outcomes,
-	every resolute, surjective, strategy-proof voting rule is
-	dictatorial.
-\end{thm}
-
-Since it is impossible to have any reasonable voting rule that is strategy-proof,
-researchers have worked hard to circumvent the theorem
-for strategy-proof voting rules by restricting the domains
-of preferences\cite{Brandt:COMSOC}.
-Moulin \cite{Moul} observed that any voting rule uniquely selecting
-the Condorcet winner is strategy-proof, assuming the existence
-of Condorcet winners in any profile of preference relations
-expressed in a restricted domain.
-One such domain is the domain of single-peaked preferences
-\cite{Sprumont}.
-
-\noindent{\tbf{Computational Hardness of Manipulation.}}
-In spite of the fact that voting rules can be strategy-proof
-when preferences are restricted, in practice we cannot impose
-constraints onto how agents should formulate their preferences.
-Another approach to work around the impossibility theorem is
-to protect voting rules against manipulation by showing
-high computational complexity.
-
+%\subsection{Manipulation \label{sec:manip}}
+%In practice, preference relations, or votes, are collected from voters
+%who could report preferences that are not truthful.
+%The reason why any agent would do so is that
+%casting an untruthful vote, under certain circumstances,
+%may benefit the agent in that she could end up with
+%a better result, compared to the result of the election
+%with her true preferences.
+%In cases when an agent can be better off misreporting her
+%true preferences, we say that she can perform manipulation.
+%Assuming a voting rule is resolute,
+%we define manipulability as follows.
+%
+%\begin{definition}
+%	A resolute voting rule $f$ is manipulable if there exist
+%	a voter $i \in N$ and preference profiles $P,P' \in \cL(A)^n$
+%	such that $P-v_i=P'-v_i'$ and $f(P) \succ_i f(P')$.
+%	A voting rule is strategy-proof if not manipulable.
+%\end{definition}
+%
+%Since manipulation seems undesirable, researchers are
+%interested in determining what voting rules are
+%manipulable and what are not.
+%Surprisingly, as shown in the Gibbard-Satterthwaite
+%theorem \cite{gib:j:maip-scheme,satt:j:strat-proof},
+%any reasonable voting rule is susceptible to
+%manipulation given that the number of outcomes
+%is at least three.
+%
+%\begin{thm}
+%\label{thm:Gib_Sat}
+%\emph{(Gibbard, 1973; Satterthwaite, 1975).}
+%	When there are at least three outcomes,
+%	every resolute, surjective, strategy-proof voting rule is
+%	dictatorial.
+%\end{thm}
+%
+%Since it is impossible to have any reasonable voting rule that is strategy-proof,
+%researchers have worked hard to circumvent the theorem
+%for strategy-proof voting rules by restricting the domains
+%of preferences\cite{Brandt:COMSOC}.
+%Moulin \cite{Moul} observed that any voting rule uniquely selecting
+%the Condorcet winner is strategy-proof, assuming the existence
+%of Condorcet winners in any profile of preference relations
+%expressed in a restricted domain.
+%One such domain is the domain of single-peaked preferences
+%\cite{Sprumont}.
+%
+%\noindent{\tbf{Computational Hardness of Manipulation.}}
+%In spite of the fact that voting rules can be strategy-proof
+%when preferences are restricted, in practice we cannot impose
+%constraints onto how agents should formulate their preferences.
+%Another approach to work around the impossibility theorem is
+%to protect voting rules against manipulation by showing
+%high computational complexity.
+%
 %We first give a definition of the manipulation problem as follows.
 %\begin{definition}
 %	Let $r$ be a resolute voting rule.  Given a profile $P$ of
