@@ -718,10 +718,10 @@ the Pareto method is used to order outcomes.
 		\item $P_{\PREF}$, the selecting program, is a preference
 					program consisting of preference rules of the form
 			\begin{center}
-				$\gamma_1 > \ldots > \gamma_k \leftarrow \alpha$,
+				$C_1 > \ldots > C_m \leftarrow B$,
 			\end{center}
-					where each $\gamma_i$ is a propositional formula
-					over $A$ and $\alpha$ is a conjunction of
+					where each $C_i$ is a propositional formula
+					over $A$ and $B$ is a conjunction of
 					literals of atoms in $A$.
 	\end{enumerate}
 \end{definition}
@@ -737,13 +737,13 @@ determines a partial preorder over the space of outcomes represented by answer s
 We will now provide the details.
 
 We say that outcome $o$ is \tit{irrelevant} to preference rule $r$ if
-$o \models \neg \alpha \vee (\neg \gamma_1 \wedge \ldots \wedge \neg \gamma_k)$,
-that is, if $o$ does not satisfy $\alpha$ or $o$ does not satisfy any of
-the propostional formulas $\gamma_i$. As mentioned in the work by Brewka et al \cite{Brewka03answerset},
+$o \models \neg B \vee (\neg C_1 \wedge \ldots \wedge \neg C_m)$,
+that is, if $o$ does not satisfy $B$ or $o$ does not satisfy any of
+the propostional formulas $C_i$. As mentioned in the work by Brewka et al \cite{Brewka03answerset},
 outcomes irrelevant to $r$ are considered as good as the
 best outcomes.
 This default treatment of irrelevance can be overwritten by
-including formula $\neg \alpha \vee (\neg \gamma_1 \wedge \ldots \wedge \neg \gamma_k)$
+including formula $\neg B \vee (\neg C_1 \wedge \ldots \wedge \neg C_m)$
 in any place of the preference rule $r$.
 Formally we define satisfaction degree of an answer set with respect to a
 preference rule.
@@ -752,7 +752,7 @@ preference rule.
 	$r$ an ASO preference rule.
 	The satisfaction degree of $o$ on $r$, denoted $d_r(o)$,
 	is defined as follows: $d_r(o)=1$ if $o$ is irrelevant to $r$;
-	$d_r(o)=\min\{i:o \models \gamma_i\}$, otherwise.
+	$d_r(o)=\min\{i:o \models C_i\}$, otherwise.
 \end{definition}
 
 \begin{definition}
