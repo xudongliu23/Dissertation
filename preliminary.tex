@@ -299,14 +299,14 @@ For example, if $X$ and $Y$ are formulas, we have that $X \land (X \rar \neg Y)$
 %\end{table}
 
 A \tit{truth assignment} is a mapping $v$ from variables to logical
-values $T$ (true) and $F$ (false).
+values \tit{True} and \tit{False}.
 We now define what it means for a truth assignment to \tit{satisfy} 
 and \tit{falsify} a formula.
 Let $v$ be a truth assignment, $X$ a variable, and $\varphi$ and $\psi$
 propositional formulas.
 First, we define that $v$ satisfies $X$, denoted by $v \models X$,
-if $v(X)=T$; and that $v$ falsifies $X$, denoted 
-by $v \not\models X$, if $v(X)=F$.
+if $v(X)=\tit{True}$; and that $v$ falsifies $X$, denoted 
+by $v \not\models X$, if $v(X)=\tit{False}$.
 Then, we have $v \models \neg \varphi$
 if  $v \not\models \varphi$ holds, $v \models \varphi \land \psi$
 if $v \models \varphi$ and $v \models \psi$ hold, $v \models \varphi \lor \psi$
@@ -322,19 +322,23 @@ For a combinatorial domain of binary attributes, such attributes correspond
 to variables in a language of propositional logic, and the outcomes
 from such a combinatorial domain correspond to truth assignments for that
 language. To establish the correpondence, it suffices to select one
-value in the domain of each attribute as \tit{True} and the other one
-as \tit{False}.
+value in the domain of each attribute as \tit{True} (or simply, $1$) 
+and the other one as \tit{False} (or simply, $0$).
 Thus, propositional formulas provide a convenient way of representing
 sets of, possibly exponentially many, outcomes from the corresponding 
 combinatorial domain.
 We consider the domain of cars as discussed in \secref{comb_domains}.
-We write variables $C$, $P$ and $S$ in propositional logic, 
+We write variables $X_1$, $X_2$ and $X_3$ in propositional logic, 
 corresponding to attributes
 \tit{Capacity}, \tit{Price}, and \tit{Safety}.
-We then set that the variables $C$, $P$ and $S$ being \tit{True} represent \tit{high} in
+We then set that the variables $X_1$, $X_2$ and $X_3$ being 
+\tit{True} ($1_1$, $1_2$ and $1_3$, respectively) represent \tit{high} in
 the attributes \tit{Capacity}, \tit{Price} and \tit{Safety}, repectively.
-Immediately, the variables being \tit{False} means \tit{low} in the attributes.
-As a consequence, formula $C\land \neg P$ is a shorthand for the set of
+Immediately, the variables being \tit{False} ($0_1$, $0_2$ and $0_3$, respectively)
+means \tit{low} in the attributes.
+Hence, we now can represent a car with low capacity, high price and low
+safety by a truth assignment $0_11_20_3$.
+As a consequence, formula $X_1\land \neg X_2$ is a shorthand for the set of
 cars that have high capacities and low prices.
 
 When the attributes in the combinatorial domain become in general non-binary,

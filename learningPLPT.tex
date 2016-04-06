@@ -16,9 +16,9 @@ problem is in the class P, propose polynomial time algorithms.
 %representations in terms of explicit enumerations of the preference order 
 %are feasible and lend themselves well to formal analysis. However, in many
 %applications outcomes come from \emph{combinatorial domains}. That is,
-%outcomes are described as tuples of values of \emph{issues} (also 
+%outcomes are described as tuples of values of \emph{attributes} (also 
 %referred to as \emph{variables} or \emph{attributes}), say $X_1,\ldots, 
-%X_p$, with each issue $X_i$ assuming values from some set $D_i$ -- its 
+%X_p$, with each attribute $X_i$ assuming values from some set $D_i$ -- its 
 %\emph{domain}. 
 %Because of the combinatorial size of the space of such outcomes, explicit
 %enumerations of their elements are impractical. Instead, we resort to 
@@ -28,22 +28,22 @@ problem is in the class P, propose polynomial time algorithms.
 
 Recently, there has been a rising interest in representing
 preferences over combinatorial domains by exploiting the notion of
-the lexicographic ordering. For instance, assuming issues are over the  
-binary domain $\{0,1\}$, with the preferred value for each issue being 
-1, a sequence of issues naturally determines an order on outcomes.
+the lexicographic ordering. For instance, assuming attributes are over the  
+binary domain $\{0,1\}$, with the preferred value for each attribute being 
+1, a sequence of attributes naturally determines an order on outcomes.
 This idea gave rise to the language of \tit{lexicographic preference 
 models} or \tit{lexicographic strategies}, which has been extensively 
 studied in the literature \cite{schmitt2006complexity,dombi2007learning,%
 yaman2008democratic}. The formalism of complete \tit{lexicographic 
 preference trees} (LP-trees) \cite{booth:learningLP} generalizes the
-language of lexicographic strategies by arranging issues into 
+language of lexicographic strategies by arranging attributes into 
 decision trees that assign preference ranks to outcomes. An important
 aspect of LP-trees is that they allow us to model \emph{conditional}
-preferences on issues and \emph{conditional} ordering of issues. 
+preferences on attributes and \emph{conditional} ordering of attributes. 
 Another formalism,
 the language of \tit{conditional lexicographic preference trees} (or 
 CLP-trees) \cite{brauning2012learning}, extends LP-trees by allowing 
-subsets of issues as labels of nodes.
+subsets of attributes as labels of nodes.
 
 A central problem in preference representation concerns learning 
 implicit models of preferences (such as lexicographic strategies,
@@ -53,20 +53,20 @@ ordering a pair of outcomes. The problem was extensively studied. Booth
 et al. \shortcite{booth:learningLP} considered learning of LP-trees, and 
 Br\"auning and Eyke \shortcite{brauning2012learning} of CLP-trees. 
 
-In this paper, we introduce \emph{partial lexicographic preference trees} (or 
+In this work, we introduce \emph{partial lexicographic preference trees} (or 
 \emph{PLP-trees}) as means to represent \emph{total preorders} over 
 combinatorial domains. PLP-trees are closely related to LP-trees 
-requiring that every path in the tree contains all issues 
+requiring that every path in the tree contains all attributes 
 used to describe outcomes. Consequently, LP-trees describe total 
 orders over the outcomes. PLP-trees relax this requirement and allow 
-paths on which some issues may be missing. Hence, 
+paths on which some attributes may be missing. Hence, 
 PLP-trees describe total preorders. This seemingly small difference
 has a significant impact on some of the learning problems. It allows
-us to seek PLP-trees that minimize the set of issues on their paths,
-which may lead to more robust models by disregarding issues 
+us to seek PLP-trees that minimize the set of attributes on their paths,
+which may lead to more robust models by disregarding attributes 
 that have no or little influence on the true preference (pre)order.
 
-The rest of the paper is organized as follows. In the next section, 
+The rest of the chapter is organized as follows. In the next section, 
 we introduce the language of PLP-trees and describe a classification 
 of PLP-trees according to their complexity. We also define three types of passive 
 learning problems for the setting of PLP-trees. In the following 
@@ -77,23 +77,23 @@ with conclusions and a brief account of future work.
 
 
 \section{Partial Lexicographic Preference Trees}
-Let $\cI=\{X_1,\ldots,X_p\}$ be a set of binary issues, with each
+Let $\cI=\{X_1,\ldots,X_p\}$ be a set of binary attributes, with each
 $X_i$ having its domain $D_i=\{0_i, 1_i\}$. The corresponding 
 \tit{combinatorial domain} is the set $\cX=D_1 \times \ldots \times D_p$.
 Elements of  $\cX$ are called \tit{outcomes}.
 
 A PLP-tree over $\cX$ is binary tree whose every
-non-leaf node is labeled by an issue from $\cI$ and by a preference
+non-leaf node is labeled by an attribute from $\cI$ and by a preference
 entry $1>0$ or $0>1$, and whose every leaf node is denoted by a box 
 $\Box$. Moreover, we require that on every path from the root to a leaf
-each issue appears \emph{at most} once. 
+each attribute appears \emph{at most} once. 
 
 To specify the total preorder on outcomes defined by a PLP-tree $T$, let 
 us enumerate leaves of $T$ from left to right, assigning them 
 integers $1,2$, etc. For every outcome $\alpha$ we find its leaf 
 in $T$ by starting at the root of $T$ and proceeding downward. 
-When at a node labeled with an issue $X$, we descend to the left or to the 
-right child of that node based on the value $\alpha(X)$ of the issue $X$ 
+When at a node labeled with an attribute $X$, we descend to the left or to the 
+right child of that node based on the value $\alpha(X)$ of the attribute $X$ 
 in $\alpha$ and on the preference assigned to that node. If $\alpha(X)$ is 
 the preferred value, we descend to the left child. We descend to the right
 child,
@@ -112,24 +112,24 @@ clusters of equivalent outcomes.
 %the sbscript $T$  whenever it is clear from the context.
 
 To illustrate the notions just introduced, we consider preference orderings 
-of dinner options over four binary issues. The \tit{appetizer} ($X_1$) can 
-be either \tit{salad} ($0_1$) or \tit{soup} ($1_1$). The \tit{main course} 
-($X_2$)
-is either \tit{beef} ($0_2$) or \tit{fish} ($1_2$).
-The \tit{drink} ($X_3$) can be \tit{beer} ($0_3$) or (white) \tit{wine} 
-($1_3$). Finally, \tit{dessert} ($X_4$) can be \tit{ice-cream} ($0_4$)
-or \tit{pie} ($1_4$).
-An agent could specify her preferences over dinners as a PLP-tree in 
-\figref{UICP_PLPT_full}. The \emph{main course} is the most important issue to 
-the agent and she prefers fish to beef. Her next most important issue is 
-what to \emph{drink} (independently of her selection for the main course). She 
-prefers wine over beer with fish, and beer over wine with beef. If the
-agent has beef for her main dish, no matter what drink she gets, her next 
-consideration is the \emph{appetizer}, and she prefers salad to soup.
-In this example, the \emph{dessert} does not figure into preferences at all.
-The most preferred dinners have fish for the main course and wine for the 
-drink, with all possible combinations of choices for the appetizer and 
-dessert (and so, the cluster of most preferred dinners has four elements).
+of car options over four binary attributes. The \tit{capacity} ($X_1$) can 
+be either \tit{low} ($0_1$) or \tit{high} ($1_1$). The \tit{price} 
+($X_2$) is either \tit{low} ($0_2$) or \tit{high} ($1_2$).
+The \tit{safety} ($X_3$) can be \tit{low} ($0_3$) or \tit{high} 
+($1_3$). Finally, the \tit{transmission} ($X_4$) of a car 
+can be \tit{manual} ($0_4$) or \tit{automatic} ($1_4$).
+An agent could specify her preferences over cars as a PLP-tree in 
+\figref{UICP_PLPT_full}. \emph{Price} is the most important attribute to 
+the agent and she prefers high to low. Her next most important attribute is 
+\emph{capacity} (independently of her selection for price). She 
+prefers high over low on capacity for expensive cars, 
+and low over high for inexpensive cars.
+Among the expensive cars, no matter what capacity she considers, her next 
+consideration is the \emph{transmission}, and she prefers automatic to manual.
+In this example, the attribute \emph{safety} does not figure into preferences at all.
+The most preferred cars are automatic cars with high price and high capacity,
+with all possible combinations of choices for safety (and so, 
+the cluster of most preferred cars has two elements).
 
 \begin{figure}[!ht]
 	\centering
@@ -140,19 +140,19 @@ dessert (and so, the cluster of most preferred dinners has four elements).
 			level 2/.style={sibling distance=0.7cm, level distance=25pt},
 			level 3/.style={sibling distance=0.4cm, level distance=25pt}]
 	    \node [main node,inner sep=0.5pt,label={[xshift=0.7cm, yshift=-0.5cm]$\scriptstyle 1_2>0_2$}] (1){$X_2$}
-	      child {node [main node,inner sep=0.5pt,label={[xshift=-0.7cm, yshift=-0.5cm]$\scriptstyle 1_3>0_3$}] (3) {$X_3$}
-	    		child {node [rectangle,draw] (4) {}}
-	    		child {node [rectangle,draw] (5) {}}
-				}
-	      child {node [main node,inner sep=0.5pt,label={[xshift=0.7cm, yshift=-0.5cm]$\scriptstyle 0_3>1_3$}] (6) {$X_3$}
-	      	child {node [main node,inner sep=0.5pt,label={[xshift=-0.65cm, yshift=-0.5cm]$\scriptstyle 0_1>1_1$}] (7) {$X_1$}
+	      child {node [main node,inner sep=0.5pt,label={[xshift=-0.7cm, yshift=-0.5cm]$\scriptstyle 1_1>0_1$}] (3) {$X_1$}
+	      	child {node [main node,inner sep=0.5pt,label={[xshift=-0.65cm, yshift=-0.5cm]$\scriptstyle 1_4>0_4$}] (7) {$X_4$}
 	      		child {node [rectangle,draw] (8) {}}
 	      		child {node [rectangle,draw] (9) {}}
 					}
-	      	child {node [main node,inner sep=0.5pt,label={[xshift=0.7cm, yshift=-0.5cm]$\scriptstyle 0_1>1_1$}] (10) {$X_1$}
+	      	child {node [main node,inner sep=0.5pt,label={[xshift=0.7cm, yshift=-0.5cm]$\scriptstyle 1_4>0_4$}] (10) {$X_4$}
 	      		child {node [rectangle,draw] (11) {}}
 	      		child {node [rectangle,draw] (12) {}}
 					}
+				}
+	      child {node [main node,inner sep=0.5pt,label={[xshift=0.7cm, yshift=-0.5cm]$\scriptstyle 0_1>1_1$}] (6) {$X_1$}
+	    		child {node [rectangle,draw] (4) {}}
+	    		child {node [rectangle,draw] (5) {}}
 	      };
 	  \end{tikzpicture}
 		\caption{Collapsible PLP-tree \label{fig:UICP_PLPT_full}}
@@ -162,13 +162,13 @@ dessert (and so, the cluster of most preferred dinners has four elements).
 	  \begin{tikzpicture}[->,>=stealth',
 	    level/.style={sibling distance=2cm/#1, level distance=25pt}]
 	    \node [main node,inner sep=0.5pt] (1){$X_2$}
-	      child {node [main node,inner sep=0.5pt] (2) {$X_3$}
-	      	child {node [main node,inner sep=0.5pt] (3) {$X_1$} {}
+	      child {node [main node,inner sep=0.5pt] (2) {$X_1$}
+	      	child {node [main node,inner sep=0.5pt] (3) {$X_4$} {}
 							child {node [rectangle,draw] (4) at (1.7,2.8) {$1_2\!\!>\!\!0_2$} edge from parent[draw=none]}
 							child {node [rectangle split, rectangle split parts=2,draw] (5) at (1.35,1.8)
-								{$1_2\!:\!1_3\!\!>\!\!0_3$ \nodepart{second} $0_2\!:\!0_3\!\!>\!\!1_3$} edge from parent[draw=none]}
+								{$1_2\!:\!1_1\!\!>\!\!0_1$ \nodepart{second} $0_2\!:\!0_1\!\!>\!\!1_1$} edge from parent[draw=none]}
 							child {node [rectangle,draw] (6) at (0.65,0.8) 
-								{$0_2\!:\!0_1\!\!>\!\!1_1$} edge from parent[draw=none]}
+								{$1_2\!:\!1_4\!\!>\!\!0_4$} edge from parent[draw=none]}
 					}
 	      };
 	  \end{tikzpicture}
@@ -180,11 +180,11 @@ dessert (and so, the cluster of most preferred dinners has four elements).
 	    level 1/.style={sibling distance=1.5cm, level distance=25pt},
 			level 2/.style={sibling distance=0.7cm, level distance=25pt}]
 	    \node [main node,inner sep=0.5pt,label={[xshift=0.7cm, yshift=-0.5cm]$\scriptstyle 1_2>0_2$}] (1){$X_2$}
-	      child {node [main node,inner sep=0.5pt,label={[xshift=-0.7cm, yshift=-0.5cm]$\scriptstyle 0_3>1_3$}] (3) {$X_3$}
+	      child {node [main node,inner sep=0.5pt,label={[xshift=-0.7cm, yshift=-0.5cm]$\scriptstyle 1_3>0_3$}] (3) {$X_3$}
 	    		child {node [rectangle,draw] (4) {}}
 	    		child {node [rectangle,draw] (5) {}}
 				}
-	      child {node [main node,inner sep=0.5pt,label={[xshift=0.7cm, yshift=-0.5cm]$\scriptstyle 0_3>1_3$}] (6) {$X_3$}
+	      child {node [main node,inner sep=0.5pt,label={[xshift=0.7cm, yshift=-0.5cm]$\scriptstyle 1_3>0_3$}] (6) {$X_3$}
 	      		child {node [rectangle,draw] (8) {}}
 	      		child {node [rectangle,draw] (9) {}}
 	      };
@@ -199,7 +199,7 @@ dessert (and so, the cluster of most preferred dinners has four elements).
 	    \node [main node,inner sep=0.5pt] (1){$X_2$}
 	      child {node [main node,inner sep=0.5pt] (2) {$X_3$}
 							child {node [rectangle,draw] (4) at (1.5,1.8) {$1_2\!\!>\!\!0_2$} edge from parent[draw=none]}
-							child {node [rectangle,draw] (5) at (0.5,0.9) {$0_3\!\!>\!\!1_3$} edge from parent[draw=none]}
+							child {node [rectangle,draw] (5) at (0.5,0.9) {$1_3\!\!>\!\!0_3$} edge from parent[draw=none]}
 	      };
 	  \end{tikzpicture}
 		\vspace{-0.2cm}
@@ -245,7 +245,7 @@ dessert (and so, the cluster of most preferred dinners has four elements).
 	  \end{tikzpicture}
 		\caption{CI-FP PLP-tree \label{fig:noncoll_PLPT}}
 	\end{subfigure}
-  \caption{PLP-trees over the dinner domain}
+  \caption{PLP-trees over the car domain}
   \label{fig:PLPTree}
 \end{figure}
 
@@ -255,57 +255,57 @@ dessert (and so, the cluster of most preferred dinners has four elements).
 
 \vspace{-0.1cm}
 In the worst case, the size of a PLP-tree is exponential in the number of 
-issues in $\cI$. However, some PLP-trees have a special structure that
+attributes in $\cI$. However, some PLP-trees have a special structure that
 allows us to ``collapse'' them and obtain more compact 
 representations. This yields a natural classification of PLP-trees, which
 we describe below.
 
-%Let $R$ be a sequence of issues from $\cI$. By $\hat{R}$ we denote the
-%set of issues appearing in $R$. 
-Let $R \subseteq \cI$ be the set of issues that appear in a PLP-tree $T$. We say that $T$ is
+%Let $R$ be a sequence of attributes from $\cI$. By $\hat{R}$ we denote the
+%set of attributes appearing in $R$. 
+Let $R \subseteq \cI$ be the set of attributes that appear in a PLP-tree $T$. We say that $T$ is
 \tit{collapsible} if there is a permutation $\hat{R}$ of elements in
-$R$ such that for every path in $T$ from the root to a leaf, issues 
+$R$ such that for every path in $T$ from the root to a leaf, attributes 
 that label nodes on that path appear in the same order in which they 
 appear in $\hat{R}$. 
 
 If a PLP-tree $T$ is collapsible, we can represent $T$ by a single path
-of nodes labeled with issues according to the order in which they occur
+of nodes labeled with attributes according to the order in which they occur
 in $\hat{R}$, 
-%(where $\hat{R}$ is the permutation of the set $R$ of issues in $T$),
-where a node labeled with an issue $X_i$ is also assigned a
+%(where $\hat{R}$ is the permutation of the set $R$ of attributes in $T$),
+where a node labeled with an attribute $X_i$ is also assigned a
 \tit{partial conditional preference table} (PCPT) that specifies 
-preferences on $X_i$, conditioned on values of ancestor issues in the path.
+preferences on $X_i$, conditioned on values of ancestor attributes in the path.
 These tables make up for the lost structure of $T$ as different ways in 
-which ancestor issues evaluate correspond to different locations 
+which ancestor attributes evaluate correspond to different locations 
 in the original tree $T$. 
 Moreover, missing entries in PCPT of $X_i$ imply equivalence (or indifference) between values of $X_i$
 under conditions that do not appear in the PCPT.
 Clearly, the PLP-tree in \figref{UICP_PLPT_full} is collapsible, and can
 be represented compactly as a single-path tree with nodes labeled by 
-issues in the permutation and PCPTs (cf. \figref{UICP_PLPT_compact}).
-Such a collapsed path labeled by issues is sometimes denoted as
-a sequence of issues in $\hat{R}$ connected by $\triangleright$, e.g.,
+attributes in the permutation and PCPTs (cf. \figref{UICP_PLPT_compact}).
+Such a collapsed path labeled by attributes is sometimes denoted as
+a sequence of attributes in $\hat{R}$ connected by $\triangleright$, e.g.,
 $X_2\triangleright X_3\triangleright X_1$ for the path in \figref{UICP_PLPT_compact}.
 
 Collapsible PLP-trees represented by a single path of nodes 
 will be referred to as \emph{unconditional importance} trees or $\UI$ 
 trees, for short. The name reflects the fact that the order in which 
-we consider issues when seeking the rank of an outcome is always the 
-same (not conditioned on the values of ancestor issues of higher importance).
+we consider attributes when seeking the rank of an outcome is always the 
+same (not conditioned on the values of ancestor attributes of higher importance).
 
 Let $L$ be a collapsible PLP-tree.
-If for every path in $L$ the order of issues labeling the path is exactly $\hat{R}$,
+If for every path in $L$ the order of attributes labeling the path is exactly $\hat{R}$,
 and $L$ has the same preference $1>0$ on \emph{every} node,
 then every PCPT in the collapsed tree contains the same preference $1>0$,
-no matter the evaluation of the ancestor issues.
+no matter the evaluation of the ancestor attributes.
 Thus, every PCPT in the collapsed form can be simplified to a single \emph{fixed} preference $1>0$,
 a shorthand for its full-sized counterpart.
 We call the resulting
 collapsed tree a $\UI$ tree with \emph{fixed preferences}, or a $\UI$-$\FP$ PLP-tree.
 
-A similar simplification is possible if every path in $L$ has the same ordering of issues
+A similar simplification is possible if every path in $L$ has the same ordering of attributes
 which again is exactly $\hat{R}$, and
-for every issue $X_i$ all nodes in $L$ labeled with $X_i$ have the same
+for every attribute $X_i$ all nodes in $L$ labeled with $X_i$ have the same
 preference on values of $X_i$ (either $1_i>0_i$ or $0_i>1_i$).
 Such collapsed 
 trees are called $\UI$-$\UP$ PLP-trees, with $\UP$ standing for \emph{unconditional 
@@ -314,32 +314,32 @@ is the collapsed representation of the collapsible tree in \figref{UIUP_PLPT_ful
 
 In all other cases, we refer to collapsed PLP-trees as $\UI$-$\CP$ PLP-trees, 
 with $\CP$ standing for \emph{conditional preference}. If preferences on 
-an issue in such a tree depend in an essential way on all preceding 
-issues, there is no real saving in the size of representation (instead 
+an attribute in such a tree depend in an essential way on all preceding 
+attributes, there is no real saving in the size of representation (instead 
 of an exponential PLP-tree we have a small tree but with preference 
 tables that are of exponential size). However, if the preference on an 
-issue depends only on a few higher importance issues say, never more than 
+attribute depends only on a few higher importance attributes say, never more than 
 one or two (or, more generally, never more than some fixed bound $b$), 
 the collapsed representation is significantly smaller.
 
-As an aside, we note that not every path of nodes labeled with issues
+As an aside, we note that not every path of nodes labeled with attributes
 and PCPTs is a $\UI$ tree. An example is given in \figref{invalid_UICP}.
 Indeed, one can see that there is no PLP-tree that would collapse to 
 it. There is a simple condition 
-characterizing paths with nodes labeled with issues and PCPTs that
+characterizing paths with nodes labeled with attributes and PCPTs that
 are valid $\UI$ trees. This matter is not essential to our discussion later 
-on and we will not discuss it further here due to the space limit.  
+on and we will not discuss it further here.  
  
-When a PLP-tree is not collapsible, the importance of an issue depends
+When a PLP-tree is not collapsible, the importance of an attribute depends
 on where it is located in the tree. We will refer to such PLP-trees as
 \tit{conditional importance} trees or $\CI$ trees.
 
 Let $T$ be a $\CI$ PLP-tree.
 We call $T$ a $\CI$-$\FP$ tree if every non-leaf node in $T$
-is labeled by an issue with preference $1>0$.
+is labeled by an attribute with preference $1>0$.
 An example of a $\CI$-$\FP$ PLP-tree is shown in \figref{noncoll_PLPT}, where
 preferences on each non-leaf node are $1>0$ and hence omitted.
-If, for every issue $X_i$, all nodes in $T$ labeled with $X_i$
+If, for every attribute $X_i$, all nodes in $T$ labeled with $X_i$
 have the same preference ($1_i>0_i$ or $0_i>1_i$) on $X_i$, we say $T$ is
 a $\CI$-$\UP$ PLP-tree.  
 All other non-collapsible PLP-trees are called $\CI$-$\CP$ PLP-trees.
@@ -354,22 +354,22 @@ All other non-collapsible PLP-trees are called $\CI$-$\CP$ PLP-trees.
 An \tit{example} is a tuple $(\alpha, \beta, v)$, where $\alpha$ and 
 $\beta$ are two \emph{distinct} outcomes from combinatorial domain 
 $\cX$ over a set $\cI=\{X_1,\ldots,
-X_p\}$ of binary issues, and $v \in \{0,1\}$. An example $(\alpha,\beta,1)$
+X_p\}$ of binary attributes, and $v \in \{0,1\}$. An example $(\alpha,\beta,1)$
 states that $\alpha$ is strictly preferred to $\beta$ ($\alpha \succ \beta$).
 Similarly, an example $(\alpha,\beta,0)$ states that $\alpha$ and $\beta$ 
 are equivalent ($\alpha\approx\beta$). Let $\cE=\{e_1,\ldots,e_m\}$ be a set 
 of examples over $\cI$, with $e_i=(\alpha_i,\beta_i,v_i)$. We set 
 $\cE^{\approx}= \{e_i \in \cE: v_i=0\}$, and $\cE^{\succ}= \{e_i \in \cE: 
 v_i =1\}$. 
-In the following, we denote by $p$ and $m$ the number of issues and the number of
+In the following, we denote by $p$ and $m$ the number of attributes and the number of
 examples, respectively.
 
 For a PLP-tree $T$ in full representation we denote by $|T|$ the size of $T$, 
 that is, the number of nodes in $T$. If $T$ stands for a $\UI$ tree, we write $|T|$ for
 the size of $T$ measured by the total size of preference tables associated
-with issues in $T$. The size of a preference table is the total size of
+with attributes in $T$. The size of a preference table is the total size of
 preferences in it, each preference measured as the number of values in the condition
-plus $1$ for the preferred value in the domain of the issue.
+plus $1$ for the preferred value in the domain of the attribute.
 In particular, the sizes of $\UI$-$\FP$ and $\UI$-$\UP$ trees are
 given by the number of nodes on the path. 
 
@@ -423,23 +423,23 @@ $\UI$-$\FP$ and $\UI$-$\UP$, we specialize the template to a
 polynomial-time algorithm.
 
 The template algorithm is shown as \algref{learnUI}. The 
-input consists of a set $\cE$ of examples and a set $\cI$ of issues 
+input consists of a set $\cE$ of examples and a set $\cI$ of attributes 
 from which node labels can be selected. Throughout the execution, the 
-algorithm maintains a set $S$ of unused issues, initialized to $\cI$, 
+algorithm maintains a set $S$ of unused attributes, initialized to $\cI$, 
 and a set of examples that are not yet ordered by the tree constructed 
 so far.
 
 If the set of strict examples is empty, the algorithm returns an empty tree. 
-Otherwise, the algorithm identifies the set $\AI(\cE,S)$ of issues in 
+Otherwise, the algorithm identifies the set $\AI(\cE,S)$ of attributes in 
 $S$ that are \emph{available} for selection as the label for the next 
 node. If that set is empty, the algorithm terminates with failure. If
-not, an issue, say $X_l$, is selected from $\AI(\cE,S)$, and a PCPT for
-that issue is constructed. Then the sets of examples not ordered yet 
-and of issues not used yet are updated, and the steps repeat.  
+not, an attribute, say $X_l$, is selected from $\AI(\cE,S)$, and a PCPT for
+that attribute is constructed. Then the sets of examples not ordered yet 
+and of attributes not used yet are updated, and the steps repeat.  
 
 \begin{algorithm}[ht]
 \KwIn{$\cE$ and $S=\cI$}
-\KwOut{A sequence $T$ of issues from $\cI$ and PCPTs that define
+\KwOut{A sequence $T$ of attributes from $\cI$ and PCPTs that define
 a $\UI$ tree consistent with $\cE$, or FAILURE if such a tree does not 
 exist}
 
@@ -462,33 +462,33 @@ exist}
 
 To obtain a learning algorithm for a particular class of $\UI$ trees
 ($\UI$-$\FP$ or $\UI$-$\UP$) we need to specify the notion 
-of an available issue (needed for line 3) and describe how to construct 
+of an available attribute (needed for line 3) and describe how to construct 
 a partial conditional preference table (needed for line 8). 
 
-To this end, let us define $\NEQ(\cE,S)$ to be the set of all issues in
+To this end, let us define $\NEQ(\cE,S)$ to be the set of all attributes in
 $S$ (where $S\subseteq \cI$) that incorrectly handle at least one equivalent example 
-in $\cE^\approx$. That is, for an issue $X\in S$ we have $X\in \NEQ(\cE,S)$
+in $\cE^\approx$. That is, for an attribute $X\in S$ we have $X\in \NEQ(\cE,S)$
 precisely when for some example $(\alpha,\beta,0)$ in $\cE$, $\alpha(X)\not=
 \beta(X)$. Similarly, let us define $\EQ(\cE,S)$ to be the set of 
-issues in $S$ that do not order any of the strict examples in $\cE$. That 
-is, for an issue $X\in S$ we have $X\in \EQ(\cE,S)$ precisely when 
+attributes in $S$ that do not order any of the strict examples in $\cE$. That 
+is, for an attribute $X\in S$ we have $X\in \EQ(\cE,S)$ precisely when 
 for every example $(\alpha,\beta,1)$ in $\cE$, $\alpha(X)= \beta(X)$.  
 
 \noindent {\bf Fixed Preferences.}
 For the problem of learning $\UI$-$\FP$ trees, we define $\AI(\cE,S)$ to
-contain every issue $X\notin \NEQ(\cE,S)$ such that\\ 
+contain every attribute $X\notin \NEQ(\cE,S)$ such that\\ 
 (1) \ for every $(\alpha,\beta,1) \in \cE^\succ$, $\alpha(X) 
 \geq \beta(X)$.
 
 \begin{prop}
 \label{prop:1}
 {\it If there is a $\UI$-$\FP$ tree consistent with all examples in $\cE$ and 
-using only issues from $S$ as labels, then an issue $X\in S$ is a top node
+using only attributes from $S$ as labels, then an attribute $X\in S$ is a top node
 of some such tree if and only if $X\in \AI(\cE,S)$.}
 \end{prop}
 \begin{proof}
-Let $T$ be a $\UI$ tree consistent with $\cE$ and having only issues from 
-$S$ as labels. Let $X$ be the issue labeling the top node of $T$. Clearly,
+Let $T$ be a $\UI$ tree consistent with $\cE$ and having only attributes from 
+$S$ as labels. Let $X$ be the attribute labeling the top node of $T$. Clearly,
 $X\notin \NEQ(\cE,S)$, as otherwise, $T$ would strictly order two outcomes
 $\alpha$ and $\beta$ such that $(\alpha,\beta,0)\in \cE^\approx$. To prove
 condition (1), let us consider any example $(\alpha,\beta,1)\in \cE^\succ$. 
@@ -496,13 +496,13 @@ Since $T$ is consistent with $(\alpha,\beta,1)$, $\alpha(X)\geq\beta(X)$.
 Consequently, $X\in \AI(\cE,S)$.
 
 Conversely, let $X\in \AI(\cE,S)$ and let $T$ be a $\UI$-$\FP$ tree 
-consistent with all examples in $\cE$ and using only issues from $S$ as 
+consistent with all examples in $\cE$ and using only attributes from $S$ as 
 labels (such a tree exists by assumption). If $X$ labels the top node in 
 $T$, we are done. Otherwise, let $T'$ be a tree obtained from $T$ by 
 adding at the top of $T$ another node, labeling it with $X$ and removing
 from $T$ the node labeled by $X$, if such a node exists. By the definition
 of $\AI(\cE,S)$ we have that $X\notin\NEQ(\cE,S)$ and that condition (1) 
-holds for $X$. Using these properties, one can show that $T'$ is also 
+holds for $X$. Using these properties, we see that $T'$ is also 
 a $\UI$-$\FP$ 
 tree consistent with all examples in $\cE$. Since the top node of $T'$
 is labeled by $X$, the assertion follows. 
@@ -514,15 +514,15 @@ to the fixed unconditional preference $1_l>0_l$. Proposition \ref{prop:1}
 directly implies the correctness of this version of \algref{learnUI}.
 
 \begin{thm}
-Let $\cE$ be a set of examples over a set $\cI$ of binary issues.
+Let $\cE$ be a set of examples over a set $\cI$ of binary attributes.
 \algref{learnUI} adjusted as described above terminates and outputs
 a sequence $T$ representing a $\UI$-$\FP$ tree consistent with $\cE$ if
 and only if such a tree exists.
 \end{thm}
 
-We note that issues in $\NEQ(\cE,S)$ are never used when constructing
+We note that attributes in $\NEQ(\cE,S)$ are never used when constructing
 $\AI(\cE,S)$. Thus, in the case of $\UI$-$\FP$ trees, $S$ could be
-initialized to $\cI\setminus\NEQ(\cE,\cI)$. In addition, if an issue
+initialized to $\cI\setminus\NEQ(\cE,\cI)$. In addition, if an attribute
 selected for the label of the top node belongs to $\EQ(\cE^\succ, S)$,
 it does not in fact decide any of the strict examples in $\cE$ and can be
 dropped. The resulting tree is also consistent with all the examples. 
@@ -534,7 +534,7 @@ trees with ``redundant'' levels.
 
 \noindent {\bf Unconditional Preferences.}
 The case of learning $\UI$-$\UP$ trees is very similar to the 
-previous one. Specifically, we define $\AI(\cE,S)$ to contain an issue 
+previous one. Specifically, we define $\AI(\cE,S)$ to contain an attribute 
 $X\in S$ precisely when $X\notin\NEQ(\cE,S)$ and
 
 \noindent 
@@ -554,7 +554,7 @@ As in the previous case, here too $S$ could be initialized to $\cI \setminus
 definition of $\AI(\cE,S)$. 
 
 \noindent {\bf Conditional Preferences.} 
-The problem is in NP because one can show that if a $\UI$-$\CP$
+The problem is in NP because, if a $\UI$-$\CP$
 tree consistent with $\cE$ exists (\emph{a priori},
 it does not have to have size polynomial in the size of $\cE$), then another
 such tree of size polynomial in the size of $\cE$ exists, as well.
@@ -583,7 +583,7 @@ We show that these problems for $\UI$ trees are NP-hard.
 	($\UI$-$\UP$ and $\UI$-$\CP$) is similar.
 
 	(Membership) One can guess a $\UI$-$\FP$ PLP-tree $T$ in linear time, and verify in polynomial time that 
-	$T$ has at most $l$ issues and satisfies every example in $\cE$.
+	$T$ has at most $l$ attributes and satisfies every example in $\cE$.
 
 	(Hardness) We present a polynomial-time reduction from the
 	\tit{hitting set problem} (HSP), which is NP-complete 
@@ -624,13 +624,13 @@ We show that these problems for $\UI$ trees are NP-hard.
         there exists $r$, $1 \leq r \leq k$, %$X_{j_r}$ ($1 \leq r \leq k$)
 	such that $\alpha_e(X_{j_r})=1$.
 	Let $r$ be the smallest with this property. 
-	%Among these issues $X_{j_r}$ let $X_j$ be the top-ranked one.
+	%Among these attributes $X_{j_r}$ let $X_j$ be the top-ranked one.
 	It is clear that $e$ is decided at $X_{j_r}$; thus, we have 
 	$\alpha_e \succ_L \beta_e$.
 
 \smallskip
 \noindent
-	($\Leftarrow$) Assume there is a $\UI$-$\FP$ PLP-tree $L$ of $l$ issues in
+	($\Leftarrow$) Assume there is a $\UI$-$\FP$ PLP-tree $L$ of $l$ attributes in
 	$\cI$ such that $L$ is consistent with $\cE$. Moreover, we assume
 	$L=X_{j_1} \triangleright \ldots \triangleright X_{j_l}$.
 	Let $U'=\{a_{j_1}, \ldots,a_{j_l}\}$.
@@ -639,7 +639,7 @@ We show that these problems for $\UI$ trees are NP-hard.
 	$U' \cap S_i = \emptyset$.
 	Then, there exists an example $e=(\alpha_e,\beta_e,1)$, where $\alpha_e=\tbf{s}_i$ 
 	and $\beta_e=\tbf{0}$, such that $\alpha_e \approx_L \beta_e$ because
-	none of the issues $\{X_i:\alpha_e(X_i)=1\}$ show up in $L$. This is
+	none of the attributes $\{X_i:\alpha_e(X_i)=1\}$ show up in $L$. This is
 	a contradiction! Thus, $U'$ is a hitting set.
 \end{proof}
 
@@ -653,7 +653,7 @@ We show that these problems for $\UI$ trees are NP-hard.
 Consequently, it is important to study fast heuristics that aim at
 approximating trees of optimal size. 
 Here, we propose a greedy heuristic for \algref{learnUI}.
-In every iteration the heuristic selects the issue $X_l \in \AI(\cE,S)$ that
+In every iteration the heuristic selects the attribute $X_l \in \AI(\cE,S)$ that
 decides the most examples in $\cE^\succ$.
 However, for some dataset the resulting greedy algorithm does not perform 
 well: the ratio of the size of the tree computed by our algorithm 
@@ -674,7 +674,7 @@ case computes $X_2 \triangleright X_3 \triangleright X_4 \triangleright X_1$,
 whereas the optimal tree is $X_4 \triangleright X_1$ (with
 the PCPTs omitted as they contain only one preference and so, they do not
 change the asymptotic size of the tree). This example generalizes to the
-arbitrary number $p$ of issues. Thus, the greedy algorithm to learn small
+arbitrary number $p$ of attributes. Thus, the greedy algorithm to learn small
 $\UI$ trees is no better than any other algorithm in 
 the worst case.
 
@@ -710,14 +710,14 @@ classes of $\UI$ trees.
 \label{thm:UIFP_least_decision}
 The \tsc{MaxLearn} problem is NP-complete for each class of $\{\UI\} \times \{\FP,\UP,\CP\}$.
 \end{thm}
-\begin{proof}[Sketch]
+\begin{proof}
 The problem is in NP. This is evident for the case
 of $\UI$-$\FP$ and $\UI$-$\UP$ trees. If $\cE$ is a given set of examples,
 and $k$ a required lower bound on the number of examples that are to be 
 correctly ordered, then witness trees in these classes (trees that correctly 
 order at least $k$ examples in $\cE$) have size polynomial in the size of 
 $\cE$. Thus, verification can be performed in polynomial time. 
-For the case of $\UI$-$\CP$ trees, one can show that if there is a $\UI$-$\CP$
+For the case of $\UI$-$\CP$ trees, if there is a $\UI$-$\CP$
 tree correctly ordering at least $k$ examples in $\cE$, then there exists
 such tree of size polynomial in $|\cE|$.
 
@@ -753,10 +753,10 @@ for the classes $\CI$-$\FP$ and $\CI$-$\CP$.
 \label{thm:passlearn_CIUP}
 	The \tsc{ConsLearn} problem is NP-complete for class $\CI$-$\UP$.
 \end{thm}
-\begin{proof}[Sketch]
+\begin{proof}
 The problem is in NP because the size of a witness, 
-a $\CI$-$\UP$ PLP-tree consistent with $\cE$, is bounded by $|\cE|$ (one
-can show that if a $\CI$-$\UP$ tree consistent with $\cE$ exists, then it can
+a $\CI$-$\UP$ PLP-tree consistent with $\cE$, is bounded by $|\cE|$ (
+if a $\CI$-$\UP$ tree consistent with $\cE$ exists, then it can
 be modified to a tree of size no larger than $O(|\cE|)$).
 	Hardness follows from the proof by Booth et al. \shortcite{booth:learningLP} showing 
 	\tsc{ConsLearn} is NP-hard in the setting of LP-trees.
@@ -790,26 +790,26 @@ by polynomial-time \algref{recur_learnCI} adjusted for both classes.
 \end{algorithm}
 
 \noindent {\bf Fixed Preference.}
-For class $\CI$-$\FP$, we define $\AI(\cE,S)$ to contain issue 
+For class $\CI$-$\FP$, we define $\AI(\cE,S)$ to contain attribute 
 $X\notin \NEQ(\cE,S)$ if\\
 (3) \ for every $(\alpha,\beta,1) \in \cE^\succ$,  $\alpha(X) \geq \beta(X)$.
 
 \begin{prop}
 \label{prop:2}
 {\it If there is a $\CI$-$\FP$ tree consistent with all examples in $\cE$ and 
-using only issues from $S$ as labels, then an issue $X\in S$ is a top node
+using only attributes from $S$ as labels, then an attribute $X\in S$ is a top node
 of some such tree if and only if $X\in \AI(\cE,S)$.}
 \end{prop}
 \begin{proof}
 	It is clear that if there exists a $\CI$-$\FP$ PLP-tree consistent with $\cE$
-	and only using issues from $S$ as labels, then the fact that
+	and only using attributes from $S$ as labels, then the fact that
 	$X \in S$ labels the root of some such tree implies $X \in \AI(\cE,S)$.
 
 	Now we show the other direction.
 	Let $T$ be the $\CI$-$\FP$ tree over a subset of $S$ consistent 
 	with $\cE$,
-	$X$ be an issue such that $X \in \AI(\cE,S)$.
-	If $X$ is the root issue in $T$, we are done.
+	$X$ be an attribute such that $X \in \AI(\cE,S)$.
+	If $X$ is the root attribute in $T$, we are done.
 	Otherwise, we construct a $\CI$-$\FP$ tree $T'$ by creating a root, 
 	labeling it with $X$, and make one copy of $T$ the left subtree of $T'$
         ($T_l'$) and another, the right subtree of $T'$ ($T_r'$).
@@ -834,7 +834,7 @@ of some such tree if and only if $X\in \AI(\cE,S)$.}
 	$\BL_l'$, and the subtree rooted at $t_r'$ in $T_r'$ with $\BR_r'$.
 
 	As an example, this construction of $T'$ from $T$ is demonstrated in \figref{promote}.
-	One can show that this construction results in a $\CI$-$\CP$ tree consistent
+	We see that this construction results in a $\CI$-$\CP$ tree consistent
 	with $\cE$ and, clearly, it has its root labeled with $X$.
 	Thus, the assertion follows.
 \end{proof}
@@ -929,7 +929,7 @@ $\AI(\cE,S)$ defined as above for class $\CI$-$\FP$ and each $x_l \in
 (X_l,x_l)$ set to $1$.
 
 \begin{thm}
-Let $\cE$ be a set of examples over a set $\cI$ of binary issues.
+Let $\cE$ be a set of examples over a set $\cI$ of binary attributes.
 \algref{recur_learnCI} adjusted as described above terminates and outputs
 a $\CI$-$\FP$ tree $T$ consistent with $\cE$ if
 and only if such a tree exists.
@@ -937,7 +937,7 @@ and only if such a tree exists.
 
 
 \noindent {\bf Conditional Preference.}
-For class $\CI$-$\CP$, we define that $\AI(\cE,S)$ contains issue $X \not \in \NEQ(\cE)$ if 
+For class $\CI$-$\CP$, we define that $\AI(\cE,S)$ contains attribute $X \not \in \NEQ(\cE)$ if 
 
 \noindent (4) \ for every $(\alpha,\beta,1) \in \cE^\succ$, $\alpha(X) \geq 
 \beta(X)$, or for every $(\alpha,\beta,1) \in \cE^\succ$, $\alpha(X) \leq \beta(X)$.
@@ -954,7 +954,7 @@ that in \propref{2}.
 \subsection{The \tsc{SmallLearn} and \tsc{MaxLearn} Problems}
 
 \vspace{-0.1cm}
-Due to space limits, we only outline the results we have for this case. 
+We outline the results we have for this case. 
 Both problems for the three $\CI$ classes are NP-complete. They are in 
 NP since if a witness PLP-tree exists, one can modify it so that 
 its size does not exceed the size of the input. Hardness of the 
@@ -1025,7 +1025,7 @@ possible, we conjecture that in general, the problem is NP-complete.
 \end{table}
 
 For the future research, we will develop good heuristics for our learning algorithms.
-We will implement these algorithms handling issues of, in general, finite domains
+We will implement these algorithms handling attributes of, in general, finite domains
 of values, and evaluate them on both synthetic and
 real-world preferential datasets. 
 With PLP-trees of various classes learned, we will compare our models with

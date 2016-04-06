@@ -152,14 +152,14 @@ We say that a CP-net $N=(G,T)$ is \tit{acyclic} if
 $G$ is acyclic; otherwise, it is \tit{cyclic}.
 To illustrate, let us consider the domain of cars.
 For simplicity, we take three binary attributes
-\tit{Price}, \tit{Safety}, and \tit{Capacity}.
-Attribute \tit{Capacity} ($C$) has two values \tit{high} ($c$) 
-and \tit{low} ($\bar{c}$).
-Attribute \tit{Price} ($P$) has two values \tit{high} ($p$) 
-and \tit{low} ($\bar{p}$).
-Attribute \tit{Safety} ($S$) has two values \tit{high} ($s$) 
-and \tit{low} ($\bar{s}$).
-An example CP-net $N=(G,T)$ over binary attributes $\bV=\{C,P,S\}$
+\tit{Capacity}, \tit{Price}, and \tit{Safety}.
+Attribute \tit{Capacity} ($X_1$) has two values \tit{high} ($1_1$) 
+and \tit{low} ($0_1$).
+Attribute \tit{Price} ($X_2$) has two values \tit{high} ($1_2$) 
+and \tit{low} ($0_2$).
+Attribute \tit{Safety} ($X_3$) has two values \tit{high} ($1_3$) 
+and \tit{low} ($0_3$).
+An example CP-net $N=(G,T)$ over binary attributes $\bV=\{X_1,X_2,X_3\}$
 is shown in \figref{CPN_depend}.
 We see that the preferences on \tit{Price} (\tit{Safety}) 
 depend upon the assignment made
@@ -168,7 +168,7 @@ to \tit{Capacity} (\tit{Price}, respectively).
 \nop{\noindent{\tbf{The Model.}}}
 To decide if outcome $o_1$ is preferred to outcome $o_2$ in a CP-net $N$,
 one needs to show that $o_2$ can be successively improved, 
-in a ``ceteris paribus " way, 
+in a ``ceteris paribus" way, 
 according to the preference statements in $N$ to reach $o_1$.
 
 \begin{definition}
@@ -209,25 +209,25 @@ $o' \succ_N o$.
 Consider the CP-net $N$ in \figref{CPN}.
 It induces a partial order shown in \figref{CPN_pref},
 where each arrow represents an improving flip between two outcomes.
-We see that $c\bar{p}\bar{s} \succ_N \bar{c}ps$
+We see that $1_10_20_3 \succ_N 0_11_21_3$
 because of the improving flipping sequence:
-$c\bar{p}\bar{s},\bar{c}\bar{p}\bar{s},\bar{c}\bar{p}s,\bar{c}ps$.
-Outcome $cps$ is optimal because no other outcome is
+$0_11_21_3$, $0_10_21_3$, $0_10_20_3$, and $1_10_20_3$.
+Outcome $1_11_21_3$ is optimal because no other outcome is
 better.
 We note that there is no flipping sequence between
-$c\bar{p}s$ and $\bar{c}\bar{p}\bar{s}$.
+$1_10_21_3$ and $0_10_20_3$.
 In such case, we say that the two outcomes are \tit{incomparable}.
 This CP-net is consistent because there exists a total order
 of outcomes that agrees with the preference graph \figref{CPN_pref}.
 There are in fact two such total orders:
 
 \begin{center}
-	$cps \succ cp\bar{s} \succ c\bar{p}\bar{s} 
-		\succ \bm{c\bar{p}s} \succ \bm{\bar{c}\bar{p}\bar{s}} 
-		\succ \bar{c}\bar{p}s \succ \bar{c}ps \succ \bar{c}p\bar{s}$,\\
-	$cps \succ cp\bar{s} \succ c\bar{p}\bar{s} 
-		\succ \bm{\bar{c}\bar{p}\bar{s}} \succ \bm{c\bar{p}s}
-		\succ \bar{c}\bar{p}s \succ \bar{c}ps \succ \bar{c}p\bar{s}$.
+	$1_11_21_3 \succ 1_11_20_3 \succ 1_10_20_3 
+		\succ \bm{1_10_21_3} \succ \bm{0_10_20_3} 
+		\succ 0_10_21_3 \succ 0_11_21_3 \succ 0_11_20_3$,\\
+	$1_11_21_3 \succ 1_11_20_3 \succ 1_10_20_3
+		\succ \bm{0_10_20_3} \succ \bm{1_10_21_3}
+		\succ 0_10_21_3 \succ 0_11_21_3 \succ 0_11_20_3$.
 \end{center}
 
 %\begin{figure}[h!]
@@ -242,14 +242,14 @@ There are in fact two such total orders:
 		\centering
 	  \begin{tikzpicture}[->,>=stealth',
 	    level/.style={sibling distance=2cm/#1, level distance=40pt}]
-	    \node [main node] (1){$C$}
-	      child {node [main node] (2) {$P$}
-	      	child {node [main node] (3) {$S$} {}
-							child {node [rectangle,draw] (4) at (1.7,4.2) {$c>\bar{c}$} edge from parent[draw=none]}
-							child {node [rectangle split, rectangle split parts=2,draw] (5) at (1.35,2.8)
-								{$c:p>\bar{p}$ \nodepart{second} $\bar{c}:\bar{p}>p$} edge from parent[draw=none]}
-							child {node [rectangle split, rectangle split parts=2,draw] (6) at (0.7,1.4) 
-								{$p:s>\bar{s}$ \nodepart{second} $\bar{p}:\bar{s}>s$} edge from parent[draw=none]}
+	    \node [main node] (1){$X_1$}
+	      child {node [main node] (2) {$X_2$}
+	      	child {node [main node] (3) {$X_3$} {}
+							child {node [rectangle,draw] (4) at (2,4.2) {$1_1>0_1$} edge from parent[draw=none]}
+							child {node [rectangle split, rectangle split parts=2,draw] (5) at (1.7,2.8)
+								{$1_1:1_2>0_2$ \nodepart{second} $0_1:0_2>1_2$} edge from parent[draw=none]}
+							child {node [rectangle split, rectangle split parts=2,draw] (6) at (1.05,1.4) 
+								{$1_2:1_3>0_3$ \nodepart{second} $0_2:0_3>1_3$} edge from parent[draw=none]}
 					}
 	      };
 	  \end{tikzpicture}
@@ -258,14 +258,14 @@ There are in fact two such total orders:
   \begin{subfigure}[b]{0.45\textwidth}
 		\centering
 		  \begin{tikzpicture}[->,>=stealth',node distance=1cm,main node/.style={circle,draw,font=\small}]
-		    \node[rectangle,inner sep=0pt] (1)                                         {$\bar{c}p\bar{s}$};
-				\node[rectangle,inner sep=0pt] (2) [below of=1]                            {$\bar{c}ps$};
-				\node[rectangle,inner sep=0pt] (3) [below of=2]                            {$\bar{c}\bar{p}s$};
-				\node[rectangle,inner sep=0pt] (4) [left of =3,xshift=-1cm,yshift=-0.5cm]  {$\bar{c}\bar{p}\bar{s}$};
-				\node[rectangle,inner sep=0pt] (5) [below of=3]                            {$c\bar{p}s$};
-				\node[rectangle,inner sep=0pt] (6) [left of=5,xshift=-1cm,yshift=-0.5cm]   {$c\bar{p}\bar{s}$};
-				\node[rectangle,inner sep=0pt] (7) [below of=6]                            {$cp\bar{s}$};
-				\node[rectangle,inner sep=0pt] (8) [below of=5,yshift=-1cm]                {$cps$};
+		    \node[rectangle,inner sep=0pt] (1)                                         {$0_11_20_3$};
+				\node[rectangle,inner sep=0pt] (2) [below of=1]                            {$0_11_21_3$};
+				\node[rectangle,inner sep=0pt] (3) [below of=2]                            {$0_10_21_3$};
+				\node[rectangle,inner sep=0pt] (4) [left of =3,xshift=-1cm,yshift=-0.5cm]  {$0_10_20_3$};
+				\node[rectangle,inner sep=0pt] (5) [below of=3]                            {$1_10_21_3$};
+				\node[rectangle,inner sep=0pt] (6) [left of=5,xshift=-1cm,yshift=-0.5cm]   {$1_10_20_3$};
+				\node[rectangle,inner sep=0pt] (7) [below of=6]                            {$1_11_20_3$};
+				\node[rectangle,inner sep=0pt] (8) [below of=5,yshift=-1cm]                {$1_11_21_3$};
 		
 		    \path[every node/.style={font=\sffamily\small}]
 		      (1) edge (2)
@@ -395,22 +395,22 @@ and security but low price.
 	\hspace{-1cm}
 	\begin{tikzpicture}[->,>=stealth',
 	  level/.style={sibling distance=4cm/#1}]
-	  \node [main node,inner sep=7pt] (1){C}
-	    child {node [main node,inner sep=7pt] (2) {S}
-	      child {node [main node,inner sep=7pt] (3) {P}}
-	      child {node [main node,inner sep=7pt] (4) {P}
-					child {node [rectangle,draw] at (6.3,4.5) {$c>\bar{c}$} edge from parent[draw=none]}
-					child {node [rectangle,draw] at (0.5,3) {$s>\bar{s}$} edge from parent[draw=none]}
-					child {node [rectangle,draw] at (-0.7,0.6) {$p>\bar{p}$} edge from parent[draw=none]}
-					child {node [rectangle,draw] at (0,0.6) {$\bar{p}>p$} edge from parent[draw=none]}
-					child {node [rectangle,draw] at (2.8,3) {$\bar{p}>p$} edge from parent[draw=none]}
-					child {node [rectangle,draw] at (-0.5,0.6) {$s>\bar{s}$} edge from parent[draw=none]}
-					child {node [rectangle,draw] at (0,0.6) {$s>\bar{s}$} edge from parent[draw=none]}
+	  \node [main node,inner sep=4pt] (1){$X_1$}
+	    child {node [main node,inner sep=4pt] (2) {$X_3$}
+	      child {node [main node,inner sep=4pt] (3) {$X_2$}}
+	      child {node [main node,inner sep=4pt] (4) {$X_2$}
+					child {node [rectangle,draw] at (6.3,4.5) {$1_1>0_1$} edge from parent[draw=none]}
+					child {node [rectangle,draw] at (0.35,3) {$1_3>0_3$} edge from parent[draw=none]}
+					child {node [rectangle,draw] at (-0.7,0.6) {$1_2>0_2$} edge from parent[draw=none]}
+					child {node [rectangle,draw] at (0,0.6) {$0_2>1_2$} edge from parent[draw=none]}
+					child {node [rectangle,draw] at (2.95,3) {$0_2>1_2$} edge from parent[draw=none]}
+					child {node [rectangle,draw] at (-0.5,0.6) {$1_3>0_3$} edge from parent[draw=none]}
+					child {node [rectangle,draw] at (0,0.6) {$1_3>0_3$} edge from parent[draw=none]}
 				}
 	    }
-	    child {node [main node,inner sep=7pt] (5) {P}
-	    child {node [main node,inner sep=7pt] (6) {S}}
-	      child {node [main node,inner sep=7pt] (7) {S}}
+	    child {node [main node,inner sep=4pt] (5) {$X_2$}
+	    child {node [main node,inner sep=4pt] (6) {$X_3$}}
+	      child {node [main node,inner sep=4pt] (7) {$X_3$}}
 	    };
 	    \path[every node/.style={font=\sffamily\small}]
 	      (1) edge (2)
@@ -486,27 +486,27 @@ the size of the conditional preference table.
 
   \begin{tikzpicture}[->,>=stealth',node distance=2cm,main node/.style={circle,draw,font=\small}]
         
-    \node[main node,inner sep=7pt] (1) {C};
-    \node[rectangle,draw] at (1.2,0) {$c > \bar{c}$};
+    \node[main node,inner sep=4pt] (1) {$X_1$};
+    \node[rectangle,draw] at (1.3,0) {$1_1>0_1$};
     
-    \node[main node,inner sep=7pt] (2) [below left of=1] {S};
-    \node[rectangle,draw] at (-2.6,-1.4) {$s>\bar{s}$};
+    \node[main node,inner sep=4pt] (2) [below left of=1] {$X_3$};
+    \node[rectangle,draw] at (-2.7,-1.4) {$1_3>0_3$};
 		%\node[rectangle] at (-2.0,-1.4) {$t'$};
     
-    \node[main node,inner sep=7pt] (3) [below of=2] {P};
-    \node[rectangle split, rectangle split parts=2, draw, font=\sffamily\small] at (-2.9,-3.5)
+    \node[main node,inner sep=4pt] (3) [below of=2] {$X_2$};
+    \node[rectangle split, rectangle split parts=2, draw, font=\sffamily\small] at (-3,-3.5)
         {
-          $s:p>\bar{p}$
+          $1_3:1_2>0_2$
           \nodepart{second}
-          $\bar{s}:\bar{p}>p$
+          $0_3:0_2>1_2$
         };
     %\node[rectangle] at (-2,-3.5) {$t$};
     
-    \node[main node,inner sep=7pt] (4) [below right of=1] {P};
-    \node[rectangle,draw] at (2.6,-1.4) {$\bar{p} > p$};
+    \node[main node,inner sep=4pt] (4) [below right of=1] {$X_2$};
+    \node[rectangle,draw] at (2.7,-1.4) {$0_2>1_2$};
     
-    \node[main node,inner sep=7pt] (5) [below of=4] {S};
-    \node[rectangle,draw] at (2.6,-3.4) {$s > \bar{s}$};
+    \node[main node,inner sep=4pt] (5) [below of=4] {$X_3$};
+    \node[rectangle,draw] at (2.7,-3.4) {$1_3>0_3$};
   
     \path[every node/.style={font=\sffamily\small}]
       (1) edge (2)
@@ -526,8 +526,8 @@ An LP-tree consisting of $p$ binary attributes corresponds to a total order over
 $2^p$ outcomes.  For the example in \figref{LPTree}, the total order induced
 by $T$ is
 \begin{center}
-	$cps \succ c\bar{p}s \succ c\bar{p}\bar{s} \succ cp\bar{s} 
-		\succ \bar{c}\bar{p}s \succ \bar{c}\bar{p}\bar{s} \succ \bar{c}ps \succ \bar{c}p\bar{s}$.
+	$1_11_21_3 \succ 1_10_21_3 \succ 1_10_20_3 \succ 1_11_20_3 
+		\succ 0_10_21_3 \succ 0_10_20_3 \succ 0_11_21_3 \succ 0_11_20_3$.
 \end{center}
 
 \noindent{\tbf{Problems and Complexity.}}
@@ -593,6 +593,62 @@ answer-set programming (ASP) \cite{aspataglance} and
 weighted partial maximum satisfiability (WPM) \cite{papado:b:compcomplexity}.
 
 
+\subsection{Preference Trees}
+The model of preference trees, proposed by Fraser \cite{fraser1993,fraser1994}, is a more
+general formalism than LP-trees.
+Using formulas as labels of the nodes, preference trees can represent
+total preorders.
+
+\noindent{\tbf{The Language and the Model.}}
+A preference tree $\PT$ over $\cA$ is a binary tree with each node labeled by
+some preference statement $P$, which is represented by a propositional
+formula over $\cA$.
+
+By associating the root of $\PT$ with $\CD(\cA)$,
+each node in $\PT$ partially orders a subset of $\CD(\cA)$.
+Particularly, if each node $t$ labeled by $\varphi$ 
+is associated with the set $Q_t \subseteq \CD(\cA)$,
+then for the two subtrees of $t$, the left subtree $L_t$
+is associated with outcomes satisfying $\varphi$,
+and the right subtree $R_t$ with outcomes falsifying $\varphi$.
+
+Consider the domain of cars over three binary attributes:
+\tit{Capacity}, \tit{Price} and \tit{Safety},
+with values \tit{high} ($1_1$) and \tit{low} ($0_1$),
+\tit{high} ($1_2$) and \tit{low} ($0_2$), and
+\tit{high} ($1_3$) and \tit{low} ($0_3$), respectively.
+
+\begin{figure}[!ht]
+  \centering
+    \begin{tikzpicture}[->,>=stealth',
+      level/.style={sibling distance=2cm/#1, level distance=38pt}]
+      \node [main node,inner sep=0pt] (1){$X_1\!\! \lor \!\! X_2$}
+        child {node [main node,inner sep=6pt] (2) {$X_1$}
+        }
+        child {node [main node,inner sep=6pt] (5) {$X_3$}
+        };
+    \end{tikzpicture}
+  \caption{A preference tree}
+  \label{fig:fpt}
+\end{figure}
+
+We look at the preference tree in \figref{fpt}.
+The most preferred cars according to this preference tree
+are those with high capacity, followed by the cars with
+high price.  The least preferred cars are those with
+low capacity and price, but with high safety.
+
+\noindent{\tbf{Problems and Complexity.}}
+In the setting of preference trees, the PT-CONSISTENCE
+and the PT-OPTIMALITY-\rom{1}
+problems are trivial as any preference tree induces a
+total preorder.
+Later in the thesis I will show, as our new results \cite{conf/adt15/liuT}, 
+that the PT-DOMINANCE problem is in P, 
+PT-OPTIMALITY-\rom{2} is coNP-complete,
+and PT-OPTIMALITY-\rom{3} is $\deltap{2}$-complete.
+
+
 \subsection{Possibilistic Logic}
 Possibilistic logic \cite{DuboisLP91} describes atomic preferences as weighted propositional
 formulas and uses collections of weighted formulas to specify preference
@@ -639,28 +695,28 @@ is maximal.
 \nop{{\bf [NEED EXAMPLE]}}
 Let us look at the combinatorial domain of cars 
 over three binary attributes
-\tit{Capacity}, \tit{Price}, and \tit{Safety}.
-with values \tit{high} ($c$) and \tit{low} ($\bar{c}$),
-\tit{high} ($p$) and \tit{low} ($\bar{p}$), and
-\tit{high} ($s$) and \tit{low} ($\bar{s}$), respectively.
+\tit{Capacity}, \tit{Price}, and \tit{Safety},
+with values \tit{high} ($1_1$) and \tit{low} ($0_1$),
+\tit{high} ($1_2$) and \tit{low} ($0_2$), and
+\tit{high} ($1_3$) and \tit{low} ($0_3$), respectively.
 Consider that an agent presents the following possibilistic 
 theory $P$ with two preference pairs.
 \begin{center}
-	$P = \{ (c\land s,0.8), (s \Leftrightarrow p,0.6) \}$.
+	$P = \{ (X_1\land X_3,0.8), (X_3 \Leftrightarrow X_2,0.6) \}$.
 \end{center}
 Intuitively, the agent expresses the following preferences.
-She likes the most the cars that falsifies neither $c\land s$
-nor $s \Leftrightarrow p$.
-Her next preferred cars are those falsifying $s \Leftrightarrow p$,
-but satisfying $c\land s$.
+She likes the most the cars that falsifies neither $X_1\land X_3$
+nor $X_3 \Leftrightarrow X_2$.
+Her next preferred cars are those falsifying $X_3 \Leftrightarrow X_2$,
+but satisfying $X_1\land X_3$.
 The least preferred cars for her are the ones falsifying
-$c\land s$.
+$X_1 \land X_3$.
 We now compute the tolerance degrees of outcomes with regard to $P$
 and show the results in \tblref{poss_ex}.
 The theory $P$, thus, induces a total preorder:
 \begin{center}
-	$cps \succ cp\bar{s} \succ cp\bar{s} \approx c\bar{p}\bar{s} \approx 
-		\bar{c} ps \approx \bar{c} p\bar{s} \approx \bar{c} \bar{p} s \approx \bar{c} \bar{p} \bar{s}$.
+	$1_11_21_3 \succ 1_10_21_3 \succ 1_11_20_3 \approx 1_10_20_3 \approx 
+		0_11_21_3 \approx 0_11_20_3 \approx 0_10_21_3 \approx 0_10_20_3$.
 \end{center}
 
 \begin{table}
@@ -670,21 +726,21 @@ The theory $P$, thus, induces a total preorder:
     \hline
     Outcomes                 & $\TD_{(\phi_1,a_1)}(o)$  & $\TD_{(\phi_2,a_2)}(o)$ & $\TD_P(o)$ \\
     \hline \hline
-    $cps$    								 & 1    & 1     & 1 \\
+    $1_11_21_3$    								 & 1    & 1     & 1 \\
     \hline
-    $cp\bar{s}$               & 0.2  & 0.4   & 0.2 \\
+    $1_11_20_3$               & 0.2  & 0.4   & 0.2 \\
     \hline
-    $c\bar{p} s$              & 1    & 0.4   & 0.4 \\
+    $1_10_21_3$              & 1    & 0.4   & 0.4 \\
     \hline
-    $c\bar{p}\bar{s}$          & 0.2  & 1     & 0.2 \\
+    $1_10_20_3$          & 0.2  & 1     & 0.2 \\
     \hline
-    $\bar{c} ps$              & 0.2  & 1     & 0.2 \\
+    $0_11_21_3$              & 0.2  & 1     & 0.2 \\
     \hline
-    $\bar{c} p\bar{s}$         & 0.2  & 0.4   & 0.2 \\
+    $0_11_20_3$         & 0.2  & 0.4   & 0.2 \\
     \hline
-    $\bar{c} \bar{p} s$        & 0.2  & 0.4   & 0.2 \\
+    $0_10_21_3$        & 0.2  & 0.4   & 0.2 \\
     \hline
-    $\bar{c} \bar{p} \bar{s}$   & 0.2  & 1     & 0.2 \\
+    $0_10_20_3$   & 0.2  & 1     & 0.2 \\
     \hline
   \end{tabular}
   \caption{Tolerance degrees with respect to $P$}
@@ -770,15 +826,15 @@ Consider an ASO theory $P=(P_{\gen}, P_{\PREF})$ over the domain
 of cars, where
 \begin{center}
 	$P_{\gen}=\{$
-	$1\{c,\bar{c}\}1.\;\; 1\{p,\bar{p}\}1.\;\; 1\{s,\bar{s}\}1.$
+	$1\{X_1,\neg X_1\}1.\;\; 1\{X_1,\neg X_1\}1.\;\; 1\{X_1,\neg X_1\}1.\}$,
 	%$(c \lor \bar{c}) \land (\neg (c \land \bar{c})). \;$
 	%$(p \lor \bar{p}) \land (\neg (p \land \bar{p})). \;$
 	%$(s \lor \bar{s}) \land (\neg (s \land \bar{s})). \}$
 	and\\
 	$P_{\PREF}=\{r.\;\; r'.\}$,
 \end{center}
-where rule $r$ is $s > \bar{s} \leftarrow c \land p$, 
-and rule $r'$ is $\bar{p} \land s > p \land s > \bar{s}$.
+where rule $r$ is $X_3 > \neg X_3 \leftarrow X_1 \land X_2$, 
+and rule $r'$ is $\neg X_2 \land X_3 > X_2 \land X_3 > \neg X_3$.
 Rule $r$ expresses that, among high-capacity and high-price cars,
 cars of high safety are preferred to cars of low safety.
 Rule $r'$ describes the preference statement that
@@ -789,11 +845,10 @@ We now compute the satisfaction degrees of outcomes with regard to $P$
 and show the results in \tblref{aso_ex}.
 The theory $P$, thus, induces a total preorder:
 \begin{center}
-	$c\bar{p}s \approx \bar{c}\bar{p}s \succ cps \approx \bar{c}ps \succ
-		c\bar{p}\bar{s} \approx \bar{c}p\bar{s} \approx \bar{c}\bar{p}\bar{s} \succ
-		cp\bar{s}$.
+	$1_10_21_3 \approx 0_10_21_3 \succ 1_11_21_3 \approx 0_11_21_3 \succ
+		1_10_20_3 \approx 0_11_20_3 \approx 0_10_20_3 \succ 1_11_20_3$.
 \end{center}
-In this case, we have two optimal outcomes: $c\bar{p}s$ and $\bar{c}\bar{p}s$.
+In this case, we have two optimal outcomes: $1_10_21_3$ and $0_10_21_3$.
 
 \begin{table}
   \centering
@@ -802,21 +857,21 @@ In this case, we have two optimal outcomes: $c\bar{p}s$ and $\bar{c}\bar{p}s$.
     \hline
     Outcomes                 & $d_r(o)$  & $d_{r'}(o)$ \\
     \hline \hline
-    $cps$    								 & 1    & 2   \\
+    $1_11_21_3$    								 & 1    & 2   \\
     \hline
-    $cp\bar{s}$               & 2  & 3  \\
+    $1_11_20_3$               & 2  & 3  \\
     \hline
-    $c\bar{p} s$              & 1    & 1  \\
+    $1_10_21_3$              & 1    & 1  \\
     \hline
-    $c\bar{p}\bar{s}$          & 1  & 3    \\
+    $1_10_20_3$          & 1  & 3    \\
     \hline
-    $\bar{c} ps$              & 1  & 2    \\
+    $0_11_21_3$              & 1  & 2    \\
     \hline
-    $\bar{c} p\bar{s}$         & 1  & 3  \\
+    $0_11_20_3$         & 1  & 3  \\
     \hline
-    $\bar{c} \bar{p} s$        & 1 & 1 \\
+    $0_10_21_3$        & 1 & 1 \\
     \hline
-    $\bar{c} \bar{p} \bar{s}$   & 1  & 3   \\
+    $0_10_20_3$   & 1  & 3   \\
     \hline
   \end{tabular}
   \caption{Satisfaction degrees with respect to $P$}
