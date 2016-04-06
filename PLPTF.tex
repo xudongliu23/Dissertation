@@ -1,21 +1,20 @@
-\tit{Partial lexicographic preference trees}, or \tit{PLP-trees}, 
-is an intuitive formalism that allows compact representation
-of qualitative preferences over combinatorial domains.
-In this work, we review different classifications of PLP-trees,
-and introduce \tit{partial lexicographic preference forests},
-or \tit{PLP-forests}, to reduce the high variance of PLP-trees.
-To support experimentation, we have constructed a preference
-learning library from existing reservoir of classification
-datasets.
-To this end, we implemented an \tit{exact} learner using
-\tit{answer-set programming}, and an \tit{approximation}
-learner using a straightforward greedy heuristic.
-Our empirical results on PLP-trees show that the language offers
-high accuracy, mostly higher than decision trees when training samples
-are small.
-For PLP-forests, we have observed improvements, significant in some cases,
-from single tree models.
-
+\tit{Partial lexicographic preference trees}, or \tit{PLP-trees}, form
+an intuitive formalism for compact representation of qualitative 
+preferences over combinatorial domains. We show that PLP-trees can be 
+used to accurately model preferences arising in practical situations, and 
+that high-accuracy PLP-trees can be effectively computed. We also propose 
+and study a variant of the model based on the concept of a \emph{PLP-forest},
+a \emph{collection} of PLP-trees, where the preference order specified by a 
+PLP-forest is obtained by aggregating the orders of its constituent PLP-trees. 
+The motivation is that learning many small PLP-trees may be faster than 
+learning a single large one, yet still may yield an accurate and, thanks to 
+aggregation, robust representation of the preference order being modeled.
+We propose and study several algorithms learning PLP-trees and PLP-forests.
+To support experimentation, 
+we use several datasets that we adapted to the task of preference learning 
+from existing classification datasets.
+Our results demonstrate the potential of both approaches, with learning 
+PLP-forests showing particularly promising behavior.
 
 \section{Introduction}
 Preferences are everywhere and have been extensively studied
@@ -35,7 +34,7 @@ Learning to predict preferences has been an important task across many
 areas in computer science.
 In label ranking, the task is to learn a model that
 maps a given outcome to a preference ranking of the labels.
-In classification, the problem is to apprximate
+In classification, the problem is to approximate
 a function by learning a hypothesis that maps an instance
 to a classifier; in the preference learning setting,
 the instance would be two outcomes, and the classifier could
@@ -104,7 +103,7 @@ and introduce and define PLP-forests in Section 3.
 Next, in Section 4, we will discuss the datasets in the 
 preference learning library built by us, including where the original 
 datasets were from, and how we constructed
-preferencial datasets for our own use.
+preferential datasets for our own use.
 In Section 5, we will present and analyze experimental
 results obtained by us for learning both
 PLP-trees and PLP-forests.
@@ -582,7 +581,7 @@ those by ``b" (bad).
 \smallskip \noindent \textbf{MammographicMass \ }
 The MammographicMass dataset has 118 outcomes over 10 attributes.
 To generate equivalent and strict examples for the dataset,
-we assume that outcomes labeled by ``0" (benigh) are better than
+we assume that outcomes labeled by ``0" (benign) are better than
 those by ``1" (malignant).
 
 \smallskip \noindent \textbf{Mushroom \ }
@@ -885,7 +884,7 @@ set (70\%) and testing set (30\%), learn a forest (the size of it
 indicated by on the x-axis) where
 each tree is learned from 50 randomly selected examples from the
 training set, and test the forest against the testing set.
-We repeat it 20 times and report the averge accuracy (indicated on
+We repeat it 20 times and report the average accuracy (indicated on
 the y-axis) in the plots.
 Note that the plots also include a straight line representing
 the result for learning a UIUP PLP-tree, had we used all the
@@ -1067,3 +1066,4 @@ conducting experiments involving human subjects.
 We also plan to implement and experiment with other aggregators
 for PLP-forests, and compare with our results using
 the desirable and intuitive majority rule.
+

@@ -54,7 +54,7 @@ formalisms} have been developed over the years including penalty logic
 \cite{de1994penalty}, possibilistic logic \cite{DuboisLP91}, conditional
 preference networks (CP nets) \cite{bbdh03}, preference
 trees \cite{what}, and lexicographic preference trees \cite{what}.%
-\footnote{Kaci \cite{Kaci:Pref} offers a comprehnsive discussion of 
+\footnote{Kaci \cite{Kaci:Pref} offers a comprehensive discussion of 
 preference formalisms.} Second, when votes are given as expressions in 
 some preference formalism, computing the winner or a ``good'' candidate 
 is no longer easy. In fact, it is known that for many preference formalisms 
@@ -190,7 +190,7 @@ consist of.
 
 \begin{remark}
 The restriction to effective implicit positional scoring rules is 
-essential in the context of combinatorial domains. It is beacause an 
+essential in the context of combinatorial domains. It is because an 
 explicit specification of the scoring vector has size equal to the 
 number of alternatives and is exponential in the number of attributes. If 
 it were to be given explicitly, it would have to be a part of input. 
@@ -304,7 +304,7 @@ As before, this set can be computed in time bounded by a polynomial in
 the size of the profile. Let $t=|A|$. If every alternative is in $A$
 (that is, $t=2^p$), then, we compute an alternative with the highest
 $k$-approval score by computing the scores of all alternatives in $A$
-and selcting the one with the highest score. Since the size of $A$ is
+and selecting the one with the highest score. Since the size of $A$ is
 polynomial in the size of the profile, the task takes polynomial time
 (in the size of the profile).
 
@@ -318,7 +318,7 @@ score over all alternatives. Indeed, consider an arbitrary alternative
 $o'$. If $o'\in B$, then $s_k(o)\geq s_k(o)$ (by the way $o$ was selected). 
 Thus, let us assume that $o'\notin B$. Since $|B|> |A|$, there is at least 
 one alternative $o''\in B\setminus A$. As $o''\in B$, $s_k(o)\geq s_k(o'')$.
-Morever, as $o''\notin A$, $s_k(o'')=s'(o'')-s''(o'')=s'(o'')$. Finally,
+Moreover, as $o''\notin A$, $s_k(o'')=s'(o'')-s''(o'')=s'(o'')$. Finally,
 since $o''\in B$ and $o'\notin B$, $s'(o'')\geq s'(o')$. Combining these 
 three inequalities, we obtain that $s_k(o) \geq s'(o')$. Since $s'(o')\geq 
 s'(o')-s'(o'')=s_k(o')$, we get $s_k(o)\geq s_k(o')$. Thus, the claim follows.
@@ -378,14 +378,14 @@ collection $U$ of all subsets of $\{1,\ldots, r\}$ (this collection
 has no more than $2t$ elements and can be constructed in time bounded 
 by a polynomial in $p$ and $t$). Next, we construct $L_r$ by selecting 
 from $U$ its $t+1$ smallest-weight elements. Since $|U|\leq 2t$, this task
-also can be accomplish in polynomila time (in $p$ and $t$).
+also can be accomplish in polynomial time (in $p$ and $t$).
 
 From now on, we construct $L_{r+1},L_{r+2},\ldots L_p$ recursively, as 
 described above. Since each step of the construction can be accomplished
 by the same polynomial-time algorithm (form the collection $L'$, select
 its $t+1$ smallest-weight elements to form the next $L$), and since
-the number of steps is boundend by $p$, the total time needed to construct
-$B$ ($L_p$) is boundend by a polynomial in $p$ and $t$.  
+the number of steps is bounded by $p$, the total time needed to construct
+$B$ ($L_p$) is bounded by a polynomial in $p$ and $t$.  
 \end{proof}
 
 %\begin{cor}
@@ -899,7 +899,7 @@ $a$ to denote $2^{p-1}$.
 Let $o$ be an outcome over $\cI$. 
 %(HALF-BORDA NOT INTRODUCED, NOTATION $s_{\HB}$ NOT INTRODUCED).
 Let $B$ be a UIUP tree over $\cI$, $X_j$ the most important attribute of $B$.
-We define the half-borda score of $o$ in tree $B$, denoted by $s_\HB(B,o)$,
+We define the half-Borda score of $o$ in tree $B$, denoted by $s_\HB(B,o)$,
 to be $0$ if outcome $o$ has the non-preferred value on $X_j$; 
 $s_\Borda(B_{|_{\cI\backslash \{X_j\}}},o_{|_{\cI\backslash \{X_j\}}})$, otherwise.
 %(NEED TO DEFINE BORDA SCORE AHEAD.)
@@ -912,9 +912,9 @@ We now compute the half-Borda score of $o$ according to whether it satisfies
 $X_q$ and $C_i$.
 If $o \models X_q \land \neg C_i$, that is, $o \models X_q \land X_2 \land \neg X_4$, we have
 \begin{align*}
-	s_{\HB}(P_i,o)&=\underbrace{(2^p-1+2^{p-1}+1)*3}_{\text{three copys of }B_{i_1}\text{ and }B_{i_2}}+
+	s_{\HB}(P_i,o)&=\underbrace{(2^p-1+2^{p-1}+1)*3}_{\text{three copies of }B_{i_1}\text{ and }B_{i_2}}+
 								  \underbrace{(0)}_{B'_{i_1}\text{ and }B'_{i_2}}+
-									\underbrace{(2^p-1+2^{p-1}+1)*2}_{\text{two copys of }B''_{i_1}\text{ and }B''_{i_2}} \\
+									\underbrace{(2^p-1+2^{p-1}+1)*2}_{\text{two copies of }B''_{i_1}\text{ and }B''_{i_2}} \\
 								&=15a.
 \end{align*}
 
@@ -922,30 +922,30 @@ If $o \models X_q \land C_i$, we need to consider three cases:
 
 (1). If $o \models X_q \land \neg X_2 \land X_4$, we have
 \begin{align*}
-	s_{\HB}(P_i,o)&=\underbrace{(0)*3}_{\text{three copys of }B_{i_1}\text{ and }B_{i_2}}+
+	s_{\HB}(P_i,o)&=\underbrace{(0)*3}_{\text{three copies of }B_{i_1}\text{ and }B_{i_2}}+
 								  \underbrace{(2^p-1+2^{p-1}+1)}_{B'_{i_1}\text{ and }B'_{i_2}}+
-									\underbrace{(0)*2}_{\text{two copys of }B''_{i_1}\text{ and }B''_{i_2}} \\
+									\underbrace{(0)*2}_{\text{two copies of }B''_{i_1}\text{ and }B''_{i_2}} \\
 								&=3a.
 \end{align*}
 
 (2). If $o \models X_q \land \neg X_2 \land \neg X_4$, we have
 \begin{align*}
-	s_{\HB}(P_i,o)&=\underbrace{(0)*3}_{\text{three copys of }B_{i_1}\text{ and }B_{i_2}}+
+	s_{\HB}(P_i,o)&=\underbrace{(0)*3}_{\text{three copies of }B_{i_1}\text{ and }B_{i_2}}+
 								  \underbrace{(2^{p-1}-1+1)}_{B'_{i_1}\text{ and }B'_{i_2}}+
-									\underbrace{(2^{p-1}-1+1)*2}_{\text{two copys of }B''_{i_1}\text{ and }B''_{i_2}} \\
+									\underbrace{(2^{p-1}-1+1)*2}_{\text{two copies of }B''_{i_1}\text{ and }B''_{i_2}} \\
 								&=3a.
 \end{align*}
 
 (3). If $o \models X_q \land X_2 \land X_4$, we have
 \begin{align*}
-	s_{\HB}(P_i,o)&=\underbrace{(2^{p-1}-1+1)*3}_{\text{three copys of }B_{i_1}\text{ and }B_{i_2}}+
+	s_{\HB}(P_i,o)&=\underbrace{(2^{p-1}-1+1)*3}_{\text{three copies of }B_{i_1}\text{ and }B_{i_2}}+
 								  \underbrace{(0)}_{B'_{i_1}\text{ and }B'_{i_2}}+
-									\underbrace{(0)}_{\text{two copys of }B''_{i_1}\text{ and }B''_{i_2}} \\
+									\underbrace{(0)}_{\text{two copies of }B''_{i_1}\text{ and }B''_{i_2}} \\
 								&=3a.
 \end{align*}
 Thus, for $o \models X_q \land C_i$, we have $s_{\HB}(P_i,o)=3a$.
 
-Similary, we can compute that
+Similarly, we can compute that
 $s_{\HB}(P_i,o)<15a$, if $o \models \neg X_q \land \neg C_i$; and
 $s_{\HB}(P_i,o)<3a$, if $o \models \neg X_q \land C_i$.
 
@@ -1198,7 +1198,7 @@ problem (under the restriction to profiles consisting of CI-UP trees) is
 NP-complete. Indeed, it directly implies that the corresponding variant of
 the winner problem is NP-hard.
  
-As in other arguments befre, the membership in the class NP is evident.
+As in other arguments before, the membership in the class NP is evident.
 Thus, we focus on the hardness part of the argument. To show NP-hardness,
 we construct a reduction from the evaluation problem under Borda when
 profiles consist of CI-UP trees ($\bda$, for short). That problem is 
@@ -1606,7 +1606,7 @@ into Weighted Partial Maximum Satisfiability instances.
 
 \subsection{Weighted Partial Maximum Satisfiability}
 \begin{definition}
-	Let $X$ be a set of boolean variables $\{X_1, \ldots, X_q\}$, 
+	Let $X$ be a set of Boolean variables $\{X_1, \ldots, X_q\}$, 
 	$\Psi$ a set of weighted terms of the form
 	\begin{center}
   $\{(t_1,w_1), \ldots, (t_n,w_n)\}$, 
@@ -1618,11 +1618,11 @@ into Weighted Partial Maximum Satisfiability instances.
 \end{definition}
 
 \begin{definition}
-	Let $X$ be a set of boolean variables $\{X_1, \ldots, X_p\}$, 
+	Let $X$ be a set of Boolean variables $\{X_1, \ldots, X_p\}$, 
 	a \textit{weighted partial formula} $\Phi$ 
 	\footnote{This definition is slightly adapted of the commonly used
 	\cite{ansotegui2010new,ansotegui2009solving}.}
-	is a multiset of weighted clauses over $X$
+	is a multi-set of weighted clauses over $X$
 	of the form 
 	\begin{center}
   $\{(c_1,w_1), \ldots, (c_n,w_n), (c_{n+1},w_{n+1}), \ldots, (c_{n+m},w_{n+m})\}$, 
@@ -1633,13 +1633,13 @@ into Weighted Partial Maximum Satisfiability instances.
 \end{definition}
 
 \begin{definition}
-	Let $X$ be a set of boolean variables $\{X_1, \ldots, X_p\}$, 
+	Let $X$ be a set of Boolean variables $\{X_1, \ldots, X_p\}$, 
 	$\Phi$ a weighted partial formula,
   the \textit{Weighted Partial Maximum Satisfiability} (WPM) problem 
 	is to find an assignment of $X$ that 
 	maximizes the sum $SW$ of
 	weights of satisfied clauses in $\Phi$.
-	If $SW < m*\sigma$, it means that at least one hard clause is fasified
+	If $SW < m*\sigma$, it means that at least one hard clause is falsified
 	and we say that $\Phi$ is \textit{unsatisfiable}.
 \end{definition}
 
@@ -1664,7 +1664,7 @@ alphabet $X_\Psi$ is a solution to $\Psi$.
 	to $\Psi$.
 \end{thm}
 \begin{proof}
-The tranlation algorithm is detailed in \algref{wtm_wpm}.
+The translation algorithm is detailed in \algref{wtm_wpm}.
 
 Let $X_\Psi$ be $\{X_1,\ldots,X_q\}$,
 $X_\Phi$ be $\{X_1,\ldots,X_q,C_1,\ldots,C_n\}$.
@@ -1706,7 +1706,7 @@ Thus, we know $v|_{X_\Psi}$ is a solution to the original WTM instance $\Psi$.
 
 
 \subsection{Encoding Borda problems in WTM and WPM}
-The LP-tree in \figref{LPTree} under Borda is tranlated to a WTM instance
+The LP-tree in \figref{LPTree} under Borda is translated to a WTM instance
 in \figref{borda_wtm}.
 \begin{figure}[ht]
    \small
@@ -2073,7 +2073,7 @@ linear in the number of attributes.}
 
 The algorithm starts by randomly selecting attributes to label the nodes on 
 the path from the root to the splitting node and then, similarly, labels 
-the nodes on each of the two paths (different labelings can be produced
+the nodes on each of the two paths (different labeling can be produced
 for each of them). Then, for each non-root node, the algorithm selects at random
 one or two parent nodes (as appropriate based on the location of the node).
 Finally, the algorithm decides 
@@ -2081,7 +2081,7 @@ local preferences (for each combination of values of the parent attributes)
 randomly picking one over the other. In each step, all 
 possible choices are equally likely. We call CI-CP LP-trees satisfying 
 these restrictions \emph{simple}. Each simple LP-tree has size 
-linear in $p$.  \figref{MSCICP_tree} depicts a CI-CP tree of 
+linear in $p$.  \figref{MS CICP_tree} depicts a CI-CP tree of 
 4 attributes in this class. 
 \begin{figure}
 \centering

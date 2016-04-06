@@ -266,7 +266,7 @@ Then, we show its semantics, i.e., what it means for a formula to be true or fal
 
 Propositions are represented as \tit{well-formed formulas}, or simply \tit{formulas} when no ambiguity.
 Formulas are built from an alphabet of truth symbols ($\top$ and $\bot$),
-variables (uppercase letters), connectives ($\neg$, $\land$, $\lor$, and $\rar$), and parantheses.
+variables (uppercase letters), connectives ($\neg$, $\land$, $\lor$, and $\rar$), and parentheses.
 A \tit{formula} is either a truth symbol, a variable, or, if $\varphi$ and $\psi$ are formulas,
 $(\neg \varphi)$, $(\varphi \lor \psi)$, $(\varphi \land \psi)$, and
 $(\varphi \rar \psi)$. (Outside pair of parentheses are often left out.
@@ -321,7 +321,7 @@ and those of \tit{non-binary} attributes.
 For a combinatorial domain of binary attributes, such attributes correspond
 to variables in a language of propositional logic, and the outcomes
 from such a combinatorial domain correspond to truth assignments for that
-language. To establish the correpondence, it suffices to select one
+language. To establish the correspondence, it suffices to select one
 value in the domain of each attribute as \tit{True} (or simply, $1$) 
 and the other one as \tit{False} (or simply, $0$).
 Thus, propositional formulas provide a convenient way of representing
@@ -333,7 +333,7 @@ corresponding to attributes
 \tit{Capacity}, \tit{Price}, and \tit{Safety}.
 We then set that the variables $X_1$, $X_2$ and $X_3$ being 
 \tit{True} ($1_1$, $1_2$ and $1_3$, respectively) represent \tit{high} in
-the attributes \tit{Capacity}, \tit{Price} and \tit{Safety}, repectively.
+the attributes \tit{Capacity}, \tit{Price} and \tit{Safety}, respectively.
 Immediately, the variables being \tit{False} ($0_1$, $0_2$ and $0_3$, respectively)
 means \tit{low} in the attributes.
 Hence, we now can represent a car with low capacity, high price and low
@@ -421,7 +421,7 @@ hierarchy, and $\bPSPACE$.
 
 \subsection{$\bP$, $\bNP$ and $\bCoNP$}
 What differentiates the two classes $\bP$ and $\bNP$ is whether the decision problem
-can be solved by a deterministic or a nondeterministic TM. \cite{Arora:Comput}
+can be solved by a deterministic or a non-deterministic TM. \cite{Arora:Comput}
 %A \tit{deterministic} TM is a TM that, for any given input, always proceeds the
 %computation in exactly one way.
 %A \tit{nondeterministic} TM, however, consists of two phases:
@@ -435,14 +435,14 @@ can be solved by a deterministic or a nondeterministic TM. \cite{Arora:Comput}
 %later section.
 Let $f(n)$ be the computation time to solve a problem of input size $n$.
 We denote by $\bDTIME(f(n))$ ($\bNTIME(f(n))$) a set of decision problems 
-for which there exists a deterministic (nondeterministic, respectively) TM
+for which there exists a deterministic (non-deterministic, respectively) TM
 that solves any instance of the problem in time $f(n)$.
 We now define the two classes as follows.
 
 \begin{definition}
 	[Garey and Johnson, 1979]
 	The class $\bP$ ($\bNP$) consists of the decision problems that can be solved using a 
-	deterministic (nondeterministic, respectively) TM 
+	deterministic (non-deterministic, respectively) TM 
 	in time polynomial in the size of the input.  Formally, we have
 	\begin{center}
 		$\bP = \bigcup_{d \in \bbN} \bDTIME(n^d)$,\\
@@ -517,7 +517,7 @@ that generalize the classes $\bP$, $\bNP$ and $\bCoNP$ to oracles.
 	We first define that $\deltap{0} = \sigmap{0} = \pip{0} = \bP$.
 	Then for $i \geq 0$, we define $\deltap{i+1}$ ($\sigmap{i+1}$) 
 	to consist of decision problems solvable
-	by a polynomial-time deterministic (nondeterministic, respectively) TM 
+	by a polynomial-time deterministic (non-deterministic, respectively) TM 
 	with an oracle for some $\sigmap{i}$-complete problem.
 	We denote by $\pip{i+1}$ the set of decision problems that are complements
 	of problems in $\sigmap{i+1}$.
@@ -527,7 +527,7 @@ that generalize the classes $\bP$, $\bNP$ and $\bCoNP$ to oracles.
 %		$\pip{i+1} = \bCoNP^{\sigmap{i}}$.
 %	\end{center}
 \end{definition}
-For example, $\sigmap{2}$ is the class of decision problems solvable by a nondeterministic
+For example, $\sigmap{2}$ is the class of decision problems solvable by a non-deterministic
 TM in polynomial time with an oracle for some $\bNP$-complete problem.
 
 One may notice that the classes $\sigmap{i}$ and $\pip{i}$ consist
