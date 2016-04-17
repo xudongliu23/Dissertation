@@ -602,12 +602,13 @@ that (1) the greedy algorithm already achieves accuracy exceeding 85\%
 on six datasets (notably, accuracy of $95.5\%$ on Wine); and (2) the 
 greedy algorithm performs very close to the best-agreement method, with the
 difference within 2 percentage points on \emph{all but two datasets}, Ionosphere and 
-Mushroom. Examining the learning curves in \figref{trees1}(a) and (d) (they are 
-representative of 10 out of 12 datasets --- all but Ionosphere and Mushroom), we observe 
-that the greedy algorithm works well compared with the best-agreement method
-across the range of the training set sizes. The learning curves for the two 
+Mushroom. Examining the learning curves in \figref{trees1}, we observe 
+that, on all datasets but Ionosphere and Mushroom,
+the greedy algorithm works well compared with the best-agreement method
+across the range of the training set sizes. 
+The learning curves for the two 
 datasets on which the greedy method lags behind the best-agreement one are 
-shown in \figref{trees1}(b) and (c).
+shown in \figref{I1} and \figref{Mush1}.
 
 %What we have learned from \figref{trees1}:
 %\begin{enumerate}
@@ -1324,7 +1325,7 @@ particularly significant.
 
 We also studied how the accuracy of PLP-forests changes with the number of
 their PLP-trees. In \figref{forests2}, we show the results for UIUP and CICP 
-PLP-forests for selected datasets.
+PLP-forests for all twelve datasets.
 
 %\begin{figure}
 %	\centering
