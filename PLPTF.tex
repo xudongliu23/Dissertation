@@ -47,27 +47,11 @@ learning PLP-trees have yet been proposed even though
 PLP-trees retain the simplicity of LP-trees but also offer flexibility
 that makes them less sensitive to overfitting. 
 
-In this work, we study the problem of learning PLP-trees proposed by 
-Liu and Truszczynski \cite{conf/aaai15/LiuT} as a generalization 
-of LP-trees \cite{booth:learningLP} and lexicographic strategies 
-\cite{schmitt2006complexity}. They identified four classes of PLP-trees to 
-capture different types of preference orders: \tit{unconditional importance 
-and unconditional preference} ($\UI$$\UP$) trees, \tit{unconditional 
-importance and conditional preference} ($\UI$$\CP$) trees, \tit{conditional 
-importance and unconditional preference} ($\CI$$\UP$) trees, and 
-\tit{conditional importance and conditional preference} ($\CI$$\CP$) trees. 
-
-The computational complexity of learning PLP-trees is well understood. 
-Schmitt and Martegnon \cite{schmitt2006complexity} showed that for 
-lexicographic strategies, a special case of $\UI$$\UP$ PLP-trees, computing 
-a lexicographic strategy maximizing the number of correctly handled 
-examples is NP-hard. Liu and Truszczynski \cite{conf/aaai15/LiuT} extended 
-this result to all four classes of PLP-trees.
-
-In this work, we address the problem of practicality of PLP-trees as 
+In this chapter, we address the problem of practicality of PLP-trees as 
 a preference representation formalism. To this end, we introduce several 
-best-agreement and approximate algorithms to learn PLP-trees (of the four types
-above). We show experimentally that they are effective on various domains
+best-agreement and approximate algorithms to learn PLP-trees of the four classes:
+UIUP, UICP, CIUP, and CICP (as discussed in \chref{learningPLPT}).
+We show experimentally that they are effective on various domains
 and datasets and generate trees that accurately approximate the preference 
 order being modeled. To support our experiments, following Br{\"a}uning 
 and Eyke \cite{brauning2012learning}, we generated a library of datasets 
@@ -118,11 +102,11 @@ This chapter is organized as follows. In \secref{trees}, we begin with reviewing
 PLP-trees and their classification, extending them to domains with arbitrary
 multi-valued (that is, not necessarily binary) attributes. We also recall 
 the complexity of the problem to learn PLP-trees \cite{conf/aaai15/LiuT}. 
-We also discuss in \secref{library} the preference learning library that we
-use in our experiments. Next, in \secref{algs}, we discuss algorithms to
+We also discuss the preference learning library that we
+use in our experiments. Next, we discuss algorithms to
 learn PLP-trees. We consider two types of algorithms --- finding best-agreement
 PLP-trees and finding PLP-trees based on the greedy heuristics. 
-We then present in \secref{exp_trees}
+We then present
 and discuss empirical results on the performance of our PLP-tree learning 
 algorithms. In \secref{forests}, we introduce PLP-forests and specify the
 pairwise majority rule to aggregate trees in a PLP-forest. This is followed by 
@@ -380,7 +364,7 @@ by ``3."
 
 \subsection{Algorithms}
 \label{sec:algs}
-In the work we propose and evaluate both best-agreement and 
+We propose and evaluate both best-agreement and 
 greedy algorithms for the \tsc{MaxLearn} problem. 
 For these algorithms and experiments, we focus on solving the
 \tsc{MaxLearn} problem where the given the set of examples
@@ -1472,7 +1456,7 @@ of trees surpass individual trees in accuracy).
 %the most general class (CICP) across all forest sizes.
 
 \section{Conclusions}
-In this work, we considered problems concerning learning
+In this chapter, we presented results considering problems concerning learning
 \tit{partial lexicographic preference trees}, or \tit{PLP-trees}.
 We showed that PLP-trees are expressive preference models that can be
 used to accurately model preferences arising in practical situations, and

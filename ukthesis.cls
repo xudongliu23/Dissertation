@@ -242,7 +242,7 @@
       \end{center}
       }
     \begin{center}
-      \vspace{-.75\baselineskip}
+      \vspace{-.75\baselineskip} \vspace{-0.5cm}
       \@thetitle
     \end{center}
     \@theabstract
@@ -259,8 +259,8 @@
     \hspace*{\fill}
     Date:\underline{\parbox{.3\linewidth}{\if@sigs\hfill\@date\ \hfill
     \else\hfill\fi}}
-    \par
-    \rule{0pt}{\@abdateline+\baselineskip}
+    %\par
+    %\rule{0pt}{\@abdateline+\baselineskip}
   %\end{titlingpage}
     \newpage
 }
@@ -470,11 +470,11 @@
   \begin{titlingpage}
   %\makeabcoverpage
   \maketitlepage
-  %\makeabstractpage
+  \makeabstractpage
   \makeapprovalpage
-  \makerulespage
-  \makecoverpage
-  \maketitlepage
+  %\makerulespage
+  %\makecoverpage
+  %\maketitlepage
   \end{titlingpage}
   \setcounter{page}{3}
   %\pagestyle{plain}

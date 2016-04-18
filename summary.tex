@@ -1,60 +1,112 @@
-I now discuss my ongoing research work, as well as point out directions of
-future research.
-My ongoing research work that, once done, would be included in 
-the final version of my dissertation contains the following components:
+%I now discuss my ongoing research work, as well as point out directions of
+%future research.
+%My ongoing research work that, once done, would be included in 
+%the final version of my dissertation contains the following components:
+%
+%\begin{enumerate}  \itemsep -4pt
+%	\item Preference learning and approximation:
+%		\begin{itemize} \itemsep -5pt
+%			\item Learning forests of lexicographic preference trees.
+%			\item Approximating CP-nets using lexicographic preference trees.
+%		\end{itemize}
+%	\item Preference reasoning:
+%		\begin{itemize} \itemsep -5pt
+%			\item Aggregating partial lexicographic preference trees (PLP-trees).
+%			\item Preference misrepresenting in elections where votes are LP-trees or PLP-trees.
+%		\end{itemize}
+%\end{enumerate}
 
-\begin{enumerate}  \itemsep -4pt
-	\item Preference learning and approximation:
-		\begin{itemize} \itemsep -5pt
-			\item Learning forests of lexicographic preference trees.
-			\item Approximating CP-nets using lexicographic preference trees.
-		\end{itemize}
-	\item Preference reasoning:
-		\begin{itemize} \itemsep -5pt
-			\item Aggregating partial lexicographic preference trees (PLP-trees).
-			\item Preference misrepresenting in elections where votes are LP-trees or PLP-trees.
-		\end{itemize}
-\end{enumerate}
+The research in my thesis is about various aspects of preferences:
+preference modeling, preference learning, and preference reasoning.
+Preferences is a major research component studied
+in artificial intelligence (AI) and decision theory, and is closely related to the 
+social choice theory considered by economists and political scientists. 
+In my thesis, I 
+explore emerging connections between preferences in AI and social choice theory. 
+Most of my research is on qualitative preference representations 
+that extend and combine
+existing formalisms such as  
+lexicographic preference trees (LP-trees) \cite{booth:learningLP}, 
+answer-set optimization theories (ASO-theories) \cite{Brewka:ASO}, 
+possibilistic logic \cite{DuboisLP91}, and 
+conditional preference networks (CP-nets) \cite{boutilier2004cp};
+on learning problems that aim at discovering qualitative preference 
+models and predictive preference information from practical data; and on
+preference reasoning problems centered around qualitative preference optimization 
+and aggregation methods.
+Applications of my research include recommender systems, decision support tools,
+multi-agent systems, and Internet trading and marketing platforms.
 
-Regarding future research directions, I will establish a research program of data-driven
-preference engineering, including data-driven preference learning, and preference
-reasoning and applications.
+%Regarding future research directions, I will establish a research program of data-driven
+%preference engineering, including data-driven preference learning, and preference
+%reasoning and applications.
+%
+%For data-driven preference learning, I plan to study methods and algorithms below.
+%\begin{enumerate}
+%	\item Recommender Systems\cite{adomavicius2005toward}:
+%		\begin{itemize}
+%			\item Collaborative
+%			\item Content-based
+%			\item Hybrid
+%		\end{itemize}
+%	\item Machine Learning (fitting function):
+%		\begin{itemize}
+%			\item Supervised learning (e.g., decision trees, random forests)
+%			\item Label ranking\cite{hullermeier2008label}
+%		\end{itemize}
+%	\item Model-based Learning (learning interpretable decision models):
+%		\begin{itemize}
+%			\item Preference Elicitation (Human-in-the-Loop)
+%			\item Conditional Preference Networks, Preference Trees
+%			\item Stochastic Models (e.g., Choquet integral\cite{tehrani2011choquistic}, 
+%						TOPSIS-like models\cite{agarwal2014preference})
+%		\end{itemize}
+%\end{enumerate}
+%
+%For preference reasoning and applications, I propose to investigate both theoretic
+%and practical problems in areas as follows.
+%\begin{enumerate}
+%	\item Social Choice and Welfare\cite{arrow2010handbook,Brandt:COMSOC}:
+%		\begin{itemize}
+%			\item Voting
+%			\item Fair division
+%			\item Strategy-proof Social Choice
+%		\end{itemize}
+%	\item Automated Planning and Scheduling\cite{son2006planning,bienvenu2011specifying,bast2015route}:
+%		\begin{itemize}
+%			\item Travel scheduling
+%			\item Manufacturing
+%			\item Traffic control
+%		\end{itemize}
+%\end{enumerate}
+\section{Future Work}
+My long-term research goal is to study computational problems related to preferences, and 
+develop applications that help people or software agents make better decisions.
+Particularly, I intend to embed theories and practices on preferences into areas including
+data science, and automated planning and scheduling.
 
-For data-driven preference learning, I plan to study methods and algorithms below.
-\begin{enumerate}
-	\item Recommender Systems\cite{adomavicius2005toward}:
-		\begin{itemize}
-			\item Collaborative
-			\item Content-based
-			\item Hybrid
-		\end{itemize}
-	\item Machine Learning (fitting function):
-		\begin{itemize}
-			\item Supervised learning (e.g., decision trees, random forests)
-			\item Label ranking\cite{hullermeier2008label}
-		\end{itemize}
-	\item Model-based Learning (learning interpretable decision models):
-		\begin{itemize}
-			\item Preference Elicitation (Human-in-the-Loop)
-			\item Conditional Preference Networks, Preference Trees
-			\item Stochastic Models (e.g., Choquet integral\cite{tehrani2011choquistic}, 
-						TOPSIS-like models\cite{agarwal2014preference})
-		\end{itemize}
-\end{enumerate}
+\smallskip \noindent \textbf{Data science \  } Discovering preference 
+models from large data sets and reasoning about them 
+can be of great value when decisions need to be customized for individual users.
+For instance, e-Commerce companies want to make quality marketing decisions
+on what customers would be interested in purchasing at a future time.
+I propose to introduce contextual information and human-in-the-loop into existing learning methods
+(e.g., collaborative filtering and content-based filtering used in recommender systems), 
+in order to provide context-aware and user-centered predictions.
+On the collective level, I mean to leverage social science methods (e.g., voting rules)
+to combine individual models for joint decisions.
+I plan to build preferential data sets and develop predictive systems, with collaborators
+or sponsors from fields 
+such as machine learning, computer vision, psychology, cognitive science, and behavioral science.
 
-For preference reasoning and applications, I propose to investigate both theoretic
-and practical problems in areas as follows.
-\begin{enumerate}
-	\item Social Choice and Welfare\cite{arrow2010handbook,Brandt:COMSOC}:
-		\begin{itemize}
-			\item Voting
-			\item Fair division
-			\item Strategy-proof Social Choice
-		\end{itemize}
-	\item Automated Planning and Scheduling\cite{son2006planning,bienvenu2011specifying,bast2015route}:
-		\begin{itemize}
-			\item Travel scheduling
-			\item Manufacturing
-			\item Traffic control
-		\end{itemize}
-\end{enumerate}
+\smallskip \noindent \textbf{Automated planning and scheduling \  }
+In planning and scheduling, constraints and preferences of agents may be more faceted than simply
+``fastest" or ``cheapest."
+I propose to design mathematical models allowing
+intuitive representations of these individual accommodations. 
+Furthermore, I intend to implement systems
+that automate the acquisition of user constraints and preferences, 
+and the computation of optimal plans or schedules 
+based on these user-specific information.
+This line of research potentially promotes collaboration with researchers of expertise in
+travel scheduling, manufacturing, and traffic control.
