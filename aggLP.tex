@@ -55,7 +55,7 @@ formalisms} have been developed over the years including penalty logic
 preference networks (CP nets) \cite{bbdh03}, preference
 trees \cite{fraser1994ordinal,liu2015reasoning}, 
 and lexicographic preference trees \cite{booth:learningLP}.%
-\footnote{Kaci \cite{Kaci:Pref} offers a comprehnsive discussion of 
+\footnote{Kaci \cite{Kaci:Pref} offers a comprehensive discussion of 
 preference formalisms.} Second, when votes are given as expressions in 
 some preference formalism, computing the winner or a ``good'' candidate 
 is no longer easy. In fact, it is known that for many preference formalisms 
@@ -400,6 +400,7 @@ and results in \tblref{kApp_comp_b} were obtained by others
 \cite{lang:aggLP}.
 \begin{table}
 	\centering
+	\caption{$k$-Approval}
   \begin{subfigure}[b]{0.5\textwidth}
 		\centering
 		\begin{tabular}[0.5\textwidth]{ | c | c | c | }
@@ -428,7 +429,6 @@ and results in \tblref{kApp_comp_b} were obtained by others
 		\caption{$k=c\cdot 2^{p-M}$ and $k \not = 2^{p-1}$}
 		\label{tbl:kApp_comp_b}
 	\end{subfigure}
-	\caption{$k$-Approval}
 	\label{tbl:kApp_comp}
 \end{table}
 
@@ -797,6 +797,7 @@ For the $(k,l)$-approval rule, we capture our results as \tblref{klApp_comp}.
 
 \begin{table}
 	\centering
+	\caption{$(k,l)$-Approval}
   \begin{subfigure}[b]{0.5\textwidth}
 		\centering
 		\begin{tabular}[0.5\textwidth]{ | c | c | c | }
@@ -825,7 +826,6 @@ For the $(k,l)$-approval rule, we capture our results as \tblref{klApp_comp}.
 		\label{tbl:klApp_comp_b}
 		\caption{$k=l=2^{p-c}$ and $1 < c < p$}
 	\end{subfigure}
-	\caption{$(k,l)$-Approval}
 	\label{tbl:klApp_comp}
 \end{table}
 
@@ -1230,6 +1230,7 @@ where \tblref{bBorda_comp_b} shows existing results by others
 
 \begin{table}
 	\centering
+	\caption{$b$-Borda}
   \begin{subfigure}[b]{0.5\textwidth}
 		\centering
 		\begin{tabular}[0.5\textwidth]{ | c | c | c | }
@@ -1258,7 +1259,6 @@ where \tblref{bBorda_comp_b} shows existing results by others
 		\caption{$b=2^{p-c}-1$ and $1 \leq c < p$}
 		\label{tbl:bBorda_comp_b}
 	\end{subfigure}
-	\caption{$b$-Borda}
 	\label{tbl:bBorda_comp}
 \end{table}
 
@@ -1559,7 +1559,7 @@ logic program in \figref{LPTreeASP_aux}.
   \label{fig:LPTreeASP_aux}
 \end{figure}
 
-We now present the encoding of the $k$-Apprvoal evaluation problem in \emph{clingo}
+We now present the encoding of the $k$-Approval evaluation problem in \emph{clingo}
 (\figref{clingo:kEval}), where $k=5$.
 \begin{figure}[ht]
   \centering
