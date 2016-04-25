@@ -1,27 +1,9 @@
-%I now discuss my ongoing research work, as well as point out directions of
-%future research.
-%My ongoing research work that, once done, would be included in 
-%the final version of my dissertation contains the following components:
-%
-%\begin{enumerate}  \itemsep -4pt
-%	\item Preference learning and approximation:
-%		\begin{itemize} \itemsep -5pt
-%			\item Learning forests of lexicographic preference trees.
-%			\item Approximating CP-nets using lexicographic preference trees.
-%		\end{itemize}
-%	\item Preference reasoning:
-%		\begin{itemize} \itemsep -5pt
-%			\item Aggregating partial lexicographic preference trees (PLP-trees).
-%			\item Preference misrepresenting in elections where votes are LP-trees or PLP-trees.
-%		\end{itemize}
-%\end{enumerate}
-
-The research in my thesis is about various aspects of preferences:
+The research in my dissertation is about various aspects of preferences:
 preference modeling, preference learning, and preference reasoning.
 Preferences is a major research component studied
 in artificial intelligence (AI) and decision theory, and is closely related to the 
 social choice theory considered by economists and political scientists. 
-In my thesis, I 
+In my dissertation, I 
 explore emerging connections between preferences in AI and social choice theory. 
 Most of my research is on qualitative preference representations 
 that extend and combine
@@ -37,49 +19,38 @@ and aggregation methods.
 Applications of my research include recommender systems, decision support tools,
 multi-agent systems, and Internet trading and marketing platforms.
 
-%Regarding future research directions, I will establish a research program of data-driven
-%preference engineering, including data-driven preference learning, and preference
-%reasoning and applications.
-%
-%For data-driven preference learning, I plan to study methods and algorithms below.
-%\begin{enumerate}
-%	\item Recommender Systems\cite{adomavicius2005toward}:
-%		\begin{itemize}
-%			\item Collaborative
-%			\item Content-based
-%			\item Hybrid
-%		\end{itemize}
-%	\item Machine Learning (fitting function):
-%		\begin{itemize}
-%			\item Supervised learning (e.g., decision trees, random forests)
-%			\item Label ranking\cite{hullermeier2008label}
-%		\end{itemize}
-%	\item Model-based Learning (learning interpretable decision models):
-%		\begin{itemize}
-%			\item Preference Elicitation (Human-in-the-Loop)
-%			\item Conditional Preference Networks, Preference Trees
-%			\item Stochastic Models (e.g., Choquet integral\cite{tehrani2011choquistic}, 
-%						TOPSIS-like models\cite{agarwal2014preference})
-%		\end{itemize}
-%\end{enumerate}
-%
-%For preference reasoning and applications, I propose to investigate both theoretic
-%and practical problems in areas as follows.
-%\begin{enumerate}
-%	\item Social Choice and Welfare\cite{arrow2010handbook,Brandt:COMSOC}:
-%		\begin{itemize}
-%			\item Voting
-%			\item Fair division
-%			\item Strategy-proof Social Choice
-%		\end{itemize}
-%	\item Automated Planning and Scheduling\cite{son2006planning,bienvenu2011specifying,bast2015route}:
-%		\begin{itemize}
-%			\item Travel scheduling
-%			\item Manufacturing
-%			\item Traffic control
-%		\end{itemize}
-%\end{enumerate}
-\section{Future Work}
+I introduced partial lexicographic preference trees (PLP-trees) extending
+the language of lexicographic preference trees (LP-trees).
+I also proposed preference trees (P-trees) as a generalization
+of PLP-trees.
+Both PLP-trees and P-trees are intuitive qualitative preference languages
+over combinatorial domains, and often compactly represent total preorders
+over outcomes in such large domains.
+I studied the expressive power of the two languages and showed that
+they are closely related to existing preference formalisms.
+
+For preference learning, my research focused on learning PLP-trees.
+I studied various learning problems for PLP-trees and obtained
+results on these problems both theoretically and experimentally.
+My results showed that PLP-trees are highly accurate in modeling 
+preferences arising in
+practice, and can be effectively learned.
+To reduce the overfitting of PLP-trees, I introduced the formalism
+of PLP-forests, collections of PLP-trees.
+My empirical results on learning PLP-forests showed that PLP-forests
+are more expressive and accurate than PLP-trees.
+
+Finally, for preference reasoning, I studied preference aggregation problems
+(e.g., winner determination) in the setting of LP-trees, a special case
+of PLP-trees that represent total orders.
+Applying aggregation methods in social choice theory, I showed that
+the aggregation problems are generally NP-hard.
+For these hard problems, my empirical study using answer-set programming
+(ASP) tools, designed specifically for solving NP-hard problems, showed
+that ASP solvers are effective on large instances.
+
+\section{Furture Work}
+
 My long-term research goal is to study computational problems related to preferences, and 
 develop applications that help people or software agents make better decisions.
 Particularly, I intend to embed theories and practices on preferences into areas including
