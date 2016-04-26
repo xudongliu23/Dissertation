@@ -207,6 +207,8 @@ examples, respectively.
 \begin{table}
         \centering
         \small
+        \caption{Classification datasets in UCI Machine Learning Repository 
+								 used to generate preference datasets}
         \begin{tabular}{ |c||c| }
                 \hline
                 Preference Datasets    & Original Datasets in UCI MLR \\
@@ -236,8 +238,6 @@ examples, respectively.
                 Wine                   & Wine \\
                 \hline
         \end{tabular}
-        \caption{Classification datasets in UCI Machine Learning Repository 
-								 used to generate preference datasets}
         \label{tbl:class}
 \end{table}
 
@@ -339,6 +339,7 @@ by ``3."
 \begin{table}
 	\centering
 	\small
+	\caption{Description of datasets in the library}
 	\begin{tabular}{ |c||c|c|c|c| } 
 		\hline
 		Dataset          & $p$  & $|\cX|$ & $|\cE^\succ|$ & $|\cE^\approx|$ \\
@@ -357,7 +358,6 @@ by ``3."
 		Wine               & 10   & 177 & 10,322 & 5,254 \\
 		\hline
 	\end{tabular}
-	\caption{Description of datasets in the library}
 	\label{tbl:description}
 \end{table}
 
@@ -627,6 +627,10 @@ shown in \figref{I1} and \figref{Mush1}.
 \begin{table}
   \centering
   \small
+  \caption{Accuracy (percentage of correctly handled testing examples)
+					 for UIUP PLP-trees learned using the best-agreement and
+					 the greedy methods on the learning 
+					 data (250 of $\cE^\succ$)}
   \begin{tabular}{ |c||c|c| }
     \hline
     Dataset          & BA-UIUP & G-UIUP \\
@@ -645,10 +649,6 @@ shown in \figref{I1} and \figref{Mush1}.
     Wine               & 96.0   & 95.5     \\ \hline
     %WAvg             & 84.2   & 83.6     \\ \hline
   \end{tabular}
-  \caption{Accuracy (percentage of correctly handled testing examples)
-					 for UIUP PLP-trees learned using the best-agreement and
-					 the greedy methods on the learning 
-					 data (250 of $\cE^\succ$)}
   \label{tbl:trees1}
 \end{table}
 
@@ -794,6 +794,10 @@ sets.)
 \begin{table}
   \centering
   \small
+  \caption{Accuracy percents on the testing data (30\% of $\cE^\succ$)
+					 for all four classes of PLP-trees, using models learned
+					 by the greedy algorithm from the learning 
+					 data (the other 70\% of $\cE^\succ$)}
 	\setlength\tabcolsep{6pt}
   %\begin{tabular}{ |c||c|c|r@{ | }l|c| }
   \begin{tabular}{ |c||c|c|c|c|c| }
@@ -815,10 +819,6 @@ sets.)
     Wine                 & 95.5 & 97.8   & 97.8  & 97.5  & 97.8   \\ \hline
     %WAvg               & 85.4 & 85.7   & 85.6  & 85.8  & 86.1   \\ \hline
   \end{tabular}
-  \caption{Accuracy percents on the testing data (30\% of $\cE^\succ$)
-					 for all four classes of PLP-trees, using models learned
-					 by the greedy algorithm from the learning 
-					 data (the other 70\% of $\cE^\succ$)}
   \label{tbl:trees2}
 \end{table}
 
@@ -889,6 +889,8 @@ used (70\% of all examples).
 \begin{table}
   \centering
   \small
+  \caption{Maximum sizes of trees for all the classes and the 
+					 training sample sizes for all datasets}
 	\setlength\tabcolsep{6pt}
   \begin{tabular}{ |c||c|c|c|c| }
     \hline
@@ -908,8 +910,6 @@ used (70\% of all examples).
     Wine                & 10   & 37     & 349,525  & 7,225   \\ \hline
     %Avg               & 8.9  & 29     & 111,646  & 104,359 \\ \hline
   \end{tabular}
-  \caption{Maximum sizes of trees for all the classes and the 
-					 training sample sizes for all datasets}
   \label{tbl:trees_max_size}
 \end{table}
 
@@ -973,6 +973,8 @@ agents build them level by level in a breadth-first fashion.
 \begin{table}
   \centering
   \small
+  \caption{Sizes of trees learned by the greedy algorithm from the training 
+					 data (70\% of $\cE^\succ$)}
 	\setlength\tabcolsep{6pt}
   %\begin{tabular}{ |c||c|c|r@{ | }l|c| }
   \begin{tabular}{ |c||c|c|c|c|c| }
@@ -994,8 +996,6 @@ agents build them level by level in a breadth-first fashion.
     Wine               & 5.1  & 13.3   & 14.2  & 16.9   & 14.6    \\ \hline
     %Avg              & 7.6  & 21.6   & 31.0  & 72.9   & 69.5    \\ \hline
   \end{tabular}
-  \caption{Sizes of trees learned by the greedy algorithm from the training 
-					 data (70\% of $\cE^\succ$)}
   \label{tbl:trees_size}
 \end{table}
 
@@ -1199,6 +1199,10 @@ We present these results in \tblref{forests1} (we write BA and G to indicate the
 \begin{table}
   \centering
   \small
+  \caption{Accuracy percents on the testing data (30\% of $\cE^\succ$)
+					 for UIUP trees and forests of 5000 UIUP trees, 
+					 using the greedy and the best-agreement algorithms from the learning 
+					 data (the other 70\% of $\cE^\succ$)}
   \begin{tabular}{ |c||c|c|c| }
     \hline
     Dataset          & G+Tree & G+Forest & BA+Forest\\
@@ -1217,10 +1221,6 @@ We present these results in \tblref{forests1} (we write BA and G to indicate the
     Wine               & 95.5   & 95.8     & 96.9 \\ \hline
     %WAvg             & 85.4   & 88.3     & 88.1 \\ \hline
   \end{tabular}
-  \caption{Accuracy percents on the testing data (30\% of $\cE^\succ$)
-					 for UIUP trees and forests of 5000 UIUP trees, 
-					 using the greedy and the best-agreement algorithms from the learning 
-					 data (the other 70\% of $\cE^\succ$)}
   \label{tbl:forests1}
 \end{table}
 
@@ -1261,6 +1261,10 @@ PLP-forests (under the same setting as before).
 \begin{table}
   \centering
   \small
+  \caption{Accuracy percents on the testing data (30\% of $\cE^\succ$)
+					 for all four classes of PLP-forests of 5000 trees, 
+					 using the greedy algorithm from the learning 
+					 data (the other 70\% of $\cE^\succ$)}
   %\begin{tabular}{ |c||c|c|r@{ | }l|c| }
   \begin{tabular}{ |c||c|c|c|c|c| }
     \hline
@@ -1280,10 +1284,6 @@ PLP-forests (under the same setting as before).
     Wine                       & 95.8 & 95.4   & 97.5  & 97.8  & 97.8 \\ \hline
     %WAvg                     & 88.3 & 85.8   & 88.5  & 87.9  & 88.6 \\ \hline
   \end{tabular}
-  \caption{Accuracy percents on the testing data (30\% of $\cE^\succ$)
-					 for all four classes of PLP-forests of 5000 trees, 
-					 using the greedy algorithm from the learning 
-					 data (the other 70\% of $\cE^\succ$)}
   \label{tbl:forests2}
 \end{table}
 

@@ -42,17 +42,17 @@
 \frontmatter
 \maketitle
 
-\begin{acknowledgments}
-	\input{ack}
-\end{acknowledgments}
 \begin{dedication}
 	\input{dedication}
 \end{dedication}
+\begin{acknowledgments}
+	\input{ack}
+\end{acknowledgments}
 \rhead{}
 \tableofcontents\clearpage
 \rhead{\leftmark}
-\listoffigures\clearpage
 \listoftables\clearpage
+\listoffigures\clearpage
 %----------------------------------------------
 \mainmatter
 
@@ -96,7 +96,7 @@
 %%Note the copyright notice at the end of each chapter.
 %\copyrightnotice
 
-\chapter{Summary\label{ch:summary}}
+\chapter{Conclusion and Future Work\label{ch:summary}}
 \input{summary}
 %Note the copyright notice at the end of each chapter.
 \copyrightnotice
@@ -105,9 +105,11 @@
 %-----------------------------------------------
 \backmatter
 %put your bibliography/references here.  Appendices go here as well. 
+\singlespacing
 \bibliographystyle{plain}
 \bibliography{mybib}
 
+\doublespacing
 \chapter{Vita}
 \input{vita}
 \copyrightnotice
