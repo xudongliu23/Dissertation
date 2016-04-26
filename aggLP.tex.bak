@@ -55,7 +55,7 @@ formalisms} have been developed over the years including penalty logic
 preference networks (CP nets) \cite{bbdh03}, preference
 trees \cite{fraser1994ordinal,liu2015reasoning}, 
 and lexicographic preference trees \cite{booth:learningLP}.%
-\footnote{Kaci \cite{Kaci:Pref} offers a comprehensive discussion of 
+\footnote{Kaci \cite{Kaci:Pref} offers a comprehnsive discussion of 
 preference formalisms.} Second, when votes are given as expressions in 
 some preference formalism, computing the winner or a ``good'' candidate 
 is no longer easy. In fact, it is known that for many preference formalisms 
