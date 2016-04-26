@@ -242,7 +242,7 @@
       \end{center}
       }
     \begin{center}
-      \vspace{-.75\baselineskip} \vspace{-0.5cm}
+      \vspace{-.75\baselineskip} %\vspace{-0.5cm}
       \@thetitle
     \end{center}
     \@theabstract
